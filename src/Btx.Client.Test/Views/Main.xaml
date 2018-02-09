@@ -1,0 +1,32 @@
+﻿<Window x:Class="Btx.Client.Test.Views.Main"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Btx.Client.Test.Views"
+        mc:Ignorable="d"
+        xmlns:models="clr-namespace:Btx.Client.Test.ViewModels"
+        Title="Btx Test Client v1.0" Height="429.607" Width="576.451">
+
+    <Window.DataContext>
+        <models:MainViewModel/>
+    </Window.DataContext>
+
+    <Grid>
+        <GroupBox Header="Log" Height="156" Margin="10,0,10,9.667" VerticalAlignment="Bottom">
+            <TextBox Text="{Binding Log,Mode=TwoWay}" TextWrapping="Wrap"/>
+        </GroupBox>
+        
+        <Button Content="Connect"
+                Command="{Binding ConnectCommand}"
+                HorizontalAlignment="Left" 
+                Margin="10,18,0,0" VerticalAlignment="Top" Width="113"/>
+
+        <Button Content="Disconnect"
+                Command="{Binding DisconnectCommand}"
+                IsEnabled="{Binding IsConnected}"
+                HorizontalAlignment="Left" 
+                Margin="128,18,0,0" VerticalAlignment="Top" Width="113"/>
+
+    </Grid>
+</Window>
