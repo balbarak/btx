@@ -32,9 +32,12 @@ namespace Btx.Cipher
             }
         }
 
-        public byte[] Encrypt(byte[] dataToEncrypt, byte[] publicKey)
+        public byte[] Encrypt(byte[] dataToEncrypt, byte[] publicKey = null)
         {
             byte[] result = null;
+
+            if (publicKey == null)
+                publicKey = PublicKey;
 
             using (var rsa = new RSACryptoServiceProvider(CipherConfig.RSA_KEY_SIZE))
             {
