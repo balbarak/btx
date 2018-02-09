@@ -8,7 +8,7 @@ namespace Btx.Cipher
 {
     public class MasterSecret
     {
-        public byte[] PublicKey { get; private set; }
+        public byte[] PublicKey { get; set; }
         private byte[] PrivateKey { get; set; }
         private string FilePath => Path.Combine(CipherConfig.DataFolder, CipherConfig.MASTER_SECRET_FILE_NAME);
 
@@ -25,11 +25,39 @@ namespace Btx.Cipher
 
         public void AssignNewKey()
         {
-            using (var rsa = new RSACryptoServiceProvider(2048))
+            using (var rsa = new RSACryptoServiceProvider(CipherConfig.RSA_KEY_SIZE))
             {
                 PublicKey = rsa.ExportCspBlob(false);
                 PrivateKey = rsa.ExportCspBlob(true);
             }
+        }
+
+        public byte[] Encrypt(byte[] dataToEncrypt, byte[] publicKey)
+        {
+            byte[] result = null;
+
+            using (var rsa = new RSACryptoServiceProvider(CipherConfig.RSA_KEY_SIZE))
+            {
+                rsa.ImportCspBlob(publicKey);
+
+                result = rsa.Encrypt(dataToEncrypt, true);
+            }
+
+            return result;
+        }
+
+        public byte[] Decrypt(byte[] dataToEncrypt)
+        {
+            byte[] result = null;
+
+            using (var rsa = new RSACryptoServiceProvider(CipherConfig.RSA_KEY_SIZE))
+            {
+                rsa.ImportCspBlob(PrivateKey);
+
+                result = rsa.Decrypt(dataToEncrypt, true);
+            }
+
+            return result;
         }
 
         public void Save()

@@ -30,5 +30,27 @@ namespace Btx.Test
 
             
         }
+
+        [TestMethod]
+        public void TestEncrypt()
+        {
+            MasterSecret master = new MasterSecret();
+
+            var key = AesEncryption.GenerateNewKey();
+
+            var encryptedKey = master.Encrypt(key, master.PublicKey);
+
+            var decryptedKey = master.Decrypt(encryptedKey);
+
+
+            if (key.Length != decryptedKey.Length)
+                Assert.Fail();
+
+            for (int i = 0; i < decryptedKey.Length; i++)
+            {
+                if (!decryptedKey[i].Equals(key[i]))
+                    Assert.Fail();
+            }
+        }
     }
 }
