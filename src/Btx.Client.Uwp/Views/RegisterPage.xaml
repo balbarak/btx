@@ -6,6 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:controls="using:Template10.Controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:Windows10FallCreatorsUpdate="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 5)"
     mc:Ignorable="d">
 
     <RelativePanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -15,6 +16,14 @@
 
 
         </controls:PageHeader>
-        <StackPanel HorizontalAlignment="Left" Height="0" VerticalAlignment="Top" Width="0"/>
+
+        <Grid RelativePanel.Below="pageHeader">
+            <StackPanel Margin="50" Windows10FallCreatorsUpdate:Spacing="5" >
+                <TextBlock Text="Nickname"/>
+                <TextBox MinWidth="250"/>
+                
+            </StackPanel>
+        </Grid>
     </RelativePanel>
+
 </Page>

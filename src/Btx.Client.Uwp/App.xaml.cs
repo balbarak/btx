@@ -49,5 +49,10 @@ namespace Btx.Client.Uwp
             // TODO: add your long-running task here
             await NavigationService.NavigateAsync(typeof(Views.MainPage));
         }
+
+        public void SetDefaultMenu()
+        {
+          
+        }
     }
 }
