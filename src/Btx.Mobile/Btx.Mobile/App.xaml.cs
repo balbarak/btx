@@ -13,7 +13,7 @@ namespace Btx.Mobile
 			InitializeComponent();
 
 
-            MainPage = new MainPage();
+            MainPage = new ChatBoxPage();
         }
 
 		protected override void OnStart ()
