@@ -31,19 +31,21 @@ namespace Btx.Mobile.Droid.CustomRenders
 
             if (Control != null)
             {
+
                 //Control.LayoutParameters = new ViewGroup.LayoutParams(0, ViewGroup.LayoutParams.WrapContent);
 
-                Control.VerticalFadingEdgeEnabled = true;
-                Control.VerticalScrollBarEnabled = true;
+                //Control.VerticalFadingEdgeEnabled = true;
+                //Control.VerticalScrollBarEnabled = false;
 
                 Control.SetBackgroundColor(Color.Transparent.ToAndroid());
                 Control.SetPadding(40, 30, 30, 30);
-                
+
                 Control.SetEms(13);
                 Control.SetMaxLines(5);
+                Control.SetSingleLine(false);
 
                 Control.Hint = "Send a message ...";
-                Control.SetSingleLine(false);
+                
             }
 
         }

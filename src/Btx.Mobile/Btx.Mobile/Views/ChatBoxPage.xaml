@@ -6,26 +6,25 @@
     <ContentPage.Content>
 
 
-        <ListView>
-            
-            <ListView.Footer>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="80"/>
-                    </Grid.ColumnDefinitions>
 
-                    <controls:ChatEditBox  
-                    Grid.Column="0"
-                    Grid.Row="1"
-                    Keyboard="Chat">
-                    </controls:ChatEditBox>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="80"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="50"/>
+            </Grid.RowDefinitions>
 
-                </Grid>
-                
-            </ListView.Footer>
-        </ListView>
-        
+
+            <ScrollView Padding="10" 
+                        Grid.Row="1">
+                <controls:ChatEditBox Grid.Column="0" />
+            </ScrollView>
+
+        </Grid>
+
 
     </ContentPage.Content>
 </ContentPage>
