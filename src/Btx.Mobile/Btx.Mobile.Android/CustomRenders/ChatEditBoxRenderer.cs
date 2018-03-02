@@ -20,11 +20,6 @@ namespace Btx.Mobile.Droid.CustomRenders
 {
     public class ChatEditBoxRenderer : EditorRenderer
     {
-        public ChatEditBoxRenderer()
-        {
-
-        }
-
         public ChatEditBoxRenderer(Context context) : base(context)
         {
 
@@ -43,7 +38,7 @@ namespace Btx.Mobile.Droid.CustomRenders
                 //Control.VerticalScrollBarEnabled = false;
 
                 Control.SetBackgroundColor(Color.Transparent.ToAndroid());
-                Control.SetPadding(40, 30, 30, 30);
+                //Control.SetPadding(40, 30, 30, 30);
 
                 //Control.SetEms(13);
                 //Control.SetMaxLines(5);

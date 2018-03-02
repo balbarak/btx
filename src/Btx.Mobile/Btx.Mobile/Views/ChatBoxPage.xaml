@@ -18,11 +18,24 @@
             </Grid.RowDefinitions>
 
 
-            <ScrollView Padding="10"
-                        x:Name="textScroll"
-                        Grid.Row="1">
-                <controls:ChatEditBox x:Name="chatTxtBox" Grid.Column="0" />
-            </ScrollView>
+            <Frame CornerRadius="10"
+                   Padding="5"
+                   Grid.Column="0"
+                   Margin="10"
+                   Grid.Row="1">
+                <ScrollView x:Name="textScroll" Padding="5" Grid.Column="0">
+                    <controls:ChatEditBox x:Name="chatTxtBox" Grid.Column="0" />
+                </ScrollView>
+            </Frame>
+
+            <Button Text="Send" 
+                    
+                    HorizontalOptions="Fill"
+                    WidthRequest="75"
+                    Grid.Row="1" 
+                    Grid.Column="1" 
+                    VerticalOptions="Center">
+            </Button>
 
         </Grid>
 

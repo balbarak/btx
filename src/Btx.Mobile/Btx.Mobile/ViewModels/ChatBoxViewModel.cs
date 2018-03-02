@@ -6,5 +6,6 @@ namespace Btx.Mobile.ViewModels
 {
     public class ChatBoxViewModel : BaseViewModel
     {
+
     }
 }
