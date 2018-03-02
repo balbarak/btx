@@ -20,6 +20,11 @@ namespace Btx.Mobile.Droid.CustomRenders
 {
     public class ChatEditBoxRenderer : EditorRenderer
     {
+        public ChatEditBoxRenderer()
+        {
+
+        }
+
         public ChatEditBoxRenderer(Context context) : base(context)
         {
 
@@ -40,9 +45,9 @@ namespace Btx.Mobile.Droid.CustomRenders
                 Control.SetBackgroundColor(Color.Transparent.ToAndroid());
                 Control.SetPadding(40, 30, 30, 30);
 
-                Control.SetEms(13);
-                Control.SetMaxLines(5);
-                Control.SetSingleLine(false);
+                //Control.SetEms(13);
+                //Control.SetMaxLines(5);
+                //Control.SetSingleLine(false);
 
                 Control.Hint = "Send a message ...";
                 

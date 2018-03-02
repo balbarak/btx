@@ -14,13 +14,14 @@
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
-                <RowDefinition Height="50"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
 
-            <ScrollView Padding="10" 
+            <ScrollView Padding="10"
+                        x:Name="textScroll"
                         Grid.Row="1">
-                <controls:ChatEditBox Grid.Column="0" />
+                <controls:ChatEditBox x:Name="chatTxtBox" Grid.Column="0" />
             </ScrollView>
 
         </Grid>
