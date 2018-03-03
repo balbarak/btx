@@ -18,23 +18,31 @@
             </Grid.RowDefinitions>
 
 
+            <ListView 
+                x:Name="lvChatItems" 
+                Margin="0,5,0,0"
+                Grid.Row="0"
+                Grid.ColumnSpan="2"
+                HasUnevenRows="True" 
+                SeparatorVisibility="None" />
+
+
             <Frame CornerRadius="10"
-                   Padding="5"
+                   Padding="0,0,10,0"
                    Grid.Column="0"
-                   Margin="10"
+                   Margin="10,10,0,10"
                    Grid.Row="1">
-                <ScrollView x:Name="textScroll" Padding="5" Grid.Column="0">
+                <ScrollView x:Name="textScroll" Padding="10,0,10,0" Grid.Column="0">
                     <controls:ChatEditBox x:Name="chatTxtBox" Grid.Column="0" />
                 </ScrollView>
             </Frame>
 
             <Button Text="Send" 
-                    
+                    Margin="0,0,5,7"
                     HorizontalOptions="Fill"
-                    WidthRequest="75"
                     Grid.Row="1" 
                     Grid.Column="1" 
-                    VerticalOptions="Center">
+                    VerticalOptions="End">
             </Button>
 
         </Grid>
