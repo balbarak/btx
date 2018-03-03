@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Btx.Mobile.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -13,23 +14,15 @@ namespace Btx.Mobile.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ChatBoxPage : ContentPage
     {
+        protected ChatBoxViewModel ViewModel => BindingContext as ChatBoxViewModel;
+
         public ChatBoxPage()
         {
             InitializeComponent();
             chatTxtBox.ScrollView = textScroll;
-            
+
+            this.BindingContext = new ChatBoxViewModel();
         }
-
-        private void TextScroll_Scrolled(object sender, ScrolledEventArgs e)
-        {
-            var scroll = (ScrollView)sender;
-
-            Debug.WriteLine($"Content height: {scroll.ContentSize}");
-        }
-
-        private void TextScroll_SizeChanged(object sender, EventArgs e)
-        {
-
-        }
+        
     }
 }

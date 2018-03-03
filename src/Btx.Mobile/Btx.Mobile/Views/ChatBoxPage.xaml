@@ -2,11 +2,17 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:controls="clr-namespace:Btx.Mobile.CustomRenders"
+             xmlns:helpers="clr-namespace:Btx.Mobile.Helpers"
              x:Class="Btx.Mobile.Views.ChatBoxPage">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <helpers:ChatItemDataTemplate x:Key="ChatItemTemplate"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    
+
     <ContentPage.Content>
-
-
-
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
@@ -23,6 +29,8 @@
                 Margin="0,5,0,0"
                 Grid.Row="0"
                 Grid.ColumnSpan="2"
+                ItemTemplate="{StaticResource ChatItemTemplate}"
+                ItemsSource="{Binding Items}"
                 HasUnevenRows="True" 
                 SeparatorVisibility="None" />
 
