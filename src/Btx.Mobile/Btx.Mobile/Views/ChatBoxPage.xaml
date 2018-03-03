@@ -40,8 +40,13 @@
                    Grid.Column="0"
                    Margin="10,10,0,10"
                    Grid.Row="1">
-                <ScrollView x:Name="textScroll" Padding="10,0,10,0" Grid.Column="0">
-                    <controls:ChatEditBox x:Name="chatTxtBox" Grid.Column="0" />
+                <ScrollView x:Name="textScroll" 
+                            Padding="10,0,10,0" 
+                            Grid.Column="0">
+                    
+                    <controls:ChatEditBox x:Name="chatTxtBox" 
+                                          Grid.Column="0"
+                                          Text="{Binding MessageToSend}"/>
                 </ScrollView>
             </Frame>
 
@@ -50,6 +55,7 @@
                     HorizontalOptions="Fill"
                     Grid.Row="1" 
                     Grid.Column="1" 
+                    Command="{Binding SendCommand}"
                     VerticalOptions="End">
             </Button>
 

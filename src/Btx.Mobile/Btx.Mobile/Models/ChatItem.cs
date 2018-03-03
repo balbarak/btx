@@ -56,5 +56,10 @@ namespace Btx.Mobile.Models
             id = Guid.NewGuid().ToString();
         }
 
+        public ChatItem(string msg) : base() 
+        {
+            this.Body = msg;
+        }
+
     }
 }

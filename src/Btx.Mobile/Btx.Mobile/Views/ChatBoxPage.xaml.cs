@@ -1,4 +1,5 @@
-﻿using Btx.Mobile.ViewModels;
+﻿using Btx.Mobile.Models;
+using Btx.Mobile.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -20,9 +21,21 @@ namespace Btx.Mobile.Views
         {
             InitializeComponent();
             chatTxtBox.ScrollView = textScroll;
-
             this.BindingContext = new ChatBoxViewModel();
+
+            ViewModel.OnChatItemAdded += ViewModel_OnChatItemAdded;
         }
-        
+
+        private void ViewModel_OnChatItemAdded(ChatItem item)
+        {
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                if (ViewModel.Items.Count == 0)
+                    return;
+
+                lvChatItems.ScrollTo(item, ScrollToPosition.Center, false);
+
+            });
+        }
     }
 }

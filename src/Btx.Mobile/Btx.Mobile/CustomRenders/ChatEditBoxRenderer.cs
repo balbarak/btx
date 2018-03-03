@@ -27,7 +27,10 @@ namespace Btx.Mobile.CustomRenders
                 this.ScrollView.HeightRequest = 200;
             else
                 this.ScrollView.HeightRequest = -1;
-            
+
+            if (Text.Length == 0)
+                this.ScrollView.HeightRequest = -1;
+
             InvalidateMeasure();
 
         }
