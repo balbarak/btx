@@ -15,11 +15,11 @@ namespace Btx.Mobile.Views
 	{
         protected AttachmentViewModel ViewModel => BindingContext as AttachmentViewModel;
 
-        public AttachmentPage (string path)
+        public AttachmentPage (string path,ChatBoxViewModel chatBox)
 		{
 			InitializeComponent ();
 
-            this.BindingContext = new AttachmentViewModel(path);
+            this.BindingContext = new AttachmentViewModel(path, chatBox);
         }
 	}
 }

@@ -13,10 +13,23 @@ namespace Btx.Mobile
 			InitializeComponent();
 
 
-            MainPage = new ChatBoxPage();
+            //MainPage = GetNavigationPage(new ChatBoxPage());
+            MainPage = new MainPage();
+
+            //MainPage = new AttachmentPage("/storage/emulated/0/Android/data/com.companyname.Btx.Mobile/files/Pictures/temp/IMG_20180304_024511_8.jpg");
+
         }
 
-		protected override void OnStart ()
+        public NavigationPage GetNavigationPage(Page page)
+        {
+            return new NavigationPage(page)
+            {
+
+            };
+        }
+
+
+        protected override void OnStart ()
 		{
 			// Handle when your app starts
 		}

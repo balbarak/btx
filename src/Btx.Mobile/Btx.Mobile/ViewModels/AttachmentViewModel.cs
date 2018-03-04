@@ -6,6 +6,8 @@ namespace Btx.Mobile.ViewModels
 {
     public class AttachmentViewModel : BaseViewModel
     {
+        public ChatBoxViewModel ChatBox { get; set; }
+
         private string attachmentPath;
         public string AttachmentPath
         {
@@ -13,9 +15,10 @@ namespace Btx.Mobile.ViewModels
             set { attachmentPath = value; OnPropertyChanged(); }
         }
 
-        public AttachmentViewModel(string path)
+        public AttachmentViewModel(string path,ChatBoxViewModel chatBox)
         {
             this.AttachmentPath = path;
+            this.ChatBox = chatBox;
         }
     }
 }

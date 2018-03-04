@@ -3,15 +3,20 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:controls="clr-namespace:Btx.Mobile.CustomRenders"
              xmlns:helpers="clr-namespace:Btx.Mobile.Helpers"
-             x:Class="Btx.Mobile.Views.ChatBoxPage">
+             x:Class="Btx.Mobile.Views.ChatBoxPage"
+             NavigationPage.BackButtonTitle="List">
 
     <ContentPage.Resources>
         <ResourceDictionary>
             <helpers:ChatItemDataTemplate x:Key="ChatItemTemplate"/>
         </ResourceDictionary>
     </ContentPage.Resources>
-    
 
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Name="MenuItem1" Order="Secondary" Icon="Microsoft.png" Text="Settings" Priority="0" />
+        <ToolbarItem Order="Secondary" Command="{Binding LogoutCommand}" Icon="Xamarin.png" Text="Logout" Priority="1" />
+    </ContentPage.ToolbarItems>
+    
     <ContentPage.Content>
         <Grid>
             <Grid.ColumnDefinitions>
@@ -26,6 +31,7 @@
 
             <ListView 
                 x:Name="lvChatItems" 
+                ItemSelected="OnSelection"
                 Margin="0,5,0,0"
                 Grid.Row="0"
                 Grid.ColumnSpan="2"
@@ -68,9 +74,14 @@
                 
             </Frame>
 
-            <Button Text="Send" 
-                    Margin="0,0,5,7"
-                    HorizontalOptions="Fill"
+            <Button Text="&#xf194;"
+                    FontSize="Large"
+                    FontFamily="{StaticResource IconFont}"
+                    BackgroundColor="{StaticResource Primary}"
+                    TextColor="{StaticResource PrimaryText}"
+                    CornerRadius="10"
+                    HorizontalOptions="Center"
+                    Margin="0,0,0,7"
                     Grid.Row="1" 
                     Grid.Column="1" 
                     Command="{Binding SendCommand}"

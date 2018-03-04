@@ -3,6 +3,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Btx.Mobile.Views.IncomingChatItem">
 
+    <ViewCell.ContextActions>
+        <MenuItem 
+               Text="More" />
+        <MenuItem 
+               Text="Delete" IsDestructive="True" />
+    </ViewCell.ContextActions>
+    
     <Grid ColumnSpacing="2" Padding="5">
 
         <Grid.ColumnDefinitions>
@@ -20,14 +27,14 @@
                Padding="10,5,10,5"  
                Margin="10,0,0,0"
                Grid.Column="0" 
-               BackgroundColor="#03A9F4" 
+               BackgroundColor="White" 
                CornerRadius="5"
                HorizontalOptions="Start">
             <Frame.HasShadow>
                 <OnPlatform x:TypeArguments="x:Boolean" iOS="false" Android="true"/>
             </Frame.HasShadow>
             <Frame.BackgroundColor>
-                <OnPlatform x:TypeArguments="Color" iOS="#F5F5F5" Android="#f4f4f4"/>
+                <OnPlatform x:TypeArguments="Color" iOS="#F5F5F5" Android="White"/>
             </Frame.BackgroundColor>
             <StackLayout>
                 <!--<Image IsVisible="False" WidthResquest="175" HeightRequest="175" Source="{Binding AttachementUrl}" />-->

@@ -45,6 +45,8 @@ namespace Btx.Mobile.ViewModels
 
         private async Task Send()
         {
+            if (String.IsNullOrWhiteSpace(MessageToSend))
+                return;
 
             var chatMessage = new ChatItem(MessageToSend);
 
@@ -78,14 +80,15 @@ namespace Btx.Mobile.ViewModels
             }
             else
             {
+
                 var file = await CrossMedia.Current.PickPhotoAsync(new PickMediaOptions()
                 {
-                    CompressionQuality = 70,
-
+                    CompressionQuality = 70
                 });
+                
 
                 if (file != null)
-                    await PushModalAsync(new AttachmentPage(file.Path));
+                    await PushModalAsync(new AttachmentPage(file.Path,this));
 
             }
 
