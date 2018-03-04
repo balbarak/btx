@@ -1,6 +1,11 @@
 ﻿using Btx.Mobile.MockData;
 using Btx.Mobile.Models;
+using Btx.Mobile.Views;
 using MvvmHelpers;
+using Plugin.Media;
+using Plugin.Media.Abstractions;
+using Plugin.Permissions;
+using Plugin.Permissions.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -27,27 +32,66 @@ namespace Btx.Mobile.ViewModels
         }
 
         public ICommand SendCommand { get; }
-        
+
+        public ICommand SelectAttachmentCommand { get; }
+
         public ChatBoxViewModel()
         {
             Items.AddRange(ChatItemMock.GetItems());
 
             SendCommand = new Command(async () => { await Send(); });
+            SelectAttachmentCommand = new Command(async () => await SelectAttachment());
         }
 
         private async Task Send()
         {
 
             var chatMessage = new ChatItem(MessageToSend);
+
             chatMessage.Date = DateTimeOffset.Now;
             chatMessage.ItemType = ChatItem.ChatItemType.Outgoing;
+            chatMessage.Status = ChatItem.ChatItemStatus.Read;
 
             Items.Add(chatMessage);
 
             MessageToSend = "";
 
             OnChatItemAdded?.Invoke(chatMessage);
-            
+
         }
+
+        private async Task SelectAttachment()
+        {
+            await CrossMedia.Current.Initialize();
+
+            var cameraStatus = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Camera);
+            var storageStatus = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Storage);
+
+            if (cameraStatus != PermissionStatus.Granted || storageStatus != PermissionStatus.Granted)
+            {
+                var results = await CrossPermissions.Current.RequestPermissionsAsync(new[] { Permission.Camera, Permission.Storage });
+                cameraStatus = results[Permission.Camera];
+                storageStatus = results[Permission.Storage];
+
+                //var stream = file.GetStream();
+
+            }
+            else
+            {
+                var file = await CrossMedia.Current.PickPhotoAsync(new PickMediaOptions()
+                {
+                    CompressionQuality = 70,
+
+                });
+
+                if (file != null)
+                    await PushModalAsync(new AttachmentPage(file.Path));
+
+            }
+
+
+
+        }
+
     }
 }

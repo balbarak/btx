@@ -40,14 +40,32 @@
                    Grid.Column="0"
                    Margin="10,10,0,10"
                    Grid.Row="1">
-                <ScrollView x:Name="textScroll" 
-                            Padding="10,0,10,0" 
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="40"/>
+                    </Grid.ColumnDefinitions>
+                    <ScrollView x:Name="textScroll" 
+                            Padding="10,0,0,0" 
                             Grid.Column="0">
-                    
-                    <controls:ChatEditBox x:Name="chatTxtBox" 
+                        <controls:ChatEditBox x:Name="chatTxtBox" 
                                           Grid.Column="0"
                                           Text="{Binding MessageToSend}"/>
-                </ScrollView>
+                    </ScrollView>
+                    <Button Text="&#xf10d;" 
+                            FontFamily="{StaticResource IconFont}"
+                            Command="{Binding SelectAttachmentCommand}"
+                            Grid.Column="1"
+                            BackgroundColor="Transparent"
+                            FontSize="Large"
+                            TextColor="Black"
+                            CornerRadius="10"
+                            HorizontalOptions="End"
+                            VerticalOptions="End">
+
+                    </Button>
+                </Grid>
+                
             </Frame>
 
             <Button Text="Send" 

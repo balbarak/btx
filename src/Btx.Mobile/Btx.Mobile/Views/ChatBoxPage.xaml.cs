@@ -33,7 +33,7 @@ namespace Btx.Mobile.Views
                 if (ViewModel.Items.Count == 0)
                     return;
 
-                lvChatItems.ScrollTo(item, ScrollToPosition.Center, false);
+                lvChatItems.ScrollTo(item, ScrollToPosition.End, false);
 
             });
         }

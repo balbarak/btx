@@ -1,8 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ViewCell xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             
-             xmlns:icons="clr-namespace:MTXChat.Shared.CustomRenders"
              x:Class="Btx.Mobile.Views.OutgoingChatItem">
 
     <Grid ColumnSpacing="1" Padding="0">
@@ -45,10 +43,12 @@
                        Text="{Binding Date, StringFormat='{0:hh:mm tt}'}" 
                        TextColor="Black"/>
 
-                    <!--<icons:IconLabel 
-                    Text="{Binding StatusIcon}"
-                    TextColor="Black"
-                    HorizontalTextAlignment="End"/>-->
+                    <Label Text="{Binding StatusIconFont}"
+                           FontFamily="{StaticResource IconFont}"
+                           TextColor="Blue"
+                           HorizontalTextAlignment="End">
+
+                    </Label>
                 </StackLayout>
 
 

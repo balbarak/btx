@@ -16,6 +16,12 @@
                 <Setter Property="BarBackgroundColor" Value="{StaticResource Primary}" />
                 <Setter Property="BarTextColor" Value="White" />
             </Style>
+
+            <OnPlatform x:Key="IconFont"
+                        x:TypeArguments="x:String"
+                        Android="material-icon-font.ttf#Material-Design-Iconic-Font"
+                        iOS="NotoKufiArabic" />
+
         </ResourceDictionary>
     </Application.Resources>
 </Application>
