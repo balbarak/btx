@@ -17,13 +17,16 @@ namespace Btx.Mobile.Views
     {
         protected ChatBoxViewModel ViewModel => BindingContext as ChatBoxViewModel;
 
-        public ChatBoxPage()
+        public ChatBoxPage(Chat chat)
         {
             InitializeComponent();
             chatTxtBox.ScrollView = textScroll;
-            this.BindingContext = new ChatBoxViewModel();
+            this.BindingContext = new ChatBoxViewModel(chat);
 
             ViewModel.OnChatItemAdded += ViewModel_OnChatItemAdded;
+
+            lvChatItems.ScrollTo(ViewModel.Items.Last(), ScrollToPosition.Center, false);
+            
         }
 
         private void ViewModel_OnChatItemAdded(ChatItem item)
@@ -33,7 +36,7 @@ namespace Btx.Mobile.Views
                 if (ViewModel.Items.Count == 0)
                     return;
 
-                lvChatItems.ScrollTo(item, ScrollToPosition.End, false);
+                lvChatItems.ScrollTo(item, ScrollToPosition.MakeVisible, true);
 
             });
         }

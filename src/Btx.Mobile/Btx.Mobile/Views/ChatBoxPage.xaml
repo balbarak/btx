@@ -4,11 +4,12 @@
              xmlns:controls="clr-namespace:Btx.Mobile.CustomRenders"
              xmlns:helpers="clr-namespace:Btx.Mobile.Helpers"
              x:Class="Btx.Mobile.Views.ChatBoxPage"
+             Title="{Binding Title}"
              NavigationPage.BackButtonTitle="List">
 
     <ContentPage.Resources>
         <ResourceDictionary>
-            <helpers:ChatItemDataTemplate x:Key="ChatItemTemplate"/>
+            <helpers:ChatItemTemplateSelector x:Key="ChatItemTemplate"/>
         </ResourceDictionary>
     </ContentPage.Resources>
 

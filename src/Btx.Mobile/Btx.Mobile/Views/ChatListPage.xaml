@@ -2,21 +2,21 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:templates="clr-namespace:Btx.Mobile.Views"
+             xmlns:helpers="clr-namespace:Btx.Mobile.Helpers"
              x:Class="Btx.Mobile.Views.ChatListPage">
     <ContentPage.Content>
         <Grid>
-            <ListView ItemsSource="{Binding Chats}" 
-                                  x:Name="lvChatList"
-                                  CachingStrategy="RecycleElement" 
-                                  RowHeight="80" 
-                                  HasUnevenRows="false"
-                                  IsVisible="{Binding IsNotBusy}"
-                                  IsPullToRefreshEnabled="false" 
-                                  SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
-                                  
-                                  AbsoluteLayout.LayoutFlags="All" 
-                                  AbsoluteLayout.LayoutBounds="0,0,1,1">
-
+            <ListView 
+                ItemsSource="{Binding Chats}" 
+                x:Name="lvChatList"
+                CachingStrategy="RecycleElement" 
+                RowHeight="80" 
+                HasUnevenRows="false"
+                ItemSelected="OnSelected"
+                ItemTapped="OnTabbed"
+                IsVisible="{Binding IsNotBusy}"
+                IsPullToRefreshEnabled="false" >
+                
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <templates:ChatListItemTemplate />

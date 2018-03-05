@@ -1,4 +1,5 @@
-﻿using Btx.Mobile.ViewModels;
+﻿using Btx.Mobile.Models;
+using Btx.Mobile.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,5 +22,21 @@ namespace Btx.Mobile.Views
 
             this.BindingContext = new ChatListViewModel();
         }
-	}
+
+        private void OnSelected(object sender, SelectedItemChangedEventArgs e)
+        {
+            if (e.SelectedItem == null)
+            {
+                return; //ItemSelected is called on deselection, which results in SelectedItem being set to null
+            }
+
+            ((ListView)sender).SelectedItem = null; //uncomment line if you want to disable the visual selection state.
+            
+        }
+
+        private void OnTabbed(object sender, ItemTappedEventArgs e)
+        {
+            ViewModel.GoToChatBox(e.Item as Chat);
+        }
+    }
 }

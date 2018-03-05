@@ -7,13 +7,13 @@ using Xamarin.Forms;
 
 namespace Btx.Mobile.Helpers
 {
-    public class ChatItemDataTemplate : DataTemplateSelector
+    public class ChatItemTemplateSelector : DataTemplateSelector
     {
         private readonly DataTemplate incomingDataTemplate;
         private readonly DataTemplate outgoingDataTemplate;
         private readonly DataTemplate infoDataTemplate;
 
-        public ChatItemDataTemplate()
+        public ChatItemTemplateSelector()
         {
             this.incomingDataTemplate = new DataTemplate(typeof(IncomingChatItem));
             this.outgoingDataTemplate = new DataTemplate(typeof(OutgoingChatItem));
