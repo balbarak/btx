@@ -37,7 +37,7 @@ namespace Btx.Mobile.ViewModels
 
         public ChatBoxViewModel()
         {
-            Items.AddRange(ChatItemMock.GetItems());
+            Items.AddRange(ChatMockService.GetChatItem());
 
             SendCommand = new Command(async () => { await Send(); });
             SelectAttachmentCommand = new Command(async () => await SelectAttachment());

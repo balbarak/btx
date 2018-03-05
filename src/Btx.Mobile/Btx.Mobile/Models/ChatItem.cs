@@ -98,6 +98,13 @@ namespace Btx.Mobile.Models
             set { date = value; OnPropertyChanged(); }
         }
 
+        private bool isRead;
+
+        public bool IsRead
+        {
+            get { return isRead; }
+            set { isRead = value; OnPropertyChanged(); }
+        }
 
         public ChatItem()
         {
