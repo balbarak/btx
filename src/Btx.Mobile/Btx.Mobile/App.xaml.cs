@@ -16,16 +16,17 @@ namespace Btx.Mobile
             //MainPage = GetNavigationPage(new ChatBoxPage());
             MainPage = GetNavigationPage(new ChatListPage());
             //MainPage = new MainPage();
-
+            
             //MainPage = new AttachmentPage("/storage/emulated/0/Android/data/com.companyname.Btx.Mobile/files/Pictures/temp/IMG_20180304_024511_8.jpg");
 
         }
 
         public NavigationPage GetNavigationPage(Page page)
         {
+            
             return new NavigationPage(page)
             {
-
+                
             };
         }
 

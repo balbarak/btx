@@ -12,14 +12,14 @@ using Xamarin.Forms.Xaml;
 namespace Btx.Mobile.Views
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class ChatListPage : ContentPage
+	public partial class ChatListPage : MasterDetailPage
 	{
         protected ChatListViewModel ViewModel => BindingContext as ChatListViewModel;
 
         public ChatListPage ()
 		{
 			InitializeComponent ();
-
+           
             this.BindingContext = new ChatListViewModel();
         }
 
