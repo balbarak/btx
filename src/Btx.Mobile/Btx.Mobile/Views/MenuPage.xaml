@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             Title="Menu"
+             x:Class="Btx.Mobile.Views.MenuPage">
+
+    <ContentPage.Content>
+
+        <Grid BackgroundColor="{StaticResource PrimaryDark}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="2*"/>
+            </Grid.RowDefinitions>
+
+            <StackLayout Grid.Row="0">
+                <Label Margin="10" Text="Bader" TextColor="{StaticResource PrimaryText}"/>
+            </StackLayout>
+
+            <ListView 
+                Grid.Row="1"
+                ItemSelected="OnSelected"
+                ItemTapped="OnTabbed"
+                ItemsSource="{Binding Items}">
+
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid ColumnSpacing="0">
+                              
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="40"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                
+                                <Label 
+                                   VerticalOptions="Center"
+                                    Grid.Column="0"
+                                    FontSize="Large"
+                                    Margin="10,0,0,0"
+                                    Text="{Binding Icon}"
+                                    FontFamily="{StaticResource IconFont}"
+                                    TextColor="{StaticResource PrimaryLight}"/>
+
+                                <Label 
+                                    VerticalOptions="Center"
+                                    Margin="10,0,0,0"
+                                    Grid.Column="1"
+                                    FontSize="Medium"
+                                    Text="{Binding Title}"
+                                    TextColor="{StaticResource PrimaryText}" />
+                                
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+        </Grid>
+
+    </ContentPage.Content>
+
+</ContentPage>

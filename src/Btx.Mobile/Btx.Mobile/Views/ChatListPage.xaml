@@ -3,35 +3,14 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:templates="clr-namespace:Btx.Mobile.Views"
              xmlns:helpers="clr-namespace:Btx.Mobile.Helpers"
+                  Title="BTX Chat"
              x:Class="Btx.Mobile.Views.ChatListPage">
-    <!--<ContentPage.Content>
-        <Grid>
-            <ListView 
-                ItemsSource="{Binding Chats}" 
-                x:Name="lvChatList"
-                CachingStrategy="RecycleElement" 
-                RowHeight="80" 
-                HasUnevenRows="false"
-                ItemSelected="OnSelected"
-                ItemTapped="OnTabbed"
-                IsVisible="{Binding IsNotBusy}"
-                IsPullToRefreshEnabled="false" >
-                
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <templates:ChatListItemTemplate />
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-        </Grid>
-    </ContentPage.Content>-->
+
 
     <MasterDetailPage.Master>
-        <ContentPage Title="fuck off">
-            <Label Text="{Binding MainText}" 
-           VerticalOptions="Center" 
-           HorizontalOptions="Center" />
-        </ContentPage>
+
+        <templates:MenuPage />
+        
     </MasterDetailPage.Master>
 
     <MasterDetailPage.Detail>

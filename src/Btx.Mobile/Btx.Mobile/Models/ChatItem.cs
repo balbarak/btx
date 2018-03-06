@@ -40,16 +40,16 @@ namespace Btx.Mobile.Models
                 switch (value)
                 {
                     case ChatItemStatus.Pending:
-                        StatusIconFont = IconHelper.Time;
+                        StatusIconFont = IconHelper.TIME;
                         break;
                     case ChatItemStatus.ServerDeliverd:
-                        StatusIconFont = IconHelper.Check;
+                        StatusIconFont = IconHelper.CHECK;
                         break;
                     case ChatItemStatus.UserDeliverd:
-                        StatusIconFont = IconHelper.CheckAll;
+                        StatusIconFont = IconHelper.CHECK_ALL;
                         break;
                     case ChatItemStatus.Read:
-                        StatusIconFont = IconHelper.CheckAll;
+                        StatusIconFont = IconHelper.CHECK_ALL;
                         break;
                     default:
                         break;
@@ -62,7 +62,7 @@ namespace Btx.Mobile.Models
         }
 
 
-        private string statusIconFont = IconHelper.Time;
+        private string statusIconFont = IconHelper.TIME;
         public string StatusIconFont
         {
             get { return statusIconFont; }

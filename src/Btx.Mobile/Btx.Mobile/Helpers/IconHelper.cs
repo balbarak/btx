@@ -6,14 +6,20 @@ namespace Btx.Mobile.Helpers
 {
     public class IconHelper
     {
-        public const string CheckAll = "\uf267";
+        public const string CHECK_ALL = "\uf267";
 
-        public const string Time = "\uf337";
+        public const string TIME = "\uf337";
 
-        public const string Check = "\uf26b";
+        public const string CHECK = "\uf26b";
 
-        public const string MailSend = "\uf194";
+        public const string MAIL_SEND = "\uf194";
 
-        public const string Attachment = "\ufE226";
+        public const string ATTACHMENT = "\ufE226";
+
+        public const string ACCOUNTS = "\uf20d";
+
+        public const string SETTINGS = "\uf1c6";
+
+        public const string ACCOUNT = "\uf207";
     }
 }

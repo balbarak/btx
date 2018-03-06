@@ -1,5 +1,4 @@
-﻿using Btx.Mobile.Models;
-using Btx.Mobile.ViewModels;
+﻿using Btx.Mobile.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,15 +11,15 @@ using Xamarin.Forms.Xaml;
 namespace Btx.Mobile.Views
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class ChatListPage : MasterDetailPage
+	public partial class MenuPage : ContentPage
 	{
-        protected ChatListViewModel ViewModel => BindingContext as ChatListViewModel;
+        protected MenuViewModel ViewModel => BindingContext as MenuViewModel;
 
-        public ChatListPage ()
+        public MenuPage ()
 		{
 			InitializeComponent ();
-           
-            this.BindingContext = new ChatListViewModel();
+
+            this.BindingContext = new MenuViewModel();
         }
 
         private void OnSelected(object sender, SelectedItemChangedEventArgs e)
@@ -30,13 +29,13 @@ namespace Btx.Mobile.Views
                 return; //ItemSelected is called on deselection, which results in SelectedItem being set to null
             }
 
-            ((ListView)sender).SelectedItem = null; //uncomment line if you want to disable the visual selection state.
-            
+           ((ListView)sender).SelectedItem = null; //uncomment line if you want to disable the visual selection state.
+
         }
 
-        private async Task OnTabbed(object sender, ItemTappedEventArgs e)
+        private void OnTabbed(object sender, ItemTappedEventArgs e)
         {
-            await ViewModel.GoToChatBox(e.Item as Chat);
+
         }
     }
 }
