@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms" 
              xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
+             xmlns:helpers="clr-namespace:Btx.Mobile.Helpers"
              Title="{Binding Title}"
              x:Class="Btx.Mobile.Views.NewMessagePage">
     
@@ -22,12 +23,13 @@
                 ItemSelected="OnSelected"
                 ItemTapped="OnTabbed"
                 IsPullToRefreshEnabled="True"
+                RowHeight="70"
                 ItemsSource="{Binding Items}">
 
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <Grid ColumnSpacing="0">
+                            <Grid>
 
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="50"/>
@@ -38,22 +40,27 @@
                                     Grid.Column="0"
                                     HorizontalOptions="Center" 
                                     VerticalOptions="Center" 
+                                    HeightRequest="50"
                                     WidthRequest="50"
-                                    HeightRequest="50" 
-                                    DownsampleToViewSize="true" 
-                                    Source="placeholderProfileImage.png" 
-                                    LoadingPlaceholder="placeholderProfileImage.png">
+                                    DownsampleToViewSize="True" 
+                                    Source="{helpers:ImageResource Image='user-hero-blue.png'}"
+                                    LoadingPlaceholder="{helpers:ImageResource Image='user-hero-blue.png'}">
                                     
                                     <ffimageloading:CachedImage.Transformations>
                                         <fftransformations:CircleTransformation />
                                     </ffimageloading:CachedImage.Transformations>
                                 </ffimageloading:CachedImage>
 
+
+
+                                <!--<Image Grid.Column="0"
+                                       Source="{helpers:ImageResource Image='user-hero-blue.png'}"/>-->
                                 <Label 
-                                    VerticalOptions="Center"
-                                    Margin="10,0,0,0"
+                                    VerticalOptions="Start"
+                                    Margin="10,5,0,0"
                                     Grid.Column="1"
                                     FontSize="Medium"
+                                    
                                     Text="{Binding Nickname}" />
 
                             </Grid>
