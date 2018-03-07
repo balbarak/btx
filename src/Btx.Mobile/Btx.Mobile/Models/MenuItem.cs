@@ -10,19 +10,19 @@ namespace Btx.Mobile.Models
         public string Title { get; set; }
 
         public string Icon { get; set; }
-
-        public string PageName { get; set; }
+        
+        public Type MenuType { get; set; }
 
         public BtxMenuItem()
         {
 
         }
 
-        public BtxMenuItem(string title,string icon,string pageName)
+        public BtxMenuItem(string title,string icon,Type pageName)
         {
             this.Title = title;
             this.Icon = icon;
-            this.PageName = pageName;
+            this.MenuType = pageName;
         }
     }
 }

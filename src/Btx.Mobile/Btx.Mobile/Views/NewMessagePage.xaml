@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms" 
+             xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
+             Title="{Binding Title}"
+             x:Class="Btx.Mobile.Views.NewMessagePage">
+    
+    <ContentPage.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <SearchBar Placeholder="Search Text ..." 
+                       Grid.Row="0"
+                       VerticalOptions="Center"
+                       HorizontalOptions="CenterAndExpand" />
+
+            <ListView 
+                Grid.Row="1"
+                ItemSelected="OnSelected"
+                ItemTapped="OnTabbed"
+                IsPullToRefreshEnabled="True"
+                ItemsSource="{Binding Items}">
+
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid ColumnSpacing="0">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="50"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <ffimageloading:CachedImage 
+                                    Grid.Column="0"
+                                    HorizontalOptions="Center" 
+                                    VerticalOptions="Center" 
+                                    WidthRequest="50"
+                                    HeightRequest="50" 
+                                    DownsampleToViewSize="true" 
+                                    Source="placeholderProfileImage.png" 
+                                    LoadingPlaceholder="placeholderProfileImage.png">
+                                    
+                                    <ffimageloading:CachedImage.Transformations>
+                                        <fftransformations:CircleTransformation />
+                                    </ffimageloading:CachedImage.Transformations>
+                                </ffimageloading:CachedImage>
+
+                                <Label 
+                                    VerticalOptions="Center"
+                                    Margin="10,0,0,0"
+                                    Grid.Column="1"
+                                    FontSize="Medium"
+                                    Text="{Binding Nickname}" />
+
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+        </Grid>
+
+    </ContentPage.Content>
+</ContentPage>

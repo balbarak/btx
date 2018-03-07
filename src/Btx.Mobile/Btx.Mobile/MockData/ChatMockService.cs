@@ -48,5 +48,24 @@ namespace Btx.Mobile.MockData
             return result;
             
         }
+
+        public static List<User> GetUsers()
+        {
+            var count = 40;
+
+            List<User> result = new List<User>();
+
+            for (int i = 0; i < count; i++)
+            {
+                result.Add(new User() {
+                    Username = LoremGenerator.GenerateText(1),
+                    Id = Guid.NewGuid().ToString(),
+                    LastSeen = DateTime.Now.AddSeconds(LoremGenerator.Random.Next(-309483,0)),
+                    Nickname = LoremGenerator.GenerateText(2),
+                    RegisteredDate = DateTime.Now});
+            }
+
+            return result;  
+        }
     }
 }
