@@ -8,6 +8,8 @@ namespace Btx.Mobile
 	public partial class App : Application
 	{
 
+        public static ChatListPage ChatListPage { get; set; }
+
 		public App ()
 		{
 			InitializeComponent();

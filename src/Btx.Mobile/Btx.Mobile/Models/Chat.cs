@@ -71,6 +71,12 @@ namespace Btx.Mobile.Models
             Items.CollectionChanged += Items_CollectionChanged;
         }
 
+        public Chat(User user) : base()
+        {
+            this.Id = user.Id;
+            this.Title = user.Nickname;
+        }
+
         private void Items_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Add)

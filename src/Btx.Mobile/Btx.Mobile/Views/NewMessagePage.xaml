@@ -42,26 +42,23 @@
                                     VerticalOptions="Center" 
                                     HeightRequest="50"
                                     WidthRequest="50"
-                                    DownsampleToViewSize="True" 
-                                    Source="{helpers:ImageResource Image='user-hero-blue.png'}"
+                                    DownsampleToViewSize="True"
+                                    Source="http://www.hrsaudi.net/images/logos/logo.png"
                                     LoadingPlaceholder="{helpers:ImageResource Image='user-hero-blue.png'}">
                                     
                                     <ffimageloading:CachedImage.Transformations>
                                         <fftransformations:CircleTransformation />
                                     </ffimageloading:CachedImage.Transformations>
+                                    
                                 </ffimageloading:CachedImage>
 
-
-
-                                <!--<Image Grid.Column="0"
-                                       Source="{helpers:ImageResource Image='user-hero-blue.png'}"/>-->
                                 <Label 
                                     VerticalOptions="Start"
                                     Margin="10,5,0,0"
                                     Grid.Column="1"
                                     FontSize="Medium"
-                                    
                                     Text="{Binding Nickname}" />
+                                
 
                             </Grid>
                         </ViewCell>

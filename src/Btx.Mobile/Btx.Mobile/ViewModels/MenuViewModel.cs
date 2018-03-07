@@ -26,8 +26,9 @@ namespace Btx.Mobile.ViewModels
         public async Task GoToPage(Type type)
         {
             var page = Activator.CreateInstance(type) as Page;
+            
+            await PushModalAsync(page);
 
-            await PushAsync(page);
 
         }
     }

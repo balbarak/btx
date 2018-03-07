@@ -21,6 +21,9 @@ namespace Btx.Mobile.Views
 			InitializeComponent ();
            
             this.BindingContext = new ChatListViewModel();
+
+            App.ChatListPage = this;
+   
         }
 
         private void OnSelected(object sender, SelectedItemChangedEventArgs e)

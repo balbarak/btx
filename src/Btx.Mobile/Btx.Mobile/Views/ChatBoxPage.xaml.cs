@@ -25,8 +25,11 @@ namespace Btx.Mobile.Views
 
             ViewModel.OnChatItemAdded += ViewModel_OnChatItemAdded;
 
-            lvChatItems.ScrollTo(ViewModel.Items.Last(), ScrollToPosition.Center, false);
+            if (ViewModel.Items != null && ViewModel.Items.Count > 0)
+                lvChatItems.ScrollTo(ViewModel.Items.Last(), ScrollToPosition.Center, false);
+
             
+
         }
 
         private void ViewModel_OnChatItemAdded(ChatItem item)
@@ -47,7 +50,7 @@ namespace Btx.Mobile.Views
             {
                 return; //ItemSelected is called on deselection, which results in SelectedItem being set to null
             }
-            
+
             ((ListView)sender).SelectedItem = null; //uncomment line if you want to disable the visual selection state.
         }
     }
