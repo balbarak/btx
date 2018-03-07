@@ -23,8 +23,8 @@ namespace Btx.Mobile.ViewModels
 
         public Chat Chat { get; set; }
 
-        public ObservableRangeCollection<ChatItem> Items { get; set; } = new ObservableRangeCollection<ChatItem>();
-
+        public ObservableRangeCollection<ChatItem> Items { get { return Chat.Items; } }
+        
         private string messageToSend;
 
         public string MessageToSend
@@ -40,12 +40,10 @@ namespace Btx.Mobile.ViewModels
         public ChatBoxViewModel(Chat chat)
         {
             this.Chat = chat;
-            this.Items = chat.Items;
             this.Title = chat.Title;
 
             SendCommand = new Command(async () => { await Send(); });
             SelectAttachmentCommand = new Command(async () => await SelectAttachment());
-
 
         }
 
@@ -60,7 +58,7 @@ namespace Btx.Mobile.ViewModels
             chatMessage.ItemType = ChatItem.ChatItemType.Outgoing;
             chatMessage.Status = ChatItem.ChatItemStatus.Read;
 
-            Items.Add(chatMessage);
+            App.ChatManager.AddChatItem(Chat.Id, chatMessage);
 
             MessageToSend = "";
 

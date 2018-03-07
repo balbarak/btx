@@ -13,12 +13,17 @@ namespace Btx.Mobile.ViewModels
 {
     public class ChatListViewModel : BaseViewModel
     {
-        public ObservableRangeCollection<Chat> Chats { get; set; } = new ObservableRangeCollection<Chat>();
-        
+        public ObservableRangeCollection<Chat> Chats { get; } = App.ChatManager.Chats;
+
         public ChatListViewModel()
         {
-            Chats.AddRange(ChatMockService.GetChats());
-            
+            Title = "BTX Chat";
+
+        }
+
+        public void ChangeTitle(string title)
+        {
+            Title = title;
         }
 
         public async Task GoToChatBox(Chat item)

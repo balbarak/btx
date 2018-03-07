@@ -1,5 +1,5 @@
 ﻿using System;
-
+using Btx.Mobile.Services;
 using Btx.Mobile.Views;
 using Xamarin.Forms;
 
@@ -9,6 +9,8 @@ namespace Btx.Mobile
 	{
 
         public static ChatListPage ChatListPage { get; set; }
+
+        public static BtxChatManager ChatManager { get; set; } = new BtxChatManager();
 
 		public App ()
 		{

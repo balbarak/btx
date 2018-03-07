@@ -9,20 +9,18 @@
 
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="80"/>
+            <ColumnDefinition Width="100"/>
         </Grid.ColumnDefinitions>
 
         <StackLayout Padding="10" Grid.Column="0">
             <Label Text="{Binding Title}" 
                    Grid.Column="0"
-                   HeightRequest="20" 
                    VerticalTextAlignment="End" 
                    FontSize="Medium" 
                    Margin="0,0,0,2" 
                    LineBreakMode="TailTruncation" />
 
             <Label Text="{Binding LastMessage}" 
-                   HeightRequest="20" 
                    VerticalTextAlignment="Start" 
                    FontSize="Small" 
                    LineBreakMode="TailTruncation" 
@@ -34,9 +32,8 @@
                      VerticalOptions="FillAndExpand">
 
             <Label Text="{Binding LastMessageTime}" 
-                    HeightRequest="20" 
-                    WidthRequest="80"
-                    HorizontalTextAlignment="End"
+                   
+                    HorizontalTextAlignment="Center"
                     VerticalTextAlignment="Center" 
                     VerticalOptions="Center"
                     HorizontalOptions="FillAndExpand"

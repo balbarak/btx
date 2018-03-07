@@ -39,9 +39,7 @@ namespace Btx.Mobile.Views
         {
             var user = e.Item as User;
             var chat = new Chat(user);
-
-            var page = new ChatBoxPage(chat);
-
+            
             await ViewModel.GoToChatBox(chat);
         }
     }

@@ -8,7 +8,17 @@ namespace Btx.Mobile.Models
 {
     public class Chat : ObservableObject
     {
-        private ChatItem lastChatItem = null;
+        public ChatItem LastChatItem
+        {
+            get
+            {
+                if (Items.Count == 0)
+                    return null;
+
+                return Items[Items.Count - 1];
+                
+            }
+        }
 
         private string id;
 
@@ -17,7 +27,7 @@ namespace Btx.Mobile.Models
             get { return id; }
             set { id = value; OnPropertyChanged(); }
         }
-        
+
         private string title;
 
         public string Title
@@ -25,15 +35,15 @@ namespace Btx.Mobile.Models
             get { return title; }
             set { title = value; OnPropertyChanged(); }
         }
-        
+
         public ObservableRangeCollection<ChatItem> Items { get; set; } = new ObservableRangeCollection<ChatItem>();
 
         public string LastMessage
         {
             get
             {
-                if (lastChatItem != null)
-                    return lastChatItem.Body;
+                if (LastChatItem != null)
+                    return LastChatItem.Body;
                 else
                     return "";
             }
@@ -43,10 +53,10 @@ namespace Btx.Mobile.Models
         {
             get
             {
-                if (lastChatItem == null)
+                if (LastChatItem == null)
                     return "";
 
-                return lastChatItem.Date.ToString("hh:mm tt");
+                return LastChatItem.Date.ToString("hh:mm tt");
             }
         }
 
@@ -71,7 +81,7 @@ namespace Btx.Mobile.Models
             Items.CollectionChanged += Items_CollectionChanged;
         }
 
-        public Chat(User user) : base()
+        public Chat(User user) : this()
         {
             this.Id = user.Id;
             this.Title = user.Nickname;
@@ -81,8 +91,6 @@ namespace Btx.Mobile.Models
         {
             if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Add)
             {
-                lastChatItem = Items[Items.Count - 1];
-
                 OnPropertyChanged(nameof(LastMessage));
                 OnPropertyChanged(nameof(LastMessageTime));
                 OnPropertyChanged(nameof(HasUnreadMessage));

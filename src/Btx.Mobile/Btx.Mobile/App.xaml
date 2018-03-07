@@ -21,6 +21,8 @@
                         Android="material-icon-font.ttf#Material-Design-Iconic-Font"
                         iOS="NotoKufiArabic" />
 
+
+            
         </ResourceDictionary>
     </Application.Resources>
 </Application>

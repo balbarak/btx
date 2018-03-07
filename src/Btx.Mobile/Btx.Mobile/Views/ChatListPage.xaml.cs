@@ -14,7 +14,7 @@ namespace Btx.Mobile.Views
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class ChatListPage : MasterDetailPage
 	{
-        protected ChatListViewModel ViewModel => BindingContext as ChatListViewModel;
+        public ChatListViewModel ViewModel => BindingContext as ChatListViewModel;
 
         public ChatListPage ()
 		{

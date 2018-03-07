@@ -5,6 +5,7 @@
              xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
              xmlns:helpers="clr-namespace:Btx.Mobile.Helpers"
              Title="{Binding Title}"
+            
              x:Class="Btx.Mobile.Views.NewMessagePage">
     
     <ContentPage.Content>
@@ -13,7 +14,10 @@
                 <RowDefinition Height="50"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
+            
             <SearchBar Placeholder="Search Text ..." 
+                       Text="{Binding Keyword}"
+                       SearchCommand="{Binding SearchCommand}"
                        Grid.Row="0"
                        VerticalOptions="Center"
                        HorizontalOptions="CenterAndExpand" />
