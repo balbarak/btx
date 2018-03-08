@@ -21,6 +21,11 @@ namespace Btx.Mobile.Views
 
         public bool IsAllowToScroll { get; set; }
 
+        public ChatBoxPage()
+        {
+            
+        }
+
         public ChatBoxPage(Chat chat)
         {
             InitializeComponent();

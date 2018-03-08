@@ -1,10 +1,10 @@
 ﻿using Btx.Mobile.CustomRenders;
-using Btx.Mobile.iOS.CustomRenders;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
+using Btx.Mobile.iOS.CustomRenders;
 
 
 [assembly: ExportRenderer(typeof(ChatEditBox), typeof(ChatEditBoxRenderer))]
@@ -20,7 +20,11 @@ namespace Btx.Mobile.iOS.CustomRenders
             if (Control != null)
             {
                 //Control.SetBackgroundColor(Color.Transparent.ToAndroid());
-                //Control.Hint = "Send a message ...";
+
+                Control.KeyboardType = UIKit.UIKeyboardType.DecimalPad;
+                Control.KeyboardAppearance = UIKit.UIKeyboardAppearance.Default;
+
+
 
             }
 

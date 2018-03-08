@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:controls="clr-namespace:Btx.Mobile.CustomRenders"
@@ -50,17 +50,21 @@
                    Margin="10,10,0,10"
                    Grid.Row="1">
                 <Grid>
+
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="40"/>
                     </Grid.ColumnDefinitions>
+
                     <ScrollView x:Name="textScroll" 
                             Padding="10,0,0,0" 
                             Grid.Column="0">
                         <controls:ChatEditBox x:Name="chatTxtBox" 
-                                          Grid.Column="0"
-                                          Text="{Binding MessageToSend}"/>
+                                              Keyboard="Chat"
+                                              Grid.Column="0"
+                                              Text="{Binding MessageToSend}"/>
                     </ScrollView>
+                    
                     <Button Text="&#xf10d;" 
                             FontFamily="{StaticResource IconFont}"
                             Command="{Binding SelectAttachmentCommand}"
@@ -82,9 +86,10 @@
                     FontFamily="{StaticResource IconFont}"
                     BackgroundColor="{StaticResource Primary}"
                     TextColor="{StaticResource PrimaryText}"
+                    WidthRequest="80"
                     CornerRadius="10"
-                    HorizontalOptions="Center"
-                    Margin="0,0,0,7"
+                    HorizontalOptions="StartAndExpand"
+                    Margin="0,0,5,7"
                     Grid.Row="1" 
                     Grid.Column="1" 
                     Command="{Binding SendCommand}"

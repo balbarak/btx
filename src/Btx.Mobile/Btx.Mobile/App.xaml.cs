@@ -24,7 +24,6 @@ namespace Btx.Mobile
             MainPage = new MasterDetailPage()
             {
                 Master = new MenuPage(),
-                Padding = new Thickness(0, 40, 0, 0),
                 Detail = GetNavigationPage(new ChatListPage()),
             };
 
@@ -44,7 +43,7 @@ namespace Btx.Mobile
         {
             return new NavigationPage(page)
             {
-                Padding = new Thickness(0, 40, 0, 0)
+                
             };
         }
 
