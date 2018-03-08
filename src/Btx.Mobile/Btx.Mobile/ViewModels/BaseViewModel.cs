@@ -44,7 +44,7 @@ namespace Btx.Mobile.ViewModels
 
 
         #region Navigation
-        INavigation _Navigation => Application.Current?.MainPage?.Navigation;
+        INavigation _Navigation => (Application.Current?.MainPage as MasterDetailPage).Detail.Navigation;
 
         #region INavigation implementation
 

@@ -4,6 +4,12 @@
              Title="Menu"
              x:Class="Btx.Mobile.Views.MenuPage">
 
+    <ContentPage.Padding>
+        <OnPlatform x:TypeArguments="Thickness">
+            <On Platform="iOS" Value="0,40,0,0" />
+        </OnPlatform>
+    </ContentPage.Padding>
+    
     <ContentPage.Content>
 
         <Grid BackgroundColor="{StaticResource PrimaryDark}">
@@ -14,6 +20,8 @@
 
             <StackLayout Grid.Row="0">
                 <Label Margin="10" Text="Bader" TextColor="{StaticResource PrimaryText}"/>
+                <Image Source="tab_about.png" />
+                
             </StackLayout>
 
             <ListView 

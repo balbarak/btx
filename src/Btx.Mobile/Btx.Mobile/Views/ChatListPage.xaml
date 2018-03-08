@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<MasterDetailPage xmlns="http://xamarin.com/schemas/2014/forms"
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
                   xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                   xmlns:templates="clr-namespace:Btx.Mobile.Views"
                   xmlns:helpers="clr-namespace:Btx.Mobile.Helpers"
@@ -7,17 +7,16 @@
                   x:Class="Btx.Mobile.Views.ChatListPage">
 
 
-    <MasterDetailPage.Master>
+    <!--<ContentPage.Padding>
+        <OnPlatform x:TypeArguments="Thickness">
+            <On Platform="iOS" Value="0,40,0,0" />
+        </OnPlatform>
+    </ContentPage.Padding>-->
+    
+    <ContentPage.Content>
 
-        <templates:MenuPage />
-        
-    </MasterDetailPage.Master>
-
-    <MasterDetailPage.Detail>
-        <ContentPage>
-            
-            <Grid>
-                <ListView 
+        <Grid>
+            <ListView 
                 ItemsSource="{Binding Chats}" 
                 x:Name="lvChatList"
                 CachingStrategy="RecycleElement" 
@@ -28,15 +27,15 @@
                 IsVisible="{Binding IsNotBusy}"
                 IsPullToRefreshEnabled="false" >
 
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <templates:ChatListItemTemplate />
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-            </Grid>
-            
-        </ContentPage>
-    </MasterDetailPage.Detail>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <templates:ChatListItemTemplate />
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Grid>
 
-</MasterDetailPage>
+    </ContentPage.Content>
+
+
+</ContentPage>

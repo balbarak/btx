@@ -38,7 +38,7 @@ namespace Btx.Mobile.Views
         {
             var item = e.Item as BtxMenuItem;
 
-            App.ChatListPage.IsPresented = false;
+            //App.ChatListPage.IsPresented = false;
 
             await ViewModel.GoToPage(item.MenuType);
         }

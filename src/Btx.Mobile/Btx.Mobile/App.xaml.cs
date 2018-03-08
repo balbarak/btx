@@ -20,7 +20,20 @@ namespace Btx.Mobile
 
 
             //MainPage = GetNavigationPage(new ChatBoxPage());
-            MainPage = GetNavigationPage(new ChatListPage());
+
+            MainPage = new MasterDetailPage()
+            {
+                Master = new MenuPage(),
+                Padding = new Thickness(0, 40, 0, 0),
+                Detail = GetNavigationPage(new ChatListPage()),
+            };
+
+            if (Device.RuntimePlatform == Device.iOS)
+            {
+                MainPage.Padding = new Thickness(0, 40, 0, 0);
+            }
+
+
             //MainPage = new MainPage();
             
             //MainPage = new AttachmentPage("/storage/emulated/0/Android/data/com.companyname.Btx.Mobile/files/Pictures/temp/IMG_20180304_024511_8.jpg");
@@ -29,10 +42,9 @@ namespace Btx.Mobile
 
         public NavigationPage GetNavigationPage(Page page)
         {
-            
             return new NavigationPage(page)
             {
-                
+                Padding = new Thickness(0, 40, 0, 0)
             };
         }
 

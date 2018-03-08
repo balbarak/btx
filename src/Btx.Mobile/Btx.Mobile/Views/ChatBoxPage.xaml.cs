@@ -29,7 +29,7 @@ namespace Btx.Mobile.Views
 
             ViewModel.OnChatItemAdded += OnChatItemAdded;
 
-            lvChatItems.Scrolled += LvChatItems_Scrolled;
+            //lvChatItems.Scrolled += LvChatItems_Scrolled;
             lvChatItems.ItemAppearing += OnListViewItemAppearing;
             lvChatItems.ItemDisappearing += OnListViewItemDisappearing;
 

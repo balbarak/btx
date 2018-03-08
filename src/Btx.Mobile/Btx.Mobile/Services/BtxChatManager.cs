@@ -24,7 +24,7 @@ namespace Btx.Mobile.Services
             Chats.AddRange(MockChatService.GetChats(2).OrderByDescending(a=> a.LastChatItem.Date).ToList());
 
             
-            MockChatService.StartSimulateChat(Chats.First().Id);
+            //MockChatService.StartSimulateChat(Chats.First().Id);
 
         }
 

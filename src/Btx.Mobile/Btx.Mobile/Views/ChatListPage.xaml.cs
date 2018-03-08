@@ -12,7 +12,7 @@ using Xamarin.Forms.Xaml;
 namespace Btx.Mobile.Views
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class ChatListPage : MasterDetailPage
+	public partial class ChatListPage : ContentPage
 	{
         public ChatListViewModel ViewModel => BindingContext as ChatListViewModel;
 
@@ -23,7 +23,12 @@ namespace Btx.Mobile.Views
             this.BindingContext = new ChatListViewModel();
 
             App.ChatListPage = this;
-   
+            
+        }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
         }
 
         private void OnSelected(object sender, SelectedItemChangedEventArgs e)
