@@ -5,6 +5,7 @@
              xmlns:helpers="clr-namespace:Btx.Mobile.Helpers"
              x:Class="Btx.Mobile.Views.ChatBoxPage"
              Title="{Binding Title}"
+             xmlns:renders="clr-namespace:Btx.Mobile.CustomRenders"
              NavigationPage.BackButtonTitle="List">
 
     <ContentPage.Resources>
@@ -30,9 +31,9 @@
             </Grid.RowDefinitions>
 
 
-            <ListView 
+            <renders:ScrollListViewRender 
                 x:Name="lvChatItems" 
-                CachingStrategy="RecycleElement" 
+                
                 ItemSelected="OnSelection"
                 Margin="0,5,0,0"
                 Grid.Row="0"

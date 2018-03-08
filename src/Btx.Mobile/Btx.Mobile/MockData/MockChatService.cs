@@ -52,7 +52,7 @@ namespace Btx.Mobile.MockData
             return result;
 
         }
-
+        
         public static List<Chat> GetChats(int max)
         {
             List<Chat> result = new List<Chat>();
@@ -127,6 +127,25 @@ namespace Btx.Mobile.MockData
             App.ChatListPage?.ViewModel?.ChangeTitle("BTX Chat");
 
 
+        }
+
+        public static async Task StartSimulateChat(string chatId)
+        {
+            for (int i = 0; i < 100; i++)
+            {
+                await Task.Delay(LoremGenerator.Random.Next(200, 3000));
+
+                var chat = new ChatItem()
+                {
+                    From = LoremGenerator.GenerateText(1),
+                    Body = LoremGenerator.GenerateText(LoremGenerator.Random.Next(2, 30), LoremGenerator.Random.Next(1, 4)),
+                    Date = DateTime.Now.AddMinutes(LoremGenerator.Random.Next(-50, -3)),
+                    ItemType = ChatItem.ChatItemType.Incoming,
+                    Status = ChatItem.ChatItemStatus.Read
+                };
+
+                App.ChatManager.AddChatItem(chatId, chat);
+            }
         }
     }
 }

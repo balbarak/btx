@@ -47,6 +47,11 @@ namespace Btx.Mobile.ViewModels
 
         }
 
+        public void InvokeOnChatItemAdded(ChatItem item)
+        {
+            OnChatItemAdded?.Invoke(item);
+        }
+
         private async Task Send()
         {
             if (String.IsNullOrWhiteSpace(MessageToSend))

@@ -15,7 +15,9 @@ namespace Btx.Mobile.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ChatBoxPage : ContentPage
     {
-        protected ChatBoxViewModel ViewModel => BindingContext as ChatBoxViewModel;
+        public ChatBoxViewModel ViewModel => BindingContext as ChatBoxViewModel;
+
+        public double CurrentScrollPosition { get; set; }
 
         public ChatBoxPage(Chat chat)
         {
@@ -25,21 +27,35 @@ namespace Btx.Mobile.Views
 
             ViewModel.OnChatItemAdded += ViewModel_OnChatItemAdded;
 
-            if (ViewModel.Items != null && ViewModel.Items.Count > 0)
-                lvChatItems.ScrollTo(ViewModel.Items.Last(), ScrollToPosition.Center, false);
+            lvChatItems.Scrolled += LvChatItems_Scrolled;
+            ScrollToEnd();
 
-            
+            App.ChatBoxPage = this;
 
         }
 
-        private void ViewModel_OnChatItemAdded(ChatItem item)
+        private void LvChatItems_Scrolled(object sender, ScrolledEventArgs e)
+        {
+            Debug.WriteLine($"Current Scroll: {e.ScrollY}");
+
+            CurrentScrollPosition = e.ScrollY;
+        }
+
+        private void ScrollToEnd()
+        {
+            if (ViewModel.Items != null && ViewModel.Items.Count > 0)
+                lvChatItems.ScrollTo(ViewModel.Items.Last(), ScrollToPosition.Center, false);
+        }
+
+        public void ViewModel_OnChatItemAdded(ChatItem item)
         {
             Device.BeginInvokeOnMainThread(() =>
             {
                 if (ViewModel.Items.Count == 0)
                     return;
 
-                lvChatItems.ScrollTo(item, ScrollToPosition.MakeVisible, true);
+                if (CurrentScrollPosition == 0)
+                    lvChatItems.ScrollTo(item, ScrollToPosition.MakeVisible, false);
 
             });
         }

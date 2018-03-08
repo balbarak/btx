@@ -10,6 +10,8 @@ namespace Btx.Mobile
 
         public static ChatListPage ChatListPage { get; set; }
 
+        public static ChatBoxPage ChatBoxPage { get; set; }
+
         public static BtxChatManager ChatManager { get; set; } = new BtxChatManager();
 
 		public App ()

@@ -21,9 +21,10 @@ namespace Btx.Mobile.Services
             var currentThread = Thread.CurrentThread;
 
             Users.AddRange(MockChatService.GetUsers());
-            Chats.AddRange(MockChatService.GetChats().OrderByDescending(a=> a.LastChatItem.Date).ToList());
+            Chats.AddRange(MockChatService.GetChats(2).OrderByDescending(a=> a.LastChatItem.Date).ToList());
 
-            MockChatService.StartSimulate();
+            
+            MockChatService.StartSimulateChat(Chats.First().Id);
 
         }
 
@@ -51,6 +52,11 @@ namespace Btx.Mobile.Services
             Chats.Clear();
 
             Chats.AddRange(sortedItems);
+            
+            if (App.ChatBoxPage?.ViewModel.Chat.Id == chatId)
+            {
+                App.ChatBoxPage.ViewModel.InvokeOnChatItemAdded(item);
+            }
             
             return item;
         }
