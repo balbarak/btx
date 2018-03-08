@@ -19,26 +19,54 @@ namespace Btx.Mobile.Views
 
         public double CurrentScrollPosition { get; set; }
 
+        public bool IsAllowToScroll { get; set; }
+
         public ChatBoxPage(Chat chat)
         {
             InitializeComponent();
             chatTxtBox.ScrollView = textScroll;
             this.BindingContext = new ChatBoxViewModel(chat);
 
-            ViewModel.OnChatItemAdded += ViewModel_OnChatItemAdded;
+            ViewModel.OnChatItemAdded += OnChatItemAdded;
 
             lvChatItems.Scrolled += LvChatItems_Scrolled;
+            lvChatItems.ItemAppearing += OnListViewItemAppearing;
+            lvChatItems.ItemDisappearing += OnListViewItemDisappearing;
+
             ScrollToEnd();
 
             App.ChatBoxPage = this;
 
         }
 
+        private void OnListViewItemDisappearing(object sender, ItemVisibilityEventArgs e)
+        {
+            var currentItem = e.Item as ChatItem;
+
+            Debug.WriteLine($"Item Disappearing: {currentItem.From}");
+
+            int index = ViewModel.Items.IndexOf(currentItem);
+
+            if (index == ViewModel.Items.Count - 1)
+                IsAllowToScroll = false;
+        }
+
+        private void OnListViewItemAppearing(object sender, ItemVisibilityEventArgs e)
+        {
+            var newItem = e.Item as ChatItem;
+
+            Debug.WriteLine($"Item Appearing: {newItem.From}");
+
+            int index = ViewModel.Items.IndexOf(newItem);
+
+            if (index == ViewModel.Items.Count - 1)
+                IsAllowToScroll = true;
+        }
+
         private void LvChatItems_Scrolled(object sender, ScrolledEventArgs e)
         {
-            Debug.WriteLine($"Current Scroll: {e.ScrollY}");
-
             CurrentScrollPosition = e.ScrollY;
+
         }
 
         private void ScrollToEnd()
@@ -47,14 +75,14 @@ namespace Btx.Mobile.Views
                 lvChatItems.ScrollTo(ViewModel.Items.Last(), ScrollToPosition.Center, false);
         }
 
-        public void ViewModel_OnChatItemAdded(ChatItem item)
+        public void OnChatItemAdded(ChatItem item)
         {
             Device.BeginInvokeOnMainThread(() =>
             {
                 if (ViewModel.Items.Count == 0)
                     return;
 
-                if (CurrentScrollPosition == 0)
+                if (IsAllowToScroll)
                     lvChatItems.ScrollTo(item, ScrollToPosition.MakeVisible, false);
 
             });
@@ -69,5 +97,10 @@ namespace Btx.Mobile.Views
 
             ((ListView)sender).SelectedItem = null; //uncomment line if you want to disable the visual selection state.
         }
+
+
+
+
+
     }
 }
