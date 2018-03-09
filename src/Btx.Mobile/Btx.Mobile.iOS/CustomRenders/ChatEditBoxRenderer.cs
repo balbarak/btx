@@ -12,7 +12,7 @@ namespace Btx.Mobile.iOS.CustomRenders
 {
     public class ChatEditBoxRenderer : EditorRenderer
     {
-
+        
         protected override void OnElementChanged(ElementChangedEventArgs<Editor> e)
         {
             base.OnElementChanged(e);
@@ -21,10 +21,10 @@ namespace Btx.Mobile.iOS.CustomRenders
             {
                 //Control.SetBackgroundColor(Color.Transparent.ToAndroid());
 
-                Control.KeyboardType = UIKit.UIKeyboardType.DecimalPad;
-                Control.KeyboardAppearance = UIKit.UIKeyboardAppearance.Default;
+                //Control.KeyboardType = UIKit.UIKeyboardType.Default;
+                //Control.KeyboardAppearance = UIKit.UIKeyboardAppearance.Default;
 
-
+                
 
             }
 

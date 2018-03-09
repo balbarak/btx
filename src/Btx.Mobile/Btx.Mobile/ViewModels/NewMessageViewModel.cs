@@ -29,9 +29,9 @@ namespace Btx.Mobile.ViewModels
                 OnPropertyChanged(nameof(Items));
             }
         }
-        
+
         public ICommand SearchCommand { get; }
-        
+
         public NewMessageViewModel()
         {
             SearchCommand = new Command(async () => await Search());
@@ -41,6 +41,13 @@ namespace Btx.Mobile.ViewModels
 
         private async Task Search()
         {
+            if (String.IsNullOrWhiteSpace(Keyword))
+            {
+                Items = App.ChatManager.Users;
+
+                return;
+            }
+
             var result = App.ChatManager.Users.Where(a => a.Nickname.Contains(keyword));
 
             Items = new ObservableRangeCollection<User>(result);
@@ -48,11 +55,15 @@ namespace Btx.Mobile.ViewModels
 
         public async Task GoToChatBox(Chat item)
         {
+            App.MasterPage.IsPresented = false;
+
             var chat = await App.ChatManager.AddChat(item);
 
-            await PushAsync(new ChatBoxPage(chat));
-           
+            PushAsync(new ChatBoxPage(chat));
+
             await PopModalAsync();
+
+            
 
         }
     }

@@ -18,7 +18,7 @@
         <ToolbarItem Name="MenuItem1" Order="Secondary" Icon="Microsoft.png" Text="Settings" Priority="0" />
         <ToolbarItem Order="Secondary" Command="{Binding LogoutCommand}" Icon="Xamarin.png" Text="Logout" Priority="1" />
     </ContentPage.ToolbarItems>
-    
+
     <ContentPage.Content>
         <Grid>
             <Grid.ColumnDefinitions>
@@ -59,12 +59,14 @@
                     <ScrollView x:Name="textScroll" 
                             Padding="10,0,0,0" 
                             Grid.Column="0">
-                        <controls:ChatEditBox x:Name="chatTxtBox" 
+                    </ScrollView>
+
+                    <controls:ChatEditBox x:Name="chatTxtBox" 
                                               Keyboard="Chat"
                                               Grid.Column="0"
+                                               VerticalOptions="Fill"
                                               Text="{Binding MessageToSend}"/>
-                    </ScrollView>
-                    
+
                     <Button Text="&#xf10d;" 
                             FontFamily="{StaticResource IconFont}"
                             Command="{Binding SelectAttachmentCommand}"
@@ -77,8 +79,9 @@
                             VerticalOptions="End">
 
                     </Button>
+
                 </Grid>
-                
+
             </Frame>
 
             <Button Text="&#xf194;"

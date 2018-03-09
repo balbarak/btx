@@ -7,7 +7,13 @@ namespace Btx.Mobile
 {
 	public partial class App : Application
 	{
-
+        public static MasterDetailPage MasterPage
+        {
+            get
+            {
+                return App.Current.MainPage as MasterDetailPage;
+            }
+        }
         public static ChatListPage ChatListPage { get; set; }
 
         public static ChatBoxPage ChatBoxPage { get; set; }
@@ -30,6 +36,7 @@ namespace Btx.Mobile
             if (Device.RuntimePlatform == Device.iOS)
             {
                 MainPage.Padding = new Thickness(0, 40, 0, 0);
+                
             }
 
 

@@ -93,6 +93,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="CustomRenders\ChatEditBoxRenderer.cs" />
+    <Compile Include="CustomRenders\KeyboardOverlapRenderer.cs" />
+    <Compile Include="Extensions\ViewExtensions.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
     <None Include="Entitlements.plist" />

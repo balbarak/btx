@@ -23,10 +23,10 @@ namespace Btx.Mobile.Views
 
         public ChatBoxPage()
         {
-            
+            //this.chatTxtBox.Focus();
         }
 
-        public ChatBoxPage(Chat chat)
+        public ChatBoxPage(Chat chat) : this()
         {
             InitializeComponent();
             chatTxtBox.ScrollView = textScroll;
