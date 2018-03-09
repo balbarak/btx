@@ -29,19 +29,25 @@ namespace Btx.Mobile.Views
         public ChatBoxPage(Chat chat) : this()
         {
             InitializeComponent();
-            chatTxtBox.ScrollView = textScroll;
+            //chatTxtBox.ScrollView = textScroll;
             this.BindingContext = new ChatBoxViewModel(chat);
 
             ViewModel.OnChatItemAdded += OnChatItemAdded;
-
+            
             //lvChatItems.Scrolled += LvChatItems_Scrolled;
             lvChatItems.ItemAppearing += OnListViewItemAppearing;
             lvChatItems.ItemDisappearing += OnListViewItemDisappearing;
-
-            ScrollToEnd();
-
+            
             App.ChatBoxPage = this;
 
+        }
+
+        protected override void OnAppearing()
+        {
+            scroll.ScrollToAsync(txtBoxStackLayout, ScrollToPosition.End, false);
+            ScrollToEnd();
+
+            base.OnAppearing();
         }
 
         private void OnListViewItemDisappearing(object sender, ItemVisibilityEventArgs e)

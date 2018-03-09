@@ -24,8 +24,7 @@ namespace Btx.Mobile.iOS.CustomRenders
                 //Control.KeyboardType = UIKit.UIKeyboardType.Default;
                 //Control.KeyboardAppearance = UIKit.UIKeyboardAppearance.Default;
 
-                
-
+                Control.ScrollEnabled = true;
             }
 
         }

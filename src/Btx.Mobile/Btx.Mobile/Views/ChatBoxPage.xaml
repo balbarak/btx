@@ -20,31 +20,54 @@
     </ContentPage.ToolbarItems>
 
     <ContentPage.Content>
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="80"/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*" />
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
+
+        <ScrollView x:Name="scroll" HeightRequest="-1">
+            <Grid>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition x:Name="gridTextBoxRow"  Height="Auto"/>
+                </Grid.RowDefinitions>
 
 
-            <ListView
+                <ListView
                 x:Name="lvChatItems" 
                 CachingStrategy="RecycleElement" 
                 ItemSelected="OnSelection"
                 Margin="0,5,0,0"
                 Grid.Row="0"
-                Grid.ColumnSpan="2"
                 ItemTemplate="{StaticResource ChatItemTemplate}"
                 ItemsSource="{Binding Items}"
                 HasUnevenRows="True" 
                 SeparatorVisibility="None" />
 
 
-            <Frame CornerRadius="10"
+                <StackLayout 
+                    x:Name="txtBoxStackLayout"
+                    Orientation="Horizontal" 
+                    Grid.Row="1" Padding="10" 
+                    BackgroundColor="#EFEFEF">
+
+                    <Entry   
+                        x:Name="chatTxtBox"
+                        Keyboard="Chat"
+                        HorizontalOptions="FillAndExpand"
+                        HeightRequest="25"
+                        Text="{Binding MessageToSend}"/>
+
+                    <Button 
+                        Text="&#xf194;"
+                        FontSize="Large"
+                        FontFamily="{StaticResource IconFont}"
+                        BackgroundColor="{StaticResource Primary}"
+                        TextColor="{StaticResource PrimaryText}"
+                        Command="{Binding SendCommand}"
+                        VerticalOptions="End">
+                    </Button>
+
+                </StackLayout>
+
+                <!--<Frame CornerRadius="10"
                    Padding="0,0,10,0"
                    Grid.Column="0"
                    Margin="10,10,0,10"
@@ -60,12 +83,11 @@
                             Padding="10,0,0,0" 
                             Grid.Column="0">
                     </ScrollView>
-
                     <controls:ChatEditBox x:Name="chatTxtBox" 
                                               Keyboard="Chat"
                                               Grid.Column="0"
-                                               VerticalOptions="Fill"
                                               Text="{Binding MessageToSend}"/>
+
 
                     <Button Text="&#xf10d;" 
                             FontFamily="{StaticResource IconFont}"
@@ -82,25 +104,12 @@
 
                 </Grid>
 
-            </Frame>
-
-            <Button Text="&#xf194;"
-                    FontSize="Large"
-                    FontFamily="{StaticResource IconFont}"
-                    BackgroundColor="{StaticResource Primary}"
-                    TextColor="{StaticResource PrimaryText}"
-                    WidthRequest="80"
-                    CornerRadius="10"
-                    HorizontalOptions="StartAndExpand"
-                    Margin="0,0,5,7"
-                    Grid.Row="1" 
-                    Grid.Column="1" 
-                    Command="{Binding SendCommand}"
-                    VerticalOptions="End">
-            </Button>
-
-        </Grid>
+            </Frame>-->
 
 
+
+            </Grid>
+
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>
