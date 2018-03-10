@@ -10,8 +10,9 @@ using Xamarin.Forms.Internals;
 using Xamarin.Forms.Platform.iOS;
 using Btx.Mobile.iOS.Extensions;
 using CoreGraphics;
+using Btx.Mobile.Views;
 
-[assembly: ExportRenderer(typeof(Page), typeof(KeyboardRender))]
+[assembly: ExportRenderer(typeof(ChatBoxPage), typeof(KeyboardRender))]
 namespace Btx.Mobile.iOS.CustomRenders
 {
     [Xamarin.Forms.Internals.Preserve(AllMembers = true)]
