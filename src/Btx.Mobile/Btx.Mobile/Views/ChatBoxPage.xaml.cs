@@ -44,7 +44,6 @@ namespace Btx.Mobile.Views
 
         protected override void OnAppearing()
         {
-            scroll.ScrollToAsync(txtBoxStackLayout, ScrollToPosition.End, false);
             ScrollToEnd();
 
             base.OnAppearing();
@@ -53,9 +52,7 @@ namespace Btx.Mobile.Views
         private void OnListViewItemDisappearing(object sender, ItemVisibilityEventArgs e)
         {
             var currentItem = e.Item as ChatItem;
-
-            Debug.WriteLine($"Item Disappearing: {currentItem.From}");
-
+            
             int index = ViewModel.Items.IndexOf(currentItem);
 
             if (index == ViewModel.Items.Count - 1)
@@ -65,9 +62,7 @@ namespace Btx.Mobile.Views
         private void OnListViewItemAppearing(object sender, ItemVisibilityEventArgs e)
         {
             var newItem = e.Item as ChatItem;
-
-            Debug.WriteLine($"Item Appearing: {newItem.From}");
-
+            
             int index = ViewModel.Items.IndexOf(newItem);
 
             if (index == ViewModel.Items.Count - 1)

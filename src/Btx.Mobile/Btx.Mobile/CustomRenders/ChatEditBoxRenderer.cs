@@ -22,15 +22,15 @@ namespace Btx.Mobile.CustomRenders
 
         private void OnTextChanged(object sender, TextChangedEventArgs e)
         {
-            Editor editor = (Editor)sender;
+            //Editor editor = (Editor)sender;
 
-            if (this.Height > 200)
-                this.ScrollView.HeightRequest = 200;
-            else
-                this.ScrollView.HeightRequest = -1;
+            //if (this.Height > 200)
+            //    this.ScrollView.HeightRequest = 200;
+            //else
+            //    this.ScrollView.HeightRequest = -1;
 
-            if (Text.Length == 0)
-                this.ScrollView.HeightRequest = -1;
+            //if (Text.Length == 0)
+            //    this.ScrollView.HeightRequest = -1;
 
             if (Device.RuntimePlatform == Device.Android)
                 this.InvalidateMeasure();

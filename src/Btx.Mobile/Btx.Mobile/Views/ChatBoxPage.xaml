@@ -21,16 +21,15 @@
 
     <ContentPage.Content>
 
-        <ScrollView x:Name="scroll" HeightRequest="-1">
-            <Grid>
+        <Grid>
 
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition x:Name="gridTextBoxRow"  Height="Auto"/>
-                </Grid.RowDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition x:Name="gridTextBoxRow"  Height="Auto"/>
+            </Grid.RowDefinitions>
 
 
-                <ListView
+            <ListView
                 x:Name="lvChatItems" 
                 CachingStrategy="RecycleElement" 
                 ItemSelected="OnSelection"
@@ -42,20 +41,20 @@
                 SeparatorVisibility="None" />
 
 
-                <StackLayout 
+            <StackLayout 
                     x:Name="txtBoxStackLayout"
                     Orientation="Horizontal" 
-                    Grid.Row="1" Padding="10" 
+                    Grid.Row="1" 
+                    Padding="5"
                     BackgroundColor="#EFEFEF">
 
-                    <Entry   
-                        x:Name="chatTxtBox"
-                        Keyboard="Chat"
-                        HorizontalOptions="FillAndExpand"
-                        HeightRequest="25"
-                        Text="{Binding MessageToSend}"/>
-
-                    <Button 
+                <controls:ChatEditBox   
+                            x:Name="chatTxtBox"
+                            Keyboard="Chat"
+                            HeightRequest="25"
+                            HorizontalOptions="FillAndExpand"
+                            Text="{Binding MessageToSend}"/>
+                <Button 
                         Text="&#xf194;"
                         FontSize="Large"
                         FontFamily="{StaticResource IconFont}"
@@ -63,11 +62,11 @@
                         TextColor="{StaticResource PrimaryText}"
                         Command="{Binding SendCommand}"
                         VerticalOptions="End">
-                    </Button>
+                </Button>
 
-                </StackLayout>
+            </StackLayout>
 
-                <!--<Frame CornerRadius="10"
+            <!--<Frame CornerRadius="10"
                    Padding="0,0,10,0"
                    Grid.Column="0"
                    Margin="10,10,0,10"
@@ -108,8 +107,7 @@
 
 
 
-            </Grid>
+        </Grid>
 
-        </ScrollView>
     </ContentPage.Content>
 </ContentPage>
