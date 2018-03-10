@@ -46,6 +46,9 @@
                    IsVisible="{Binding HasUnreadMessage}"
                    BackgroundColor="{StaticResource Primary}"
                    Padding="5">
+                <Frame.HasShadow>
+                    <OnPlatform x:TypeArguments="x:Boolean" iOS="False" Android="true"/>
+                </Frame.HasShadow>
                 
                 <StackLayout>
                     <Label Text="{Binding UnreadMessageCount}" 

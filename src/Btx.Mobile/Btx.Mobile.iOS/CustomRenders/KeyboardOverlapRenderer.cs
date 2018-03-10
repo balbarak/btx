@@ -17,9 +17,12 @@ namespace Btx.Mobile.iOS.CustomRenders
     [Xamarin.Forms.Internals.Preserve(AllMembers = true)]
     public class KeyboardRender : PageRenderer
     {
+        private Rectangle _currentRectangle;
+
         NSObject _keyboardShowObserver;
         NSObject _keyboardHideObserver;
         NSObject _keyboardChangeFrameObserver;
+
         private bool _pageWasShiftedUp;
         private double _activeViewBottom;
         private bool _isKeyboardShown;
@@ -59,11 +62,12 @@ namespace Btx.Mobile.iOS.CustomRenders
 
             UnregisterForKeyboardNotifications();
         }
-
+       
         void RegisterForKeyboardNotifications()
         {
             if (_keyboardShowObserver == null)
                 _keyboardShowObserver = NSNotificationCenter.DefaultCenter.AddObserver(UIKeyboard.WillShowNotification, OnKeyboardShow);
+
             if (_keyboardHideObserver == null)
                 _keyboardHideObserver = NSNotificationCenter.DefaultCenter.AddObserver(UIKeyboard.WillHideNotification, OnKeyboardHide);
 
@@ -74,6 +78,7 @@ namespace Btx.Mobile.iOS.CustomRenders
         void UnregisterForKeyboardNotifications()
         {
             _isKeyboardShown = false;
+
             if (_keyboardShowObserver != null)
             {
                 NSNotificationCenter.DefaultCenter.RemoveObserver(_keyboardShowObserver);
@@ -85,6 +90,13 @@ namespace Btx.Mobile.iOS.CustomRenders
             {
                 NSNotificationCenter.DefaultCenter.RemoveObserver(_keyboardHideObserver);
                 _keyboardHideObserver.Dispose();
+                _keyboardHideObserver = null;
+            }
+
+            if (_keyboardChangeFrameObserver != null)
+            {
+                NSNotificationCenter.DefaultCenter.RemoveObserver(_keyboardChangeFrameObserver);
+                _keyboardChangeFrameObserver.Dispose();
                 _keyboardHideObserver = null;
             }
         }
@@ -119,6 +131,7 @@ namespace Btx.Mobile.iOS.CustomRenders
                 return;
 
             _isKeyboardShown = false;
+
             var keyboardFrame = UIKeyboard.FrameEndFromNotification(notification);
 
             if (_pageWasShiftedUp)
@@ -126,30 +139,25 @@ namespace Btx.Mobile.iOS.CustomRenders
                 ShiftPageDown(keyboardFrame.Height, _activeViewBottom);
             }
         }
-
-
+        
         private void OnChangeFrame(NSNotification notification)
         {
-            var keyboardFrame = UIKeyboard.FrameEndFromNotification(notification);
-            var keyboardHeight = keyboardFrame.Height;
-
-            var activeView = View.FindFirstResponder();
-
-            if (activeView == null)
+            if (!IsViewLoaded)
                 return;
 
-            Debug.WriteLine($"Active View: {activeView}");
             var pageFrame = Element.Bounds;
+            var keyboardFrame = UIKeyboard.FrameEndFromNotification(notification);
+            var keyboardHeight = keyboardFrame.Height;
+           
 
-            _activeViewBottom = activeView.GetViewRelativeBottom(View);
+            var newY = CalculateShiftByAmount(pageFrame.Height, keyboardHeight, _activeViewBottom);
 
-            var newHeight = pageFrame.Height + CalculateShiftByAmount(pageFrame.Height, keyboardHeight, _activeViewBottom);
+            Debug.WriteLine($"Change Active Bottom: {_activeViewBottom}");
+            Debug.WriteLine($"Chante Y: {newY}");
 
-            Debug.WriteLine($"New Height: {newHeight}");
+            Element.LayoutTo(new Rectangle(pageFrame.X, newY,
+               pageFrame.Width, pageFrame.Height));
 
-            Element.LayoutTo(new Rectangle(pageFrame.X, pageFrame.Y,
-              pageFrame.Width, newHeight));
-            
 
         }
 
@@ -157,10 +165,13 @@ namespace Btx.Mobile.iOS.CustomRenders
         {
             var pageFrame = Element.Bounds;
 
-            var newHeight = pageFrame.Height + CalculateShiftByAmount(pageFrame.Height, keyboardHeight, activeViewBottom);
+            var newY = pageFrame.Y + CalculateShiftByAmount(pageFrame.Height, keyboardHeight, activeViewBottom);
 
-            Element.LayoutTo(new Rectangle(pageFrame.X, pageFrame.Y,
-               pageFrame.Width, newHeight));
+            Element.LayoutTo(new Rectangle(pageFrame.X, newY,
+                pageFrame.Width, pageFrame.Height));
+
+            Debug.WriteLine($"Shift Active Bottom: {activeViewBottom}");
+            Debug.WriteLine($"Shift Up Y: {newY}");
 
             _pageWasShiftedUp = true;
         }
@@ -169,10 +180,10 @@ namespace Btx.Mobile.iOS.CustomRenders
         {
             var pageFrame = Element.Bounds;
 
-            var newHeight = activeViewBottom;
+            var newY = pageFrame.Y - CalculateShiftByAmount(pageFrame.Height, keyboardHeight, activeViewBottom);
 
-            Element.LayoutTo(new Rectangle(pageFrame.X, pageFrame.Y,
-             pageFrame.Width, newHeight));
+            Element.LayoutTo(new Rectangle(pageFrame.X, newY,
+                pageFrame.Width, pageFrame.Height));
 
             _pageWasShiftedUp = false;
         }
@@ -180,44 +191,6 @@ namespace Btx.Mobile.iOS.CustomRenders
         private double CalculateShiftByAmount(double pageHeight, nfloat keyboardHeight, double activeViewBottom)
         {
             return (pageHeight - activeViewBottom) - keyboardHeight;
-        }
-    }
-
-    public static class ViewExtensions
-    {
-
-        public static UIView FindFirstResponder(this UIView view)
-        {
-            if (view.IsFirstResponder)
-            {
-                return view;
-            }
-            foreach (UIView subView in view.Subviews)
-            {
-                var firstResponder = subView.FindFirstResponder();
-                if (firstResponder != null)
-                    return firstResponder;
-            }
-            return null;
-        }
-
-        public static double GetViewRelativeBottom(this UIView view, UIView rootView)
-        {
-            var viewRelativeCoordinates = rootView.ConvertPointFromView(view.Frame.Location, view);
-            var activeViewRoundedY = Math.Round(viewRelativeCoordinates.Y, 2);
-
-            return activeViewRoundedY + view.Frame.Height;
-        }
-
-        public static bool IsKeyboardOverlapping(this UIView activeView, UIView rootView, CGRect keyboardFrame)
-        {
-            var activeViewBottom = activeView.GetViewRelativeBottom(rootView);
-            var pageHeight = rootView.Frame.Height;
-            var keyboardHeight = keyboardFrame.Height;
-
-            var isOverlapping = activeViewBottom >= (pageHeight - keyboardHeight);
-
-            return isOverlapping;
         }
     }
 }

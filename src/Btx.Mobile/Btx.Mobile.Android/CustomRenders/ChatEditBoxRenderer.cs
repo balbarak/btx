@@ -9,7 +9,7 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
-using Btx.Mobile.CustomRenders;
+using Btx.Mobile.Controls;
 using Btx.Mobile.Droid.CustomRenders;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;

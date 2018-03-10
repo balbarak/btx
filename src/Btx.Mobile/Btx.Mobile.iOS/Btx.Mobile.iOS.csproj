@@ -94,6 +94,7 @@
   <ItemGroup>
     <Compile Include="CustomRenders\ChatEditBoxRenderer.cs" />
     <Compile Include="CustomRenders\KeyboardOverlapRenderer.cs" />
+    <Compile Include="CustomRenders\MaterialFrameRenderer.cs" />
     <Compile Include="Extensions\ViewExtensions.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
@@ -176,6 +177,9 @@
       <Project>{4a6a9eac-a7d8-4934-ab2e-54a656a27221}</Project>
       <Name>Btx.Mobile</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\chat-bg.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

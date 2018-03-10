@@ -21,10 +21,10 @@ namespace Btx.Mobile.Services
             var currentThread = Thread.CurrentThread;
 
             Users.AddRange(MockChatService.GetUsers());
-            Chats.AddRange(MockChatService.GetChats(2).OrderByDescending(a=> a.LastChatItem.Date).ToList());
+            Chats.AddRange(MockChatService.GetChats(9).OrderByDescending(a=> a.LastChatItem.Date).ToList());
 
             
-            //MockChatService.StartSimulateChat(Chats.First().Id);
+            MockChatService.StartSimulateChat(Chats.First().Id);
 
         }
 
@@ -35,8 +35,9 @@ namespace Btx.Mobile.Services
             if (found == null)
             {
                 found = chat;
-                Chats.Add(found);
+                Chats.Insert(0,(found));
             }
+            
             
             return found;
         }
@@ -46,19 +47,29 @@ namespace Btx.Mobile.Services
             var chat = Chats.Where(a => a.Id == chatId).FirstOrDefault();
             
             chat.Items.Add(item);
-            
-            var sortedItems = Chats.OrderByDescending(a => a.LastChatItem.Date).ToList();
 
-            Chats.Clear();
+            SortChats();
 
-            Chats.AddRange(sortedItems);
-            
             if (App.ChatBoxPage?.ViewModel.Chat.Id == chatId)
             {
                 App.ChatBoxPage.ViewModel.InvokeOnChatItemAdded(item);
             }
             
             return item;
+        }
+
+        private async Task SortChats()
+        {
+            var sortedItems = Chats.OrderByDescending(a => a.LastChatItem.Date).ToList();
+
+            foreach (var item in sortedItems)
+            {
+                var newIndex = sortedItems.IndexOf(item);
+                var oldIndex = Chats.IndexOf(item);
+
+                Chats.Move(oldIndex, newIndex);
+            }
+            
         }
     }
 }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:controls="clr-namespace:Btx.Mobile.CustomRenders"
+             xmlns:controls="clr-namespace:Btx.Mobile.Controls"
              xmlns:helpers="clr-namespace:Btx.Mobile.Helpers"
              x:Class="Btx.Mobile.Views.ChatBoxPage"
              Title="{Binding Title}"
@@ -15,14 +15,17 @@
     </ContentPage.Resources>
 
     <ContentPage.ToolbarItems>
-        <ToolbarItem Name="MenuItem1" Order="Secondary" Icon="Microsoft.png" Text="Settings" Priority="0" />
-        <ToolbarItem Order="Secondary" Command="{Binding LogoutCommand}" Icon="Xamarin.png" Text="Logout" Priority="1" />
+        <!--<ToolbarItem Name="MenuItem1" Order="Secondary" Icon="Microsoft.png" Text="Settings" Priority="0" />
+        <ToolbarItem Order="Secondary" Command="{Binding LogoutCommand}" Icon="Xamarin.png" Text="Logout" Priority="1" />-->
     </ContentPage.ToolbarItems>
 
     <ContentPage.Content>
 
         <Grid>
 
+            <Image Source="chat-bg.jpg" 
+                   Aspect="Fill"/>
+            
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
                 <RowDefinition x:Name="gridTextBoxRow"  Height="Auto"/>
@@ -31,6 +34,7 @@
 
             <ListView
                 x:Name="lvChatItems" 
+                BackgroundColor="Transparent"
                 CachingStrategy="RecycleElement" 
                 ItemSelected="OnSelection"
                 Margin="0,5,0,0"
@@ -42,21 +46,25 @@
 
 
             <StackLayout 
-                    x:Name="txtBoxStackLayout"
-                    Orientation="Horizontal" 
-                    Grid.Row="1" 
-                    Padding="5"
-                    BackgroundColor="#EFEFEF">
+                
+                x:Name="txtBoxStackLayout"
+                Orientation="Horizontal" 
+                Grid.Row="1" 
+                Padding="5,5,5,5"
+                Margin="0"
+                BackgroundColor="#EFEFEF">
 
                 <controls:ChatEditBox   
                             x:Name="chatTxtBox"
                             Keyboard="Chat"
                             HeightRequest="25"
+                            VerticalOptions="FillAndExpand"
                             HorizontalOptions="FillAndExpand"
                             Text="{Binding MessageToSend}"/>
                 <Button 
                         Text="&#xf194;"
                         FontSize="Large"
+                    WidthRequest="40"
                         FontFamily="{StaticResource IconFont}"
                         BackgroundColor="{StaticResource Primary}"
                         TextColor="{StaticResource PrimaryText}"

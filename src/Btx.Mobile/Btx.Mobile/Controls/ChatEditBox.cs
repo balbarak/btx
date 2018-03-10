@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using Xamarin.Forms;
-namespace Btx.Mobile.CustomRenders
+namespace Btx.Mobile.Controls
 {
     public class ChatEditBox : Editor
     {
@@ -32,8 +32,10 @@ namespace Btx.Mobile.CustomRenders
             //if (Text.Length == 0)
             //    this.ScrollView.HeightRequest = -1;
 
-            if (Device.RuntimePlatform == Device.Android)
-                this.InvalidateMeasure();
+            //if (Device.RuntimePlatform == Device.Android)
+            //    this.InvalidateMeasure();
+
+            //this.InvalidateMeasure();
         }
     }
 }

@@ -14,8 +14,8 @@
     </ContentPage.Padding>-->
     
     <ContentPage.Content>
-
-        <Grid>
+        
+            <Grid>
             <ListView 
                 ItemsSource="{Binding Chats}" 
                 x:Name="lvChatList"

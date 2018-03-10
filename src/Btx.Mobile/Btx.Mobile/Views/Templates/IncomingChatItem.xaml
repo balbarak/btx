@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ViewCell xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+          xmlns:controls="clr-namespace:Btx.Mobile.Controls"
              x:Class="Btx.Mobile.Views.IncomingChatItem">
 
     <ViewCell.ContextActions>
@@ -23,7 +24,7 @@
             <RowDefinition Height="0"></RowDefinition>
         </Grid.RowDefinitions>
 
-        <Frame Grid.Row="0" 
+        <controls:MaterialFrame Grid.Row="0" 
                Padding="10,5,10,5"  
                Margin="10,0,0,0"
                Grid.Column="0" 
@@ -31,10 +32,10 @@
                CornerRadius="5"
                HorizontalOptions="Start">
             <Frame.HasShadow>
-                <OnPlatform x:TypeArguments="x:Boolean" iOS="false" Android="true"/>
+                <OnPlatform x:TypeArguments="x:Boolean" iOS="False" Android="true"/>
             </Frame.HasShadow>
             <Frame.BackgroundColor>
-                <OnPlatform x:TypeArguments="Color" iOS="#F5F5F5" Android="White"/>
+                <OnPlatform x:TypeArguments="Color" iOS="White" Android="White"/>
             </Frame.BackgroundColor>
             <StackLayout>
                 <!--<Image IsVisible="False" WidthResquest="175" HeightRequest="175" Source="{Binding AttachementUrl}" />-->
@@ -55,7 +56,7 @@
 
                 </Label>
             </StackLayout>
-        </Frame>
+        </controls:MaterialFrame>
 
 
 

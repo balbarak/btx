@@ -40,8 +40,9 @@ namespace Btx.Mobile.Views
             
             App.ChatBoxPage = this;
 
+            ScrollToEnd();
         }
-
+        
         protected override void OnAppearing()
         {
             ScrollToEnd();
