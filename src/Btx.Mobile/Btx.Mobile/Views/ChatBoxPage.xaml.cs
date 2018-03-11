@@ -29,7 +29,7 @@ namespace Btx.Mobile.Views
         public ChatBoxPage(Chat chat) : this()
         {
             InitializeComponent();
-            //chatTxtBox.ScrollView = textScroll;
+            chatTxtBox.ScrollView = textScroll;
             this.BindingContext = new ChatBoxViewModel(chat);
 
             ViewModel.OnChatItemAdded += OnChatItemAdded;

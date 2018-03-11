@@ -70,9 +70,10 @@
                                     Grid.Column="0">
                             
                                     <controls:ChatEditBox
-                                              Keyboard="Chat"
-                                              Grid.Column="0"
-                                              Text="{Binding MessageToSend}"/>
+                                        x:Name="chatTxtBox"
+                                        Keyboard="Chat"
+                                        Grid.Column="0"
+                                        Text="{Binding MessageToSend}"/>
                                 
                                 </ScrollView>
 
@@ -123,7 +124,6 @@
                         BackgroundColor="#EFEFEF">
 
                         <controls:ChatEditBox   
-                            x:Name="chatTxtBox"
                             Keyboard="Chat"
                             VerticalOptions="Center"
                             HorizontalOptions="FillAndExpand"
