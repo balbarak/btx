@@ -42,13 +42,14 @@
 
                                 <ffimageloading:CachedImage 
                                     Grid.Column="0"
-                                    HorizontalOptions="Center" 
+                                    HorizontalOptions="Center"
                                     VerticalOptions="Center" 
                                     HeightRequest="50"
                                     WidthRequest="50"
+                                    Margin="10,0,0,0"
                                     DownsampleToViewSize="True"
-                                    Source="http://www.hrsaudi.net/images/logos/logo.png"
-                                    LoadingPlaceholder="{helpers:ImageResource Image='user-hero-blue.png'}">
+                                    Source="resource://Btx.Mobile.Images.user.png"
+                                    LoadingPlaceholder="resource://Btx.Mobile.Images.user.png">
                                     
                                     <ffimageloading:CachedImage.Transformations>
                                         <fftransformations:CircleTransformation />

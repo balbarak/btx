@@ -8,6 +8,7 @@ using Android.Widget;
 using Android.OS;
 using Plugin.Permissions;
 using Plugin.Permissions.Abstractions;
+using FFImageLoading.Forms.Droid;
 
 namespace Btx.Mobile.Droid
 {
@@ -23,8 +24,9 @@ namespace Btx.Mobile.Droid
             ToolbarResource = Resource.Layout.Toolbar;
 
             base.OnCreate(bundle);
-
+            
             global::Xamarin.Forms.Forms.Init(this, bundle);
+            CachedImageRenderer.Init(true);
             LoadApplication(new App());
         }
 

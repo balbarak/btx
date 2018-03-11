@@ -22,7 +22,7 @@ namespace Btx.Mobile.Droid.CustomRenders
     {
         public ChatEditBoxRenderer(Context context) : base(context)
         {
-
+            this.LayoutParameters = new ViewGroup.LayoutParams(0, ViewGroup.LayoutParams.WrapContent);
         }
 
         protected override void OnElementChanged(ElementChangedEventArgs<Editor> e)
@@ -31,9 +31,16 @@ namespace Btx.Mobile.Droid.CustomRenders
 
             if (Control != null)
             {
-                Control.SetBackgroundColor(Color.Transparent.ToAndroid());
-                Control.Hint = "Send a message ...";
                 
+                Control.VerticalScrollBarEnabled = true;
+                Control.VerticalFadingEdgeEnabled = true;
+                Control.SetPadding(40, 30, 30, 30);
+                Control.SetEms(13);
+                Control.SetMaxLines(5);
+                Control.SetBackgroundColor(Color.White.ToAndroid());
+                Control.Hint = "Send a message ...";
+                Control.SetSingleLine(false);
+
             }
 
         }

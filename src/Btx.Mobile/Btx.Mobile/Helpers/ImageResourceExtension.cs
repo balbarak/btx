@@ -1,6 +1,8 @@
 ﻿
+using FFImageLoading.Forms;
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Text;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -18,9 +20,12 @@ namespace Btx.Mobile.Helpers
                 return null;
             }
             // Do your translation lookup here, using whatever method you require
+            
             var imageSource = ImageSource.FromResource($"Btx.Mobile.Images.{Image}");
 
-            return imageSource;
+            
+
+            return new EmbeddedResourceImageSource(new Uri(Image)); 
         }
     }
 

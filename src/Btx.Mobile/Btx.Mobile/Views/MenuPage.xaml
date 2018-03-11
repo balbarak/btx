@@ -46,7 +46,7 @@
                                 <Label 
                                    VerticalOptions="Center"
                                     Grid.Column="0"
-                                    FontSize="Medium"
+                                    FontSize="Large"
                                     Margin="15,0,0,0"
                                     Text="{Binding Icon}"
                                     FontFamily="{StaticResource IconFont}"
@@ -56,7 +56,7 @@
                                     VerticalOptions="Center"
                                     Margin="10,0,0,0"
                                     Grid.Column="1"
-                                    FontSize="Default"
+                                    FontSize="Medium"
                                     Text="{Binding Title}"
                                     TextColor="{StaticResource PrimaryText}" />
                                 

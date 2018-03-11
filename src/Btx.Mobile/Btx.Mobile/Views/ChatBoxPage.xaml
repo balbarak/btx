@@ -22,15 +22,10 @@
     <ContentPage.Content>
 
         <Grid>
-
-            <Image Source="chat-bg.jpg" 
-                   Aspect="Fill"/>
-            
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
-                <RowDefinition x:Name="gridTextBoxRow"  Height="Auto"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-
 
             <ListView
                 x:Name="lvChatItems" 
@@ -45,73 +40,120 @@
                 SeparatorVisibility="None" />
 
 
-            <StackLayout 
-                
-                x:Name="txtBoxStackLayout"
-                Orientation="Horizontal" 
-                Grid.Row="1" 
-                Padding="5,5,5,5"
-                Margin="0"
-                BackgroundColor="#EFEFEF">
+            <OnPlatform x:TypeArguments="View">
 
-                <controls:ChatEditBox   
-                            x:Name="chatTxtBox"
-                            Keyboard="Chat"
-                            HeightRequest="25"
-                            VerticalOptions="FillAndExpand"
-                            HorizontalOptions="FillAndExpand"
-                            Text="{Binding MessageToSend}"/>
-                <Button 
-                        Text="&#xf194;"
-                        FontSize="Large"
-                    WidthRequest="40"
-                        FontFamily="{StaticResource IconFont}"
-                        BackgroundColor="{StaticResource Primary}"
-                        TextColor="{StaticResource PrimaryText}"
-                        Command="{Binding SendCommand}"
-                        VerticalOptions="End">
-                </Button>
+                <OnPlatform.Android>
 
-            </StackLayout>
+                    <Grid Grid.Row="1">
 
-            <!--<Frame CornerRadius="10"
-                   Padding="0,0,10,0"
-                   Grid.Column="0"
-                   Margin="10,10,0,10"
-                   Grid.Row="1">
-                <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="80"/>
+                        </Grid.ColumnDefinitions>
 
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="40"/>
-                    </Grid.ColumnDefinitions>
+                        <Frame 
+                            CornerRadius="10"
+                            Padding="0,0,10,0"
+                            Grid.Column="0"
+                            Margin="10,10,0,10">
 
-                    <ScrollView x:Name="textScroll" 
-                            Padding="10,0,0,0" 
-                            Grid.Column="0">
-                    </ScrollView>
-                    <controls:ChatEditBox x:Name="chatTxtBox" 
+                            <Grid>
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="40"/>
+                                </Grid.ColumnDefinitions>
+
+                                <ScrollView 
+                                    x:Name="textScroll" 
+                                    Padding="10,0,0,0" 
+                                    Grid.Column="0">
+                            
+                                    <controls:ChatEditBox
                                               Keyboard="Chat"
                                               Grid.Column="0"
                                               Text="{Binding MessageToSend}"/>
+                                
+                                </ScrollView>
+
+                                <Button 
+                                    Text="&#xf10d;" 
+                                    FontFamily="{StaticResource IconFont}"
+                                    Command="{Binding SelectAttachmentCommand}"
+                                    Grid.Column="1"
+                                    BackgroundColor="Transparent"
+                                    FontSize="Large"
+                                    TextColor="Black"
+                                    CornerRadius="10"
+                                    HorizontalOptions="End"
+                                    VerticalOptions="End">
+
+                                </Button>
+                            </Grid>
+
+                        </Frame>
+
+                        <Button 
+                            Text="&#xf194;"
+                            FontSize="Large"
+                            FontFamily="{StaticResource IconFont}"
+                            BackgroundColor="{StaticResource Primary}"
+                            TextColor="{StaticResource PrimaryText}"
+                            WidthRequest="80"
+                            CornerRadius="10"
+                            HorizontalOptions="StartAndExpand"
+                            Margin="0,0,5,7"
+                            Grid.Column="1"
+                            Command="{Binding SendCommand}"
+                            VerticalOptions="End" />
+                    </Grid>
+
+                </OnPlatform.Android>
 
 
-                    <Button Text="&#xf10d;" 
+
+                <OnPlatform.iOS>
+                    <StackLayout 
+                        x:Name="txtBoxStackLayout"
+                        Orientation="Horizontal" 
+                        VerticalOptions="FillAndExpand"
+                        Grid.Row="1" 
+                        Padding="5,5,5,5"
+                        Margin="0"
+                        BackgroundColor="#EFEFEF">
+
+                        <controls:ChatEditBox   
+                            x:Name="chatTxtBox"
+                            Keyboard="Chat"
+                            VerticalOptions="Center"
+                            HorizontalOptions="FillAndExpand"
+                            Text="{Binding MessageToSend}"/>
+
+                        <Button 
+                            Text="&#xf10d;" 
                             FontFamily="{StaticResource IconFont}"
                             Command="{Binding SelectAttachmentCommand}"
-                            Grid.Column="1"
                             BackgroundColor="Transparent"
+                            WidthRequest="35"
                             FontSize="Large"
                             TextColor="Black"
-                            CornerRadius="10"
                             HorizontalOptions="End"
+                            VerticalOptions="End" />
+
+                        <Button 
+                            Text="&#xf194;"
+                            FontSize="Large"
+                            WidthRequest="60"
+                            FontFamily="{StaticResource IconFont}"
+                            BackgroundColor="{StaticResource Primary}"
+                            TextColor="{StaticResource PrimaryText}"
+                            Command="{Binding SendCommand}"
                             VerticalOptions="End">
+                        </Button>
 
-                    </Button>
-
-                </Grid>
-
-            </Frame>-->
+                    </StackLayout>
+                </OnPlatform.iOS>
+            </OnPlatform>
 
 
 
