@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Btx.Mobile.iOS.CustomRenders;
+using FFImageLoading.Forms.Touch;
 using Foundation;
 using UIKit;
 
@@ -24,8 +25,7 @@ namespace Btx.Mobile.iOS
         {
             global::Xamarin.Forms.Forms.Init();
 
-            //KeyboardOverlapRenderer.Init();
-
+            CachedImageRenderer.Init();
 
             LoadApplication(new App());
 

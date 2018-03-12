@@ -16,6 +16,8 @@ namespace Btx.Mobile.ViewModels
     {
         public ObservableRangeCollection<User> Items { get; set; } = App.ChatManager.Users;
 
+        public ICommand CloseCommand { get; }
+
         private string keyword;
 
         public string Keyword
@@ -35,7 +37,7 @@ namespace Btx.Mobile.ViewModels
         public NewMessageViewModel()
         {
             SearchCommand = new Command(async () => await Search());
-
+            CloseCommand = new Command(Close);
             Title = "New Message";
         }
 
@@ -65,6 +67,13 @@ namespace Btx.Mobile.ViewModels
 
             
 
+        }
+
+        public void Close()
+        {
+            App.MasterPage.IsPresented = false;
+
+            PopModalAsync();
         }
     }
 }

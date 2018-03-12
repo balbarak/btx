@@ -12,7 +12,8 @@ namespace Btx.Mobile.Models
         {
             Incoming = 0,
             Outgoing = 1,
-            Info = 2
+            Info = 2,
+            OutgoingFile = 3,
         }
         public enum ChatItemStatus
         {

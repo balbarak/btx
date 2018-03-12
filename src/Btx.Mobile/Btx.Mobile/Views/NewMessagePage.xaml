@@ -7,14 +7,23 @@
              Title="{Binding Title}"
             
              x:Class="Btx.Mobile.Views.NewMessagePage">
-    
+
+    <ContentPage.Padding>
+        <OnPlatform x:TypeArguments="Thickness">
+            <On Platform="iOS" Value="0,40,0,0" />
+        </OnPlatform>
+    </ContentPage.Padding>
+
+
     <ContentPage.Content>
+        
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="50"/>
                 <RowDefinition Height="*"/>
+                <RowDefinition Height="40"/>
             </Grid.RowDefinitions>
-            
+
             <SearchBar Placeholder="Search Text ..." 
                        Text="{Binding Keyword}"
                        SearchCommand="{Binding SearchCommand}"
@@ -50,11 +59,11 @@
                                     DownsampleToViewSize="True"
                                     Source="resource://Btx.Mobile.Images.user.png"
                                     LoadingPlaceholder="resource://Btx.Mobile.Images.user.png">
-                                    
+
                                     <ffimageloading:CachedImage.Transformations>
                                         <fftransformations:CircleTransformation />
                                     </ffimageloading:CachedImage.Transformations>
-                                    
+
                                 </ffimageloading:CachedImage>
 
                                 <Label 
@@ -63,13 +72,20 @@
                                     Grid.Column="1"
                                     FontSize="Medium"
                                     Text="{Binding Nickname}" />
-                                
+
 
                             </Grid>
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
+
+            <Button 
+                Grid.Row="2"
+                Command="{Binding CloseCommand}"
+                Text="Close">
+                
+            </Button>
 
         </Grid>
 

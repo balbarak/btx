@@ -6,8 +6,9 @@
         <Grid BackgroundColor="Black">
 
             <Grid.RowDefinitions>
+                <RowDefinition Height="50"/>
                 <RowDefinition Height="*"/>
-                <RowDefinition Height="60"/>
+                <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
             <Grid.ColumnDefinitions>
@@ -15,15 +16,23 @@
                 <ColumnDefinition Width="80"/>
             </Grid.ColumnDefinitions>
 
+            <Button 
+                Text="&#xf136;"
+                TextColor="White"
+                BackgroundColor="Transparent"
+                HorizontalOptions="Start"
+                FontSize="30"
+                FontFamily="{StaticResource IconFont}"/>
             <Image 
-                Grid.Row="0"
+                Grid.Row="1"
                 Grid.ColumnSpan="2"
                 Source="{Binding AttachmentPath}" />
 
 
             <Entry 
                 Margin="10"
-                Grid.Row="1"
+                Grid.Row="2"
+                VerticalOptions="Start"
                 Grid.Column="0"
                 TextColor="White"
                 PlaceholderColor="Wheat"
@@ -34,7 +43,8 @@
 
             <Button 
                 Margin="5"
-                Grid.Row="1"
+                VerticalOptions="Start"
+                Grid.Row="2"
                 Grid.Column="1"
                 Text="&#xf194;"
                 FontSize="Large"

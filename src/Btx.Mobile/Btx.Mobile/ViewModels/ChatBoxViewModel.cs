@@ -2,6 +2,7 @@
 using Btx.Mobile.Models;
 using Btx.Mobile.Views;
 using MvvmHelpers;
+using Plugin.FilePicker;
 using Plugin.Media;
 using Plugin.Media.Abstractions;
 using Plugin.Permissions;
@@ -90,14 +91,18 @@ namespace Btx.Mobile.ViewModels
             else
             {
 
-                var file = await CrossMedia.Current.PickPhotoAsync(new PickMediaOptions()
-                {
-                    CompressionQuality = 70
-                });
+
+                var file = await  CrossFilePicker.Current.PickFile();
                 
+                
+                //var file = await CrossMedia.Current.PickPhotoAsync(new PickMediaOptions()
+                //{
+                //    CompressionQuality = 70
+                //});
+
 
                 if (file != null)
-                    await PushModalAsync(new AttachmentPage(file.Path,this));
+                    await PushModalAsync(new AttachmentPage(file.FilePath, this));
 
             }
 

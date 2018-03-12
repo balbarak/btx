@@ -37,6 +37,7 @@ namespace Btx.Mobile.Views
 
         private async Task OnTabbed(object sender, ItemTappedEventArgs e)
         {
+           
             var user = e.Item as User;
             var chat = new Chat(user);
             

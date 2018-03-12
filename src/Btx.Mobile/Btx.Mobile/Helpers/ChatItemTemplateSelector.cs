@@ -12,11 +12,13 @@ namespace Btx.Mobile.Helpers
         private readonly DataTemplate incomingDataTemplate;
         private readonly DataTemplate outgoingDataTemplate;
         private readonly DataTemplate infoDataTemplate;
+        private readonly DataTemplate outgoinrFileTemplate;
 
         public ChatItemTemplateSelector()
         {
             this.incomingDataTemplate = new DataTemplate(typeof(IncomingChatItem));
             this.outgoingDataTemplate = new DataTemplate(typeof(OutgoingChatItem));
+            this.outgoinrFileTemplate = new DataTemplate(typeof(OutgoingFile));
             
         }
 
@@ -41,6 +43,9 @@ namespace Btx.Mobile.Helpers
 
                     return infoDataTemplate;
 
+                case ChatItem.ChatItemType.OutgoingFile:
+                    
+                    return outgoinrFileTemplate;
                 default:
                     return null;
             }
