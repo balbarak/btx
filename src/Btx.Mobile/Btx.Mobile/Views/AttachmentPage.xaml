@@ -21,6 +21,7 @@
                 TextColor="White"
                 BackgroundColor="Transparent"
                 HorizontalOptions="Start"
+                Command="{Binding CloseCommand}"
                 FontSize="30"
                 FontFamily="{StaticResource IconFont}"/>
             <Image 

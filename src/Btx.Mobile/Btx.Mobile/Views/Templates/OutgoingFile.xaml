@@ -3,42 +3,70 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Btx.Mobile.Views.OutgoingFile">
 
-    <Grid ColumnSpacing="1" Padding="0">
+    <Grid ColumnSpacing="2" Padding="5">
 
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="40"></ColumnDefinition>
-            <ColumnDefinition Width="*"></ColumnDefinition>
-            <ColumnDefinition Width="20"></ColumnDefinition>
-        </Grid.ColumnDefinitions>
+        
 
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"></RowDefinition>
-            <RowDefinition Height="Auto"></RowDefinition>
-        </Grid.RowDefinitions>
-
-
-        <Frame Grid.Row="0" 
-               CornerRadius="5" 
+        <Frame CornerRadius="5" 
                Padding="10" 
                HorizontalOptions="End"  
-               Grid.Column="1" 
                BackgroundColor="#DCF8C6">
+            
             <Frame.HasShadow>
                 <OnPlatform x:TypeArguments="x:Boolean" iOS="false" Android="true"/>
             </Frame.HasShadow>
             <Frame.BackgroundColor>
                 <OnPlatform x:TypeArguments="Color" iOS="#DCF8C6" Android="#DCF8C6"/>
             </Frame.BackgroundColor>
-            <StackLayout>
 
-                <Label Text="{Binding Body}"/>
+            <AbsoluteLayout
+                VerticalOptions="FillAndExpand"
+                HorizontalOptions="FillAndExpand">
 
-                <Button Command="{Binding SendCommand}" Text="Send fucking"/>
+                <StackLayout 
+                    HorizontalOptions="FillAndExpand"
+                    VerticalOptions="FillAndExpand">
 
-            </StackLayout>
+
+
+                    <Image 
+                        Aspect="Fill"
+                        VerticalOptions="FillAndExpand"
+                        HorizontalOptions="FillAndExpand"
+                        Opacity=".3"
+                        Source="{Binding FileAttachment.LocalUrl}"/>
+
+                    <StackLayout Orientation="Horizontal" HorizontalOptions="End">
+                        <Label Grid.Row="1" 
+                       FontSize="Micro" 
+                       Grid.Column="1" 
+                           HorizontalOptions="Start"
+                       HorizontalTextAlignment="Start"  
+                       Text="{Binding Date, StringFormat='{0:hh:mm tt}'}" 
+                       TextColor="Black"/>
+
+                        <Label Text="{Binding StatusIconFont}"
+                           FontFamily="{StaticResource IconFont}"
+                           TextColor="Blue"
+                           HorizontalTextAlignment="End">
+
+                        </Label>
+                    </StackLayout>
+                </StackLayout>
+
+                <ActivityIndicator 
+                    IsVisible="True"
+                    IsRunning="True"
+                    Color="{StaticResource Primary}"
+                    VerticalOptions="CenterAndExpand"
+                    HorizontalOptions="CenterAndExpand"
+                    AbsoluteLayout.LayoutBounds="1,1,1,1"
+                   AbsoluteLayout.LayoutFlags="All"/>
+                
+            </AbsoluteLayout>
         </Frame>
 
     </Grid>
-    
+
 
 </ViewCell>

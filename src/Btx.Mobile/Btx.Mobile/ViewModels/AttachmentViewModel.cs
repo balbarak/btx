@@ -12,7 +12,11 @@ namespace Btx.Mobile.ViewModels
     {
         public ChatBoxViewModel ChatBox { get; set; }
 
+        public byte[] FileData { get; set; }
+
         public ICommand SendCommand { get; }
+
+        public ICommand CloseCommand { get; }
 
         private string attachmentPath;
         public string AttachmentPath
@@ -21,12 +25,14 @@ namespace Btx.Mobile.ViewModels
             set { attachmentPath = value; OnPropertyChanged(); }
         }
 
-        public AttachmentViewModel(string path,ChatBoxViewModel chatBox)
+        public AttachmentViewModel(byte[] fileData,string path,ChatBoxViewModel chatBox)
         {
             this.AttachmentPath = path;
             this.ChatBox = chatBox;
+            this.FileData = fileData;
 
             SendCommand = new Command(Send);
+            CloseCommand = new Command(Close);
         }
 
         public void Send()
@@ -36,12 +42,21 @@ namespace Btx.Mobile.ViewModels
             var item = new ChatItem()
             {
                 ItemType = ChatItem.ChatItemType.OutgoingFile,
+                FileAttachment = new FileAttachment()
+                {
+                    LocalUrl = AttachmentPath,
+                },
                 Body = "File sent"
             };
 
             ChatBox.Items.Add(item);
 
             ChatBox.InvokeOnChatItemAdded(item);
+        }
+
+        public void Close()
+        {
+            PopModalAsync();
         }
     }
 }

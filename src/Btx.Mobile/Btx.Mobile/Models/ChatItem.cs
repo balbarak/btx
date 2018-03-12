@@ -62,6 +62,7 @@ namespace Btx.Mobile.Models
             }
         }
 
+        public FileAttachment FileAttachment { get; set; }
 
         private string statusIconFont = IconHelper.TIME;
         public string StatusIconFont
@@ -110,6 +111,7 @@ namespace Btx.Mobile.Models
         public ChatItem()
         {
             id = Guid.NewGuid().ToString();
+            Date = DateTime.Now;
         }
 
         public ChatItem(string msg) : base() 
