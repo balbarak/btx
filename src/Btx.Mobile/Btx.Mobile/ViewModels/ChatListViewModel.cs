@@ -19,6 +19,8 @@ namespace Btx.Mobile.ViewModels
         {
             Title = "BTX Chat";
 
+
+
         }
 
         public void ChangeTitle(string title)
