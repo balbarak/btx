@@ -83,7 +83,7 @@ namespace Btx.Mobile.ViewModels
         {
             Items.CollectionChanged += CollectionChanged;
         }
-
+        
         public ChatViewModel(Chat entity) : this()
         {
             this.Title = entity.Title;

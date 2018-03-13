@@ -3,6 +3,7 @@ using Btx.Mobile.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -10,6 +11,8 @@ namespace Btx.Mobile.ViewModels
 {
     public class ChatItemViewModel : BaseViewModel
     {
+        
+
         private string id;
         public string Id
         {
@@ -110,13 +113,54 @@ namespace Btx.Mobile.ViewModels
             }
         }
 
+        public Color StatusLabelImageColor
+        {
+            get
+            {
+                if (Status == ChatItemStatus.Read)
+                    return Color.Blue;
+                else
+                    return Color.White;
+            }
+        }
+
+
+        private bool showRetryButton = true;
+
+        public bool ShowRetryButton
+        {
+            get { return showRetryButton; }
+            set
+            {
+                showRetryButton = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private double imageOpacity = 0.3;
+
+        public double ImageOpacity
+        {
+            get { return imageOpacity; }
+            set { imageOpacity = value; OnPropertyChanged(); }
+        }
+
+
 
         public ICommand UploadCommand { get; }
 
         public ChatItemViewModel()
         {
             Date = DateTime.Now;
-            UploadCommand = new Command(Upload);
+            UploadCommand = new Command(async()=> await Upload());
+        }
+
+        public ChatItemViewModel(ChatItemType itemType) : this()
+        {
+            ItemType = itemType;
+
+            if (itemType == ChatItemType.OutgoingFile)
+                Upload();
         }
 
         public ChatItemViewModel(ChatItem entity) : this()
@@ -127,11 +171,20 @@ namespace Btx.Mobile.ViewModels
             this.From = entity.From;
             this.ItemType = entity.ItemType;
             this.Status = entity.Status;
+
         }
 
-        private void Upload()
+        private async Task Upload()
         {
+            IsBusy = true;
+            ShowRetryButton = false;
+            ImageOpacity = 0.3;
 
+            await Task.Delay(3000);
+
+            ShowRetryButton = false;
+            ImageOpacity = 1;
+            IsBusy = false;
         }
     }
 }

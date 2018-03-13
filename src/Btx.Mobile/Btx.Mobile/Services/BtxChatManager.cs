@@ -29,7 +29,7 @@ namespace Btx.Mobile.Services
                 ChatViewModels.Add(new ChatViewModel(item));
             }
             
-            MockChatService.StartSimulateChat(ChatViewModels.First().Id);
+            //MockChatService.StartSimulateChat(ChatViewModels.First().Id);
 
         }
 
