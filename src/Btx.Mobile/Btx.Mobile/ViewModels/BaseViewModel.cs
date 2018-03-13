@@ -13,8 +13,6 @@ namespace Btx.Mobile.ViewModels
 {
     public class BaseViewModel : INavigation , INotifyPropertyChanged
     {
-        public IDataStore<Item> DataStore => DependencyService.Get<IDataStore<Item>>() ?? new MockDataStore();
-
         bool isBusy = false;
         public bool IsBusy
         {
@@ -43,10 +41,9 @@ namespace Btx.Mobile.ViewModels
         }
 
 
-        #region Navigation
-        INavigation _Navigation => (Application.Current?.MainPage as MasterDetailPage).Detail.Navigation;
-
         #region INavigation implementation
+
+        INavigation _Navigation => (Application.Current?.MainPage as MasterDetailPage).Detail.Navigation;
 
         public void RemovePage(Page page)
         {
@@ -127,8 +124,6 @@ namespace Btx.Mobile.ViewModels
         public IReadOnlyList<Page> NavigationStack => _Navigation?.NavigationStack;
 
         public IReadOnlyList<Page> ModalStack => _Navigation?.ModalStack;
-
-        #endregion
         #endregion  
 
         #region INotifyPropertyChanged

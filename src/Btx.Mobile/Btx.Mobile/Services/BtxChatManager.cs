@@ -7,35 +7,41 @@ using System.Threading.Tasks;
 using System.Linq;
 using Btx.Mobile.MockData;
 using System.Threading;
+using System.Diagnostics;
+using Btx.Mobile.ViewModels;
 
 namespace Btx.Mobile.Services
 {
     public class BtxChatManager
     {
-        public ObservableRangeCollection<Chat> Chats { get; set; } = new ObservableRangeCollection<Chat>();
+        public ObservableRangeCollection<ChatViewModel> ChatViewModels { get; set; } = new ObservableRangeCollection<ChatViewModel>();
 
         public ObservableRangeCollection<User> Users { get; set; } = new ObservableRangeCollection<User>();
 
         public BtxChatManager()
         {
-            var currentThread = Thread.CurrentThread;
-
             Users.AddRange(MockChatService.GetUsers());
-            Chats.AddRange(MockChatService.GetChats(9).OrderByDescending(a=> a.LastChatItem.Date).ToList());
 
+            var chats = MockChatService.GetChats(1);
+
+            foreach (var item in chats)
+            {
+                ChatViewModels.Add(new ChatViewModel(item));
+            }
             
-            //MockChatService.StartSimulateChat(Chats.First().Id);
+            MockChatService.StartSimulateChat(ChatViewModels.First().Id);
 
         }
 
-        public async Task<Chat> AddChat(Chat chat)
+        public async Task<ChatViewModel> AddChat(Chat chat)
         {
-            var found = Chats.Where(a => a.Id == chat.Id).FirstOrDefault();
+            var found = ChatViewModels.Where(a => a.Id == chat.Id).FirstOrDefault();
 
             if (found == null)
             {
-                found = chat;
-                Chats.Insert(0,(found));
+                found = new ChatViewModel(chat);
+
+                ChatViewModels.Insert(0,(found));
             }
             
             
@@ -44,30 +50,25 @@ namespace Btx.Mobile.Services
         
         public ChatItem AddChatItem(string chatId,ChatItem item)
         {
-            var chat = Chats.Where(a => a.Id == chatId).FirstOrDefault();
+            var chat = ChatViewModels.Where(a => a.Id == chatId).FirstOrDefault();
             
-            chat.Items.Add(item);
+            chat.Items.Add(new ChatItemViewModel(item));
 
             SortChats();
-
-            if (App.ChatBoxPage?.ViewModel.Chat.Id == chatId)
-            {
-                App.ChatBoxPage.ViewModel.InvokeOnChatItemAdded(item);
-            }
             
             return item;
         }
 
         private async Task SortChats()
         {
-            var sortedItems = Chats.OrderByDescending(a => a.LastChatItem.Date).ToList();
-
+            var sortedItems = ChatViewModels.OrderByDescending(a => a.LastChatItem.Date).ToList();
+            
             foreach (var item in sortedItems)
             {
                 var newIndex = sortedItems.IndexOf(item);
-                var oldIndex = Chats.IndexOf(item);
+                var oldIndex = ChatViewModels.IndexOf(item);
 
-                Chats.Move(oldIndex, newIndex);
+                ChatViewModels.Move(oldIndex, newIndex);
             }
             
         }

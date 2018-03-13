@@ -26,23 +26,36 @@ namespace Btx.Mobile.Views
             //this.chatTxtBox.Focus();
         }
 
-        public ChatBoxPage(Chat chat) : this()
+        public ChatBoxPage(ChatViewModel chat) : this()
         {
             InitializeComponent();
             chatTxtBox.ScrollView = textScroll;
             this.BindingContext = new ChatBoxViewModel(chat);
 
-            ViewModel.OnChatItemAdded += OnChatItemAdded;
-            
-            //lvChatItems.Scrolled += LvChatItems_Scrolled;
+            SetEvents();
+
+        }
+
+        ~ChatBoxPage()
+        {
+            RemoveEvents();
+        }
+
+        private void SetEvents()
+        {
             lvChatItems.ItemAppearing += OnListViewItemAppearing;
             lvChatItems.ItemDisappearing += OnListViewItemDisappearing;
-            
-            App.ChatBoxPage = this;
+            ViewModel.Chat.OnChatItemAdded += OnChatItemAdded;
 
-            ScrollToEnd();
         }
-        
+
+        private void RemoveEvents()
+        {
+            lvChatItems.ItemAppearing -= OnListViewItemAppearing;
+            lvChatItems.ItemDisappearing -= OnListViewItemDisappearing;
+            ViewModel.Chat.OnChatItemAdded -= OnChatItemAdded;
+        }
+
         protected override void OnAppearing()
         {
             ScrollToEnd();
@@ -52,8 +65,8 @@ namespace Btx.Mobile.Views
 
         private void OnListViewItemDisappearing(object sender, ItemVisibilityEventArgs e)
         {
-            var currentItem = e.Item as ChatItem;
-            
+            var currentItem = e.Item as ChatItemViewModel;
+
             int index = ViewModel.Items.IndexOf(currentItem);
 
             if (index == ViewModel.Items.Count - 1)
@@ -62,18 +75,12 @@ namespace Btx.Mobile.Views
 
         private void OnListViewItemAppearing(object sender, ItemVisibilityEventArgs e)
         {
-            var newItem = e.Item as ChatItem;
-            
+            var newItem = e.Item as ChatItemViewModel;
+
             int index = ViewModel.Items.IndexOf(newItem);
 
             if (index == ViewModel.Items.Count - 1)
                 IsAllowToScroll = true;
-        }
-
-        private void LvChatItems_Scrolled(object sender, ScrolledEventArgs e)
-        {
-            CurrentScrollPosition = e.ScrollY;
-
         }
 
         private void ScrollToEnd()
@@ -82,15 +89,13 @@ namespace Btx.Mobile.Views
                 lvChatItems.ScrollTo(ViewModel.Items.Last(), ScrollToPosition.Center, false);
         }
 
-        public void OnChatItemAdded(ChatItem item)
+
+        private void OnChatItemAdded(object sender, EventArgs e)
         {
             Device.BeginInvokeOnMainThread(() =>
             {
-                if (ViewModel.Items.Count == 0)
-                    return;
-
                 if (IsAllowToScroll)
-                    lvChatItems.ScrollTo(item, ScrollToPosition.MakeVisible, false);
+                    ScrollToEnd();
 
             });
         }
@@ -104,10 +109,6 @@ namespace Btx.Mobile.Views
 
             ((ListView)sender).SelectedItem = null; //uncomment line if you want to disable the visual selection state.
         }
-
-
-
-
 
     }
 }

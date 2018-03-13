@@ -16,15 +16,12 @@ using Xamarin.Forms;
 
 namespace Btx.Mobile.ViewModels
 {
-    public delegate void ChatItemAddedEventHandler(ChatItem item);
-
+    
     public class ChatBoxViewModel : BaseViewModel
     {
-        public event ChatItemAddedEventHandler OnChatItemAdded;
+        public ChatViewModel Chat { get; set; }
 
-        public Chat Chat { get; set; }
-
-        public ObservableRangeCollection<ChatItem> Items { get { return Chat.Items; } }
+        public ObservableRangeCollection<ChatItemViewModel> Items { get { return Chat.Items; } }
         
         private string messageToSend;
 
@@ -38,7 +35,7 @@ namespace Btx.Mobile.ViewModels
 
         public ICommand SelectAttachmentCommand { get; }
 
-        public ChatBoxViewModel(Chat chat)
+        public ChatBoxViewModel(ChatViewModel chat)
         {
             this.Chat = chat;
             this.Title = chat.Title;
@@ -47,12 +44,7 @@ namespace Btx.Mobile.ViewModels
             SelectAttachmentCommand = new Command(async () => await SelectAttachment());
 
         }
-
-        public void InvokeOnChatItemAdded(ChatItem item)
-        {
-            OnChatItemAdded?.Invoke(item);
-        }
-
+        
         private async Task Send()
         {
             if (String.IsNullOrWhiteSpace(MessageToSend))
@@ -61,15 +53,13 @@ namespace Btx.Mobile.ViewModels
             var chatMessage = new ChatItem(MessageToSend);
 
             chatMessage.Date = DateTimeOffset.Now;
-            chatMessage.ItemType = ChatItem.ChatItemType.Outgoing;
-            chatMessage.Status = ChatItem.ChatItemStatus.Read;
+            chatMessage.ItemType = ChatItemType.Outgoing;
+            chatMessage.Status = ChatItemStatus.Read;
 
             App.ChatManager.AddChatItem(Chat.Id, chatMessage);
 
             MessageToSend = "";
-
-            OnChatItemAdded?.Invoke(chatMessage);
-
+            
         }
 
         private async Task SelectAttachment()

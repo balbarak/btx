@@ -18,9 +18,8 @@ namespace Btx.Mobile.ViewModels
         public MenuViewModel()
         {
             Items.Add(new BtxMenuItem("New Message", IconHelper.ACCOUNT, typeof(NewMessagePage)));
-            Items.Add(new BtxMenuItem("New Group",IconHelper.ACCOUNTS, typeof(AboutPage)));
-            Items.Add(new BtxMenuItem("Settings", IconHelper.SETTINGS, typeof(AboutPage)));
-
+            Items.Add(new BtxMenuItem("New Group",IconHelper.ACCOUNTS, typeof(NewMessagePage)));
+            Items.Add(new BtxMenuItem("Settings", IconHelper.SETTINGS, typeof(NewMessagePage)));
         }
 
         public async Task GoToPage(Type type)
@@ -28,8 +27,7 @@ namespace Btx.Mobile.ViewModels
             var page = Activator.CreateInstance(type) as Page;
             
             await PushModalAsync(page);
-
-
+            
         }
     }
 }

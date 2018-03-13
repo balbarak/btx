@@ -1,4 +1,5 @@
 ﻿using Btx.Mobile.Models;
+using Btx.Mobile.ViewModels;
 using Btx.Mobile.Views;
 using System;
 using System.Collections.Generic;
@@ -24,26 +25,26 @@ namespace Btx.Mobile.Helpers
 
         protected override DataTemplate OnSelectTemplate(object item, BindableObject container)
         {
-            var model = item as ChatItem;
+            var model = item as ChatItemViewModel;
 
             if (model == null)
                 return null;
 
             switch (model.ItemType)
             {
-                case ChatItem.ChatItemType.Incoming:
+                case ChatItemType.Incoming:
 
                     return incomingDataTemplate;
 
-                case ChatItem.ChatItemType.Outgoing:
+                case ChatItemType.Outgoing:
 
                     return outgoingDataTemplate;
 
-                case ChatItem.ChatItemType.Info:
+                case ChatItemType.Info:
 
                     return infoDataTemplate;
 
-                case ChatItem.ChatItemType.OutgoingFile:
+                case ChatItemType.OutgoingFile:
                     
                     return outgoinrFileTemplate;
                 default:

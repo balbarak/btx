@@ -24,8 +24,8 @@ namespace Btx.Mobile.MockData
                     From = LoremGenerator.GenerateText(1),
                     Body = LoremGenerator.GenerateText(LoremGenerator.Random.Next(2, 30), LoremGenerator.Random.Next(1, 4)),
                     Date = DateTime.Now.AddMinutes(LoremGenerator.Random.Next(-50, -3)),
-                    ItemType = ChatItem.ChatItemType.Incoming,
-                    Status = ChatItem.ChatItemStatus.Read
+                    ItemType = ChatItemType.Incoming,
+                    Status = ChatItemStatus.Read
                 });
             }
 
@@ -94,8 +94,7 @@ namespace Btx.Mobile.MockData
 
             return result;
         }
-
-
+        
         public static async Task StartSimulate()
         {
             for (int i = 0; i < 100; i++)
@@ -106,7 +105,7 @@ namespace Btx.Mobile.MockData
 
                 var chats = GetChats(LoremGenerator.Random.Next(10, 100));
 
-                var current = App.ChatManager.Chats.OrderByDescending(a => a.LastChatItem.Date).FirstOrDefault();
+                var current = App.ChatManager.ChatViewModels.OrderByDescending(a => a.LastChatItem.Date).FirstOrDefault();
 
                 var items = GetChatItem();
 
@@ -140,8 +139,8 @@ namespace Btx.Mobile.MockData
                     From = LoremGenerator.GenerateText(1),
                     Body = LoremGenerator.GenerateText(LoremGenerator.Random.Next(2, 30), LoremGenerator.Random.Next(1, 4)),
                     Date = DateTime.Now.AddMinutes(LoremGenerator.Random.Next(-50, -3)),
-                    ItemType = ChatItem.ChatItemType.Incoming,
-                    Status = ChatItem.ChatItemStatus.Read
+                    ItemType = ChatItemType.Incoming,
+                    Status = ChatItemStatus.Read
                 };
 
                 App.ChatManager.AddChatItem(chatId, chat);

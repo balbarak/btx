@@ -13,14 +13,12 @@ namespace Btx.Mobile.ViewModels
 {
     public class ChatListViewModel : BaseViewModel
     {
-        public ObservableRangeCollection<Chat> Chats { get; } = App.ChatManager.Chats;
+        public ObservableRangeCollection<ChatViewModel> Chats { get; } = App.ChatManager.ChatViewModels;
 
         public ChatListViewModel()
         {
             Title = "BTX Chat";
-
-
-
+            
         }
 
         public void ChangeTitle(string title)
@@ -28,7 +26,7 @@ namespace Btx.Mobile.ViewModels
             Title = title;
         }
 
-        public async Task GoToChatBox(Chat item)
+        public async Task GoToChatBox(ChatViewModel item)
         {
             await PushAsync(new ChatBoxPage(item));
         }
