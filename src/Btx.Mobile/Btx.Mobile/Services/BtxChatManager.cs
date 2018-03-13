@@ -22,7 +22,7 @@ namespace Btx.Mobile.Services
         {
             Users.AddRange(MockChatService.GetUsers());
 
-            var chats = MockChatService.GetChats(1);
+            var chats = MockChatService.GetChats(4);
 
             foreach (var item in chats)
             {
@@ -56,6 +56,17 @@ namespace Btx.Mobile.Services
 
             SortChats();
             
+            return item;
+        }
+
+        public ChatItemViewModel AddChatItem(string chatId, ChatItemViewModel item)
+        {
+            var chat = ChatViewModels.Where(a => a.Id == chatId).FirstOrDefault();
+
+            chat.Items.Add(item);
+
+            SortChats();
+
             return item;
         }
 

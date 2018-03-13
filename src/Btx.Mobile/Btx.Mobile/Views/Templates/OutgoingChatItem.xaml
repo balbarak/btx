@@ -46,7 +46,7 @@
 
                     <Label Text="{Binding StatusIconFont}"
                            FontFamily="{StaticResource IconFont}"
-                           TextColor="Blue"
+                           TextColor="{Binding LabelColor}"
                            HorizontalTextAlignment="End">
 
                     </Label>

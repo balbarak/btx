@@ -27,7 +27,7 @@
             <Image 
                 Grid.Row="1"
                 Grid.ColumnSpan="2"
-                Source="{Binding AttachmentPath}" />
+                Source="{Binding AttachmentFilePath}" />
 
 
             <Entry 

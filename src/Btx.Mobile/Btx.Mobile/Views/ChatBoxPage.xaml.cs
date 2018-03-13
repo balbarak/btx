@@ -86,7 +86,7 @@ namespace Btx.Mobile.Views
         private void ScrollToEnd()
         {
             if (ViewModel.Items != null && ViewModel.Items.Count > 0)
-                lvChatItems.ScrollTo(ViewModel.Items.Last(), ScrollToPosition.Center, false);
+                lvChatItems.ScrollTo(ViewModel.Items.Last(), ScrollToPosition.MakeVisible, false);
         }
 
 

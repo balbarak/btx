@@ -3,13 +3,14 @@ using Btx.Mobile.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Windows.Input;
+using Xamarin.Forms;
 
 namespace Btx.Mobile.ViewModels
 {
     public class ChatItemViewModel : BaseViewModel
     {
         private string id;
-
         public string Id
         {
             get { return id; }
@@ -49,6 +50,7 @@ namespace Btx.Mobile.ViewModels
                         break;
                 }
 
+                OnPropertyChanged(nameof(LabelColor));
                 OnPropertyChanged(nameof(StatusIconFont));
                 OnPropertyChanged();
 
@@ -90,12 +92,34 @@ namespace Btx.Mobile.ViewModels
             set { isRead = value; OnPropertyChanged(); }
         }
 
-        public ChatItemViewModel()
+        private string localFilePath;
+        public string LocalFilePath
         {
-
+            get { return localFilePath; }
+            set { localFilePath = value; OnPropertyChanged(); }
+        }
+        
+        public Color LabelColor
+        {
+            get
+            {
+                if (Status == ChatItemStatus.Read)
+                    return Color.Blue;
+                else
+                    return Color.Black;
+            }
         }
 
-        public ChatItemViewModel(ChatItem entity)
+
+        public ICommand UploadCommand { get; }
+
+        public ChatItemViewModel()
+        {
+            Date = DateTime.Now;
+            UploadCommand = new Command(Upload);
+        }
+
+        public ChatItemViewModel(ChatItem entity) : this()
         {
             this.Id = entity.Id;
             this.Date = entity.Date;
@@ -103,6 +127,11 @@ namespace Btx.Mobile.ViewModels
             this.From = entity.From;
             this.ItemType = entity.ItemType;
             this.Status = entity.Status;
+        }
+
+        private void Upload()
+        {
+
         }
     }
 }

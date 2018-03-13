@@ -34,7 +34,12 @@
                         VerticalOptions="FillAndExpand"
                         HorizontalOptions="FillAndExpand"
                         Opacity=".3"
-                        Source="{Binding FileAttachment.LocalUrl}"/>
+                        Source="{Binding LocalFilePath}"/>
+
+                    <Button 
+                        Text="Click Me"
+                        Command="{Binding UploadCommand}"
+                        />
 
                     <StackLayout Orientation="Horizontal" HorizontalOptions="End">
                         <Label Grid.Row="1" 
@@ -47,7 +52,7 @@
 
                         <Label Text="{Binding StatusIconFont}"
                            FontFamily="{StaticResource IconFont}"
-                           TextColor="Blue"
+                           TextColor="{Binding LabelColor}"
                            HorizontalTextAlignment="End">
 
                         </Label>

@@ -18,16 +18,16 @@ namespace Btx.Mobile.ViewModels
 
         public ICommand CloseCommand { get; }
 
-        private string attachmentPath;
-        public string AttachmentPath
+        private string attachmentFilePath;
+        public string AttachmentFilePath
         {
-            get { return attachmentPath; }
-            set { attachmentPath = value; OnPropertyChanged(); }
+            get { return attachmentFilePath; }
+            set { attachmentFilePath = value; OnPropertyChanged(); }
         }
 
         public AttachmentViewModel(byte[] fileData,string path,ChatBoxViewModel chatBox)
         {
-            this.AttachmentPath = path;
+            this.AttachmentFilePath = path;
             this.ChatBox = chatBox;
             this.FileData = fileData;
 
@@ -39,10 +39,11 @@ namespace Btx.Mobile.ViewModels
         {
             PopModalAsync();
 
-            var chatMessage = new ChatItem()
+            var chatMessage = new ChatItemViewModel()
             {
                 ItemType = ChatItemType.OutgoingFile,
                 Body = "ss",
+                LocalFilePath = AttachmentFilePath
             };
            
             App.ChatManager.AddChatItem(ChatBox.Chat.Id, chatMessage);
