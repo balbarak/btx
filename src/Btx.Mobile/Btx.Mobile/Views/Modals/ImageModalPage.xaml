@@ -36,10 +36,12 @@
                 Command="{Binding CloseCommand}"
                 FontSize="30"
                 FontFamily="{StaticResource IconFont}"/>
-        
-        <Image 
-            Grid.Row="1"
+
+        <ScrollView Grid.Row="1">
+            <Image 
             Source="icon.png"/>
+
+        </ScrollView>
 
 
     </Grid>
