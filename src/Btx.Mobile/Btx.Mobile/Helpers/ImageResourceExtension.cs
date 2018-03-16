@@ -9,23 +9,22 @@ using Xamarin.Forms.Xaml;
 
 namespace Btx.Mobile.Helpers
 {
+    [ContentProperty(nameof(ImageResourceExtension.Source))]
     public class ImageResourceExtension : IMarkupExtension
     {
-        public string Image { get; set; }
+        public string Source { get; set; }
 
         public object ProvideValue(IServiceProvider serviceProvider)
         {
-            if (Image == null)
+            if (Source == null)
             {
                 return null;
             }
             // Do your translation lookup here, using whatever method you require
             
-            var imageSource = ImageSource.FromResource($"Btx.Mobile.Images.{Image}");
+            var result = ImageSource.FromResource($"Btx.Mobile.Images.{Source}");
 
-            
-
-            return new EmbeddedResourceImageSource(new Uri(Image)); 
+            return result;
         }
     }
 

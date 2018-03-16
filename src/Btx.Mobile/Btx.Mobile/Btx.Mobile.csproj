@@ -5,10 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Images\chat-bg.jpg" />
     <None Remove="Images\user.png" />
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Images\chat-bg.jpg" />
     <EmbeddedResource Include="Images\user.png" />
   </ItemGroup>
 

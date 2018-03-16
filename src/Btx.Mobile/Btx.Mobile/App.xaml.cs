@@ -25,13 +25,13 @@ namespace Btx.Mobile
 
             //MainPage = GetNavigationPage(new ChatBoxPage());
 
-            MainPage = new TestPage();
+            //MainPage = new TestPage();
 
-            //MainPage = new MasterDetailPage()
-            //{
-            //    Master = new MenuPage(),
-            //    Detail = GetNavigationPage(new ChatListPage()),
-            //};
+            MainPage = new MasterDetailPage()
+            {
+                Master = new MenuPage(),
+                Detail = GetNavigationPage(new ChatListPage()),
+            };
 
             if (Device.RuntimePlatform == Device.iOS)
             {
