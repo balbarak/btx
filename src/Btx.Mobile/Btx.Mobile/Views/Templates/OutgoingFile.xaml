@@ -21,14 +21,19 @@
 
             <Grid>
                 <Image 
-                        HeightRequest="150"
-                        WidthRequest="200"
-                        Aspect="AspectFill"
-                        Grid.Row="0"
-                        VerticalOptions="CenterAndExpand"
-                        HorizontalOptions="CenterAndExpand"
-                        Opacity="{Binding ImageOpacity}"
-                        Source="{Binding LocalFilePath}"/>
+                    HeightRequest="150"
+                    WidthRequest="200"
+                    Aspect="AspectFill"
+                    Grid.Row="0"
+                    VerticalOptions="CenterAndExpand"
+                    HorizontalOptions="CenterAndExpand"
+                    Opacity="{Binding ImageOpacity}"
+                    Source="{Binding LocalFilePath}">
+                    
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding TapCommand}" />
+                    </Image.GestureRecognizers>
+                </Image>
 
 
 

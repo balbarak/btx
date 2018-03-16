@@ -1,5 +1,7 @@
 ﻿using Btx.Mobile.Helpers;
 using Btx.Mobile.Models;
+using Btx.Mobile.Views.Modals;
+using Rg.Plugins.Popup.Services;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -11,8 +13,6 @@ namespace Btx.Mobile.ViewModels
 {
     public class ChatItemViewModel : BaseViewModel
     {
-        
-
         private string id;
         public string Id
         {
@@ -124,7 +124,6 @@ namespace Btx.Mobile.ViewModels
             }
         }
 
-
         private bool showRetryButton = true;
 
         public bool ShowRetryButton
@@ -145,14 +144,15 @@ namespace Btx.Mobile.ViewModels
             set { imageOpacity = value; OnPropertyChanged(); }
         }
 
-
-
         public ICommand UploadCommand { get; }
+
+        public ICommand TapCommand { get; }
 
         public ChatItemViewModel()
         {
             Date = DateTime.Now;
             UploadCommand = new Command(async()=> await Upload());
+            TapCommand = new Command(async () => await OnTabbed());
         }
 
         public ChatItemViewModel(ChatItemType itemType) : this()
@@ -185,6 +185,14 @@ namespace Btx.Mobile.ViewModels
             ShowRetryButton = false;
             ImageOpacity = 1;
             IsBusy = false;
+        }
+
+        private async Task OnTabbed()
+        {
+            if (IsBusy || ShowRetryButton)
+                return;
+
+            await PopupNavigation.Instance.PushAsync(new ImageModalPage(), true);
         }
     }
 }
