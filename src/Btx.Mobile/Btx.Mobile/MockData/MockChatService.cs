@@ -19,14 +19,21 @@ namespace Btx.Mobile.MockData
 
             for (int i = 0; i < max; i++)
             {
-                result.Add(new ChatItem()
+                var chatItem = new ChatItem()
                 {
                     From = LoremGenerator.GenerateText(1),
                     Body = LoremGenerator.GenerateText(LoremGenerator.Random.Next(2, 30), LoremGenerator.Random.Next(1, 4)),
                     Date = DateTime.Now.AddMinutes(LoremGenerator.Random.Next(-50, -3)),
                     ItemType = ChatItemType.Incoming,
                     Status = ChatItemStatus.Read
-                });
+                };
+
+                var percent = LoremGenerator.Random.NextDouble();
+
+                if (percent > 0.7)
+                    chatItem.ItemType = ChatItemType.Outgoing;
+
+                result.Add(chatItem);
             }
 
             return result;
