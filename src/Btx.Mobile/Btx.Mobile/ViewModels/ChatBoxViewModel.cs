@@ -78,11 +78,17 @@ namespace Btx.Mobile.ViewModels
             }
             else
             {
-                
-                var file = await  CrossFilePicker.Current.PickFile();
-                
+
+                //var file = await  CrossFilePicker.Current.PickFile();
+
+                var file = await CrossMedia.Current.PickPhotoAsync(new PickMediaOptions()
+                {
+                    CompressionQuality = 70
+                });
+
+
                 if (file != null)
-                    await PushModalAsync(new AttachmentPage(file.DataArray,file.FilePath, this));
+                    await PushModalAsync(new AttachmentPage(null,file.Path, this));
 
             }
 
