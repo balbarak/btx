@@ -2,13 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace Btx.Mobile.ViewModels
 {
-    public class AttachmentViewModel : BaseViewModel
+    public class SelectedImageViewModel : BaseViewModel
     {
         public ChatBoxViewModel ChatBox { get; set; }
 
@@ -18,16 +17,16 @@ namespace Btx.Mobile.ViewModels
 
         public ICommand CloseCommand { get; }
 
-        private string attachmentFilePath;
-        public string AttachmentFilePath
+        private string imageFilePath;
+        public string ImageFilePath
         {
-            get { return attachmentFilePath; }
-            set { attachmentFilePath = value; OnPropertyChanged(); }
+            get { return imageFilePath; }
+            set { imageFilePath = value; OnPropertyChanged(); }
         }
 
-        public AttachmentViewModel(byte[] fileData,string path,ChatBoxViewModel chatBox)
+        public SelectedImageViewModel(byte[] fileData, string path, ChatBoxViewModel chatBox)
         {
-            this.AttachmentFilePath = path;
+            this.ImageFilePath = path;
             this.ChatBox = chatBox;
             this.FileData = fileData;
 
@@ -39,15 +38,15 @@ namespace Btx.Mobile.ViewModels
         {
             PopModalAsync();
 
-            var chatMessage = new ChatItemViewModel(ChatItemType.OutgoingFile)
+            var chatMessage = new ImageItemViewModel(ChatItemType.OutgoingFile,ImageFilePath)
             {
                 Body = "ss",
-                LocalFilePath = AttachmentFilePath
+                LocalFilePath = ImageFilePath
             };
-           
+
             App.ChatManager.AddChatItem(ChatBox.Chat.Id, chatMessage);
-            
-            
+
+
         }
 
         public void Close()

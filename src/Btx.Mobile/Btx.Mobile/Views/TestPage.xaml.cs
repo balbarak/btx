@@ -20,7 +20,7 @@ namespace Btx.Mobile.Views
 
         private void OnClick(object sender,EventArgs args)
         {
-            Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(new ImageModalPage(), true);
+            //Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(new ImageModalPage(), true);
 
             //Rg.Plugins.Popup.Services.PopupNavigation.PushAsync(true);
         }

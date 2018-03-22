@@ -33,7 +33,7 @@ namespace Btx.Mobile.ViewModels
 
         public ICommand SendCommand { get; }
 
-        public ICommand SelectAttachmentCommand { get; }
+        public ICommand SelectImageCommand { get; }
 
         public ChatBoxViewModel(ChatViewModel chat)
         {
@@ -41,7 +41,7 @@ namespace Btx.Mobile.ViewModels
             this.Title = chat.Title;
 
             SendCommand = new Command(async () => { await Send(); });
-            SelectAttachmentCommand = new Command(async () => await SelectAttachment());
+            SelectImageCommand = new Command(async () => await SelectImage());
 
         }
         
@@ -62,7 +62,7 @@ namespace Btx.Mobile.ViewModels
             
         }
 
-        private async Task SelectAttachment()
+        private async Task SelectImage()
         {
             await CrossMedia.Current.Initialize();
 
@@ -78,21 +78,15 @@ namespace Btx.Mobile.ViewModels
             }
             else
             {
-
-                //var file = await  CrossFilePicker.Current.PickFile();
-
                 var file = await CrossMedia.Current.PickPhotoAsync(new PickMediaOptions()
                 {
                     CompressionQuality = 70
                 });
-
-
+                
                 if (file != null)
-                    await PushModalAsync(new AttachmentPage(null,file.Path, this));
+                    await PushModalAsync(new SelectedImagePage(null,file.Path, this));
 
             }
-
-
 
         }
 

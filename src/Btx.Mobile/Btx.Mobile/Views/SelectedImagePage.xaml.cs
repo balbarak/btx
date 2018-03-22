@@ -11,15 +11,15 @@ using Xamarin.Forms.Xaml;
 namespace Btx.Mobile.Views
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class AttachmentPage : ContentPage
+	public partial class SelectedImagePage : ContentPage
 	{
-        protected AttachmentViewModel ViewModel => BindingContext as AttachmentViewModel;
+        protected SelectedImageViewModel ViewModel => BindingContext as SelectedImageViewModel;
 
-        public AttachmentPage (byte[] data,string path,ChatBoxViewModel chatBox)
+        public SelectedImagePage (byte[] data,string path,ChatBoxViewModel chatBox)
 		{
 			InitializeComponent ();
 
-            this.BindingContext = new AttachmentViewModel(data,path, chatBox);
+            this.BindingContext = new SelectedImageViewModel(data, path, chatBox);
         }
 	}
 }

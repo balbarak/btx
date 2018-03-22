@@ -95,13 +95,6 @@ namespace Btx.Mobile.ViewModels
             set { isRead = value; OnPropertyChanged(); }
         }
 
-        private string localFilePath;
-        public string LocalFilePath
-        {
-            get { return localFilePath; }
-            set { localFilePath = value; OnPropertyChanged(); }
-        }
-        
         public Color LabelColor
         {
             get
@@ -123,46 +116,12 @@ namespace Btx.Mobile.ViewModels
                     return Color.White;
             }
         }
-
-        private bool showRetryButton = true;
-
-        public bool ShowRetryButton
-        {
-            get { return showRetryButton; }
-            set
-            {
-                showRetryButton = value;
-                OnPropertyChanged();
-            }
-        }
-
-        private double imageOpacity = 0.3;
-
-        public double ImageOpacity
-        {
-            get { return imageOpacity; }
-            set { imageOpacity = value; OnPropertyChanged(); }
-        }
-
-        public ICommand UploadCommand { get; }
-
-        public ICommand TapCommand { get; }
-
+        
         public ChatItemViewModel()
         {
             Date = DateTime.Now;
-            UploadCommand = new Command(async()=> await Upload());
-            TapCommand = new Command(async () => await OnTabbed());
         }
-
-        public ChatItemViewModel(ChatItemType itemType) : this()
-        {
-            ItemType = itemType;
-
-            if (itemType == ChatItemType.OutgoingFile)
-                Upload();
-        }
-
+        
         public ChatItemViewModel(ChatItem entity) : this()
         {
             this.Id = entity.Id;
@@ -173,26 +132,6 @@ namespace Btx.Mobile.ViewModels
             this.Status = entity.Status;
 
         }
-
-        private async Task Upload()
-        {
-            IsBusy = true;
-            ShowRetryButton = false;
-            ImageOpacity = 0.3;
-
-            await Task.Delay(3000);
-
-            ShowRetryButton = false;
-            ImageOpacity = 1;
-            IsBusy = false;
-        }
-
-        private async Task OnTabbed()
-        {
-            if (IsBusy || ShowRetryButton)
-                return;
-
-            await PopupNavigation.Instance.PushAsync(new ImageModalPage(), true);
-        }
+        
     }
 }

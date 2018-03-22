@@ -27,6 +27,8 @@ namespace Btx.Mobile.iOS
 
             CachedImageRenderer.Init();
 
+            Rg.Plugins.Popup.Popup.Init();
+
             LoadApplication(new App());
 
             return base.FinishedLaunching(app, options);

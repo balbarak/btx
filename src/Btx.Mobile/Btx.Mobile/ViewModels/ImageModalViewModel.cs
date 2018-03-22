@@ -12,11 +12,21 @@ namespace Btx.Mobile.ViewModels
     {
         public ICommand CloseCommand { get; set; }
 
-        public ImageModalViewModel()
+        private string imageFilePath;
+
+        public string ImageFilePath
+        {
+            get { return imageFilePath; }
+            set { imageFilePath = value; OnPropertyChanged(); }
+        }
+        
+        public ImageModalViewModel(string path)
         {
             CloseCommand = new Command(async ()=> await Close());
-        }
 
+            ImageFilePath = path;
+        }
+        
         private async Task Close()
         {
             await PopupNavigation.Instance.PopAsync(true);

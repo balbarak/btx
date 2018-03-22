@@ -14,11 +14,12 @@ namespace Btx.Mobile.Views.Modals
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class ImageModalPage : PopupPage
 	{
-		public ImageModalPage ()
+		public ImageModalPage(string path)
 		{
 			InitializeComponent ();
 
-            BindingContext = new ImageModalViewModel();
+            BindingContext = new ImageModalViewModel(path);
 		}
+        
 	}
 }

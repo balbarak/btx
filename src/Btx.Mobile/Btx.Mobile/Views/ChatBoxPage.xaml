@@ -86,7 +86,7 @@
                                 <Button 
                                     Text="&#xf10d;" 
                                     FontFamily="{StaticResource IconFont}"
-                                    Command="{Binding SelectAttachmentCommand}"
+                                    Command="{Binding SelectImageCommand}"
                                     Grid.Column="1"
                                     BackgroundColor="Transparent"
                                     FontSize="Large"
@@ -138,7 +138,7 @@
                         <Button 
                             Text="&#xf10d;" 
                             FontFamily="{StaticResource IconFont}"
-                            Command="{Binding SelectAttachmentCommand}"
+                            Command="{Binding SelectImageCommand}"
                             BackgroundColor="Transparent"
                             WidthRequest="35"
                             FontSize="Large"
