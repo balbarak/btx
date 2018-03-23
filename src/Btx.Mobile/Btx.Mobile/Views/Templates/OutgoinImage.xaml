@@ -31,7 +31,7 @@
                 <Image 
                     HeightRequest="150"
                     WidthRequest="200"
-                    Aspect="AspectFill"
+                    Aspect="Fill"
                     Grid.Row="0"
                     VerticalOptions="CenterAndExpand"
                     HorizontalOptions="CenterAndExpand"
