@@ -1,5 +1,4 @@
-﻿using Btx.Mobile.ViewModels;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,13 +10,11 @@ using Xamarin.Forms.Xaml;
 namespace Btx.Mobile.Views
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class OutgoingFile : ViewCell
+	public partial class IncomingImage : ViewCell
 	{
-		public OutgoingFile ()
+		public IncomingImage ()
 		{
 			InitializeComponent ();
-
-            this.BindingContext = new OutgoingFileViewModel();
 		}
 	}
 }

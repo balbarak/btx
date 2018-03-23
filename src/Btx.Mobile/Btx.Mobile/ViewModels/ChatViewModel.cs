@@ -93,7 +93,10 @@ namespace Btx.Mobile.ViewModels
             {
                 foreach (var item in entity.Items)
                 {
-                    Items.Add(new ChatItemViewModel(item));
+                    if (item.ItemType == ChatItemType.IncomingImage)
+                        Items.Add(new ImageItemViewModel(item));
+                    else
+                        Items.Add(new ChatItemViewModel(item));
                 }
             }
         }

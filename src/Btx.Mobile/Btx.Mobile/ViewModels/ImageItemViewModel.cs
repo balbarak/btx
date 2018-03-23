@@ -3,6 +3,7 @@ using Btx.Mobile.Views.Modals;
 using Rg.Plugins.Popup.Services;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -12,8 +13,20 @@ namespace Btx.Mobile.ViewModels
 {
     public class ImageItemViewModel : ChatItemViewModel
     {
-        private bool showRetryButton = true;
 
+        public ImageSource Source
+        {
+            get
+            {
+                if (ImageBytes != null)
+                    return ImageSource.FromStream(() => new MemoryStream(ImageBytes));
+
+                return null;
+            }
+        }
+
+
+        private bool showRetryButton = true;
         public bool ShowRetryButton
         {
             get { return showRetryButton; }
@@ -25,7 +38,6 @@ namespace Btx.Mobile.ViewModels
         }
 
         private double imageOpacity = 0.3;
-
         public double ImageOpacity
         {
             get { return imageOpacity; }
@@ -38,8 +50,7 @@ namespace Btx.Mobile.ViewModels
             get { return localFilePath; }
             set { localFilePath = value; OnPropertyChanged(); }
         }
-
-
+        
         public ICommand UploadCommand { get; }
 
         public ICommand TapCommand { get; }
@@ -50,14 +61,24 @@ namespace Btx.Mobile.ViewModels
             TapCommand = new Command(async () => await OnTabbed());
         }
 
+        public ImageItemViewModel(ChatItem item) : base(item) 
+        {
+            UploadCommand = new Command(async () => await Upload());
+            TapCommand = new Command(async () => await OnTabbed());
+
+            ShowRetryButton = false;
+            ImageOpacity = 1;
+        }
+
         public ImageItemViewModel(ChatItemType itemType,string filePath) : this()
         {
             ItemType = itemType;
             LocalFilePath = filePath;
 
-            if (itemType == ChatItemType.OutgoingFile)
+            if (itemType == ChatItemType.OutgoingImage)
                 Upload();
         }
+        
 
         private async Task Upload()
         {

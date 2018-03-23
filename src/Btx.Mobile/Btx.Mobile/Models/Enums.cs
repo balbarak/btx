@@ -17,6 +17,7 @@ namespace Btx.Mobile.Models
         Incoming = 0,
         Outgoing = 1,
         Info = 2,
-        OutgoingFile = 3,
+        OutgoingImage = 3,
+        IncomingImage = 4
     }
 }

@@ -38,7 +38,7 @@ namespace Btx.Mobile.ViewModels
         {
             PopModalAsync();
 
-            var chatMessage = new ImageItemViewModel(ChatItemType.OutgoingFile,ImageFilePath)
+            var chatMessage = new ImageItemViewModel(ChatItemType.OutgoingImage,ImageFilePath)
             {
                 Body = "ss",
                 LocalFilePath = ImageFilePath

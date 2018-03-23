@@ -14,13 +14,17 @@ namespace Btx.Mobile.Helpers
         private readonly DataTemplate outgoingDataTemplate;
         private readonly DataTemplate infoDataTemplate;
         private readonly DataTemplate outgoinrFileTemplate;
+        private readonly DataTemplate incomingImageTemplate;
+
 
         public ChatItemTemplateSelector()
         {
             this.incomingDataTemplate = new DataTemplate(typeof(IncomingChatItem));
             this.outgoingDataTemplate = new DataTemplate(typeof(OutgoingChatItem));
-            this.outgoinrFileTemplate = new DataTemplate(typeof(OutgoingFile));
-            
+            this.outgoinrFileTemplate = new DataTemplate(typeof(OutgoinImage));
+            this.incomingImageTemplate = new DataTemplate(typeof(IncomingImage));
+
+
         }
 
         protected override DataTemplate OnSelectTemplate(object item, BindableObject container)
@@ -44,9 +48,14 @@ namespace Btx.Mobile.Helpers
 
                     return infoDataTemplate;
 
-                case ChatItemType.OutgoingFile:
+                case ChatItemType.OutgoingImage:
                     
                     return outgoinrFileTemplate;
+
+                case ChatItemType.IncomingImage:
+
+                    return incomingImageTemplate;
+
                 default:
                     return null;
             }

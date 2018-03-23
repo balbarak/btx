@@ -7,15 +7,18 @@
   <ItemGroup>
     <None Remove="Images\chat-bg.jpg" />
     <None Remove="Images\user.png" />
+    <None Remove="MockData\samples.json" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="Images\chat-bg.jpg" />
     <EmbeddedResource Include="Images\user.png" />
+    <EmbeddedResource Include="MockData\samples.json" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="LiveXAML" Version="2.1.22" />
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.1" />
     <PackageReference Include="Refractored.MvvmHelpers" Version="1.3.0" />
     <PackageReference Include="Rg.Plugins.Popup" Version="1.1.4.145-pre" />
     <PackageReference Include="Xam.Plugin.Media" Version="3.1.3" />
@@ -53,10 +56,13 @@
     <EmbeddedResource Update="Views\Templates\IncomingChatItem.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="Views\Templates\IncomingImage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Views\Templates\OutgoingChatItem.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\Templates\OutgoingFile.xaml">
+    <EmbeddedResource Update="Views\Templates\OutgoinImage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\TestPage.xaml">

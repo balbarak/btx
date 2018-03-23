@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+    
+<ViewCell xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Btx.Mobile.Views.IncomingImage">
+    
+    <Grid ColumnSpacing="1" 
+          Padding="5">
+
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="40"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <Frame 
+            CornerRadius="5" 
+            Padding="5" 
+            Grid.Column="0"
+            Margin="5,0,0,0"
+            HorizontalOptions="Start">
+
+            <Frame.HasShadow>
+                <OnPlatform x:TypeArguments="x:Boolean" iOS="false" Android="true"/>
+            </Frame.HasShadow>
+            <Frame.BackgroundColor>
+                <OnPlatform x:TypeArguments="Color" iOS="White" Android="White"/>
+            </Frame.BackgroundColor>
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                
+                <Label TextColor="Red"  
+                       Grid.Row="0"
+                       Text="{Binding From}"
+                       HorizontalTextAlignment="Start"/>
+
+                
+                <Image 
+                    HeightRequest="150"
+                    WidthRequest="200"
+                    Aspect="AspectFit"
+                    Grid.Row="1"
+                    VerticalOptions="CenterAndExpand"
+                    HorizontalOptions="CenterAndExpand"
+                    Opacity="{Binding ImageOpacity}"
+                    Source="{Binding Source}">
+
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding TapCommand}" />
+                    </Image.GestureRecognizers>
+                </Image>
+
+                <Frame 
+                    BackgroundColor="Black"
+                    Opacity="0.5"
+                    Padding="5"
+                    Margin="5"
+                    Grid.Row="1"
+                    CornerRadius="5"
+                    VerticalOptions="End"
+                    HorizontalOptions="End">
+
+                    <StackLayout 
+                        Padding="0"
+                        Orientation="Horizontal"
+                        HorizontalOptions="End">
+                        <Label 
+                            Grid.Row="1" 
+                            FontSize="Micro" 
+                            Grid.Column="0" 
+                            VerticalOptions="End"
+                            HorizontalOptions="Start"
+                            HorizontalTextAlignment="Start"  
+                            Text="{Binding Date, StringFormat='{0:hh:mm tt}'}" 
+                            TextColor="White"/>
+
+                    </StackLayout>
+                </Frame>
+
+                <Button 
+                    Text="Retry"
+                    IsVisible="{Binding ShowRetryButton}"
+                    Opacity="0.5"
+                    BackgroundColor="Black"
+                    VerticalOptions="Center"
+                    TextColor="White"
+                    Command="{Binding UploadCommand}"/>
+
+                <ActivityIndicator 
+                    IsVisible="{Binding IsBusy}"
+                    IsRunning="{Binding IsBusy}"
+                    Color="{StaticResource Primary}"
+                    VerticalOptions="CenterAndExpand"
+                    HorizontalOptions="CenterAndExpand" />
+            </Grid>
+
+        </Frame>
+
+    </Grid>
+
+</ViewCell>

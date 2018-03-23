@@ -95,6 +95,15 @@ namespace Btx.Mobile.ViewModels
             set { isRead = value; OnPropertyChanged(); }
         }
 
+        private byte[] imageBytes;
+
+        public byte[] ImageBytes
+        {
+            get { return imageBytes; }
+            set { imageBytes = value; OnPropertyChanged(); }
+        }
+
+
         public Color LabelColor
         {
             get
@@ -130,6 +139,7 @@ namespace Btx.Mobile.ViewModels
             this.From = entity.From;
             this.ItemType = entity.ItemType;
             this.Status = entity.Status;
+            this.ImageBytes = entity.ImageBytes;
 
         }
         

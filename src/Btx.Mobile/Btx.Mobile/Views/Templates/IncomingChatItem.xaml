@@ -24,7 +24,7 @@
             <RowDefinition Height="0"></RowDefinition>
         </Grid.RowDefinitions>
 
-        <controls:MaterialFrame Grid.Row="0" 
+        <Frame Grid.Row="0" 
                Padding="10,5,10,5"  
                Margin="10,0,0,0"
                Grid.Column="0" 
@@ -56,7 +56,7 @@
 
                 </Label>
             </StackLayout>
-        </controls:MaterialFrame>
+        </Frame>
 
 
 

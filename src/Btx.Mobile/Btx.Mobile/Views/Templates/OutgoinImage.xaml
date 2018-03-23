@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ViewCell xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Btx.Mobile.Views.OutgoingFile">
+             x:Class="Btx.Mobile.Views.OutgoinImage">
 
     <Grid ColumnSpacing="1" 
           Padding="5">
@@ -11,7 +11,7 @@
             <ColumnDefinition Width="40"></ColumnDefinition>
             <ColumnDefinition Width="*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        
+
         <Frame 
             CornerRadius="5" 
             Padding="5" 
@@ -19,7 +19,7 @@
             Margin="0,0,5,0"
             HorizontalOptions="End"  
             BackgroundColor="#DCF8C6">
-            
+
             <Frame.HasShadow>
                 <OnPlatform x:TypeArguments="x:Boolean" iOS="false" Android="true"/>
             </Frame.HasShadow>
@@ -37,7 +37,7 @@
                     HorizontalOptions="CenterAndExpand"
                     Opacity="{Binding ImageOpacity}"
                     Source="{Binding LocalFilePath}">
-                    
+
                     <Image.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding TapCommand}" />
                     </Image.GestureRecognizers>
@@ -95,11 +95,10 @@
             </Grid>
 
 
-               
-                
+
+
         </Frame>
 
     </Grid>
-
 
 </ViewCell>

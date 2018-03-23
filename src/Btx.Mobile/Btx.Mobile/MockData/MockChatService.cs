@@ -6,6 +6,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Linq;
 using System.Threading;
+using System.Reflection;
+using System.IO;
+using Newtonsoft.Json;
+using System.Text.RegularExpressions;
 
 namespace Btx.Mobile.MockData
 {
@@ -33,7 +37,37 @@ namespace Btx.Mobile.MockData
                 if (percent > 0.7)
                     chatItem.ItemType = ChatItemType.Outgoing;
 
+                if (percent > 0.4)
+                {
+                    chatItem.ItemType = ChatItemType.IncomingImage;
+                    chatItem.ImageBytes = GetRandomImage();
+                }
+
+
                 result.Add(chatItem);
+            }
+
+            
+
+            return result;
+        }
+
+        public static byte[] GetRandomImage()
+        {
+            byte[] result;
+
+            var assembly = IntrospectionExtensions.GetTypeInfo(typeof(MockData.LoremGenerator)).Assembly;
+            Stream stream = assembly.GetManifestResourceStream("Btx.Mobile.MockData.samples.json");
+            using (StreamReader sr = new StreamReader(stream))
+            {
+                var json = sr.ReadToEnd();
+
+                var data = JsonConvert.DeserializeObject<List<ImageModel>>(json);
+
+                string type = "";
+
+                result = FromBase64(data[0].Data, out type);
+
             }
 
             return result;
@@ -59,7 +93,7 @@ namespace Btx.Mobile.MockData
             return result;
 
         }
-        
+
         public static List<Chat> GetChats(int max)
         {
             List<Chat> result = new List<Chat>();
@@ -101,7 +135,7 @@ namespace Btx.Mobile.MockData
 
             return result;
         }
-        
+
         public static async Task StartSimulate()
         {
             for (int i = 0; i < 100; i++)
@@ -153,5 +187,26 @@ namespace Btx.Mobile.MockData
                 App.ChatManager.AddChatItem(chatId, chat);
             }
         }
+
+
+        public static byte[] FromBase64(string data, out string type)
+        {
+            byte[] result = null;
+            try
+            {
+                var base64Data = Regex.Match(data, @"data:image/(?<type>.+?),(?<data>.+)").Groups["data"].Value;
+                type = Regex.Match(data, @"data:image/(?<type>.+?),(?<data>.+)").Groups["type"].Value.Replace(";base64", "");
+                result = Convert.FromBase64String(base64Data);
+
+                type = type.Insert(0, "image/");
+            }
+            catch (Exception)
+            {
+                type = "";
+            }
+
+            return result;
+        }
+
     }
 }

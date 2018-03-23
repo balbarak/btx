@@ -18,6 +18,8 @@ namespace Btx.Mobile.Models
 
         public string Body { get; set; }
 
+        public byte[] ImageBytes { get; set; }
+
         public DateTimeOffset Date { get; set; }
         
         public ChatItem()
