@@ -98,7 +98,7 @@ namespace Btx.Mobile.ViewModels
             if (IsBusy || ShowRetryButton)
                 return;
 
-            await PopupNavigation.Instance.PushAsync(new ImageModalPage(LocalFilePath), true);
+            await PopupNavigation.Instance.PushAsync(new ImageModalPage(LocalFilePath,ImageBytes), true);
         }
     }
 }

@@ -20,15 +20,11 @@ namespace Btx.Mobile.Services
 
         public BtxChatManager()
         {
+
             Users.AddRange(MockChatService.GetUsers());
-
-            var chats = MockChatService.GetChats(4);
-
-            foreach (var item in chats)
-            {
-                ChatViewModels.Add(new ChatViewModel(item));
-            }
             
+            AddSampleChats();
+
             //MockChatService.StartSimulateChat(ChatViewModels.First().Id);
 
         }
@@ -82,6 +78,19 @@ namespace Btx.Mobile.Services
                 ChatViewModels.Move(oldIndex, newIndex);
             }
             
+        }
+
+        private async Task AddSampleChats()
+        {
+
+            var chats = MockChatService.GetChats(50);
+
+            foreach (var item in chats)
+            {
+                ChatViewModels.Add(new ChatViewModel(item));
+            }
+
+
         }
     }
 }

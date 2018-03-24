@@ -19,7 +19,7 @@ namespace Btx.Mobile.MockData
         {
             List<ChatItem> result = new List<ChatItem>();
 
-            int max = LoremGenerator.Random.Next(2, 100);
+            int max = LoremGenerator.Random.Next(2, 1200);
 
             for (int i = 0; i < max; i++)
             {
@@ -40,7 +40,7 @@ namespace Btx.Mobile.MockData
                 if (percent > 0.4)
                 {
                     chatItem.ItemType = ChatItemType.IncomingImage;
-                    chatItem.ImageBytes = GetRandomImage();
+                    //chatItem.ImageBytes = GetRandomImage();
                 }
 
 
@@ -64,9 +64,9 @@ namespace Btx.Mobile.MockData
 
                 var data = JsonConvert.DeserializeObject<List<ImageModel>>(json);
 
-                string type = "";
+                int random = LoremGenerator.Random.Next(0, 1);
 
-                result = FromBase64(data[0].Data, out type);
+                result = FromBase64(data[random].Data, out string type);
 
             }
 

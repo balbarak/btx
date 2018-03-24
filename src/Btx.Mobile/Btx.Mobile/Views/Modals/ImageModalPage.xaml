@@ -39,7 +39,7 @@
 
         <ScrollView Grid.Row="1">
             <Image 
-            Source="{Binding ImageFilePath}"/>
+            Source="{Binding Source}"/>
 
         </ScrollView>
 

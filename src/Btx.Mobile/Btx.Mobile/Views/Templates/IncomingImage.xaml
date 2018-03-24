@@ -40,9 +40,8 @@
 
                 
                 <Image 
-                    HeightRequest="150"
-                    WidthRequest="200"
-                    Aspect="AspectFit"
+                    MinimumWidthRequest="200"
+                    Aspect="AspectFill"
                     Grid.Row="1"
                     VerticalOptions="CenterAndExpand"
                     HorizontalOptions="CenterAndExpand"
