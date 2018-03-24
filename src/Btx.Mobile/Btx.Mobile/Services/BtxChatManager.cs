@@ -83,7 +83,7 @@ namespace Btx.Mobile.Services
         private async Task AddSampleChats()
         {
 
-            var chats = MockChatService.GetChats(50);
+            var chats = MockChatService.GetChats(4);
 
             foreach (var item in chats)
             {

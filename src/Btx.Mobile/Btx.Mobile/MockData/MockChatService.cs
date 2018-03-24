@@ -40,7 +40,7 @@ namespace Btx.Mobile.MockData
                 if (percent > 0.4)
                 {
                     chatItem.ItemType = ChatItemType.IncomingImage;
-                    //chatItem.ImageBytes = GetRandomImage();
+                    chatItem.ImageBytes = GetRandomImage();
                 }
 
 
@@ -64,7 +64,7 @@ namespace Btx.Mobile.MockData
 
                 var data = JsonConvert.DeserializeObject<List<ImageModel>>(json);
 
-                int random = LoremGenerator.Random.Next(0, 1);
+                int random = LoremGenerator.Random.Next(0, 2);
 
                 result = FromBase64(data[random].Data, out string type);
 
