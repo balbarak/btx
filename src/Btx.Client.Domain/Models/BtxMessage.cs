@@ -12,6 +12,10 @@ namespace Btx.Client.Domain.Models
 
         public string ToUserId { get; set; }
 
+        public string ThreadId { get; set; }
+
+        public BtxThread Thread { get; set; }
+
         public string Body { get; set; }
 
         public BtxMessageStatus Status { get; set; }
@@ -24,5 +28,6 @@ namespace Btx.Client.Domain.Models
             Status = BtxMessageStatus.Pending;
         }
         
+
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using Btx.Client.Application.Persistance;
 using Btx.Mobile.Services;
 using Btx.Mobile.Views;
 using Xamarin.Forms;
@@ -39,6 +40,8 @@ namespace Btx.Mobile
                 
             }
 
+
+            BtxDbContext.InitDatabase();
 
             //MainPage = new MainPage();
             

@@ -7,6 +7,8 @@ namespace Btx.Mobile.Wrappers
 {
     public class BtxMessageWrapper : WrapperBase<BtxMessage>
     {
+
+
         public BtxMessageWrapper(BtxMessage model) : base(model)
         {
 
