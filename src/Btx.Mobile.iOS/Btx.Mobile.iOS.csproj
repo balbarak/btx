@@ -185,6 +185,10 @@
     <BundleResource Include="Resources\chat-bg.jpg" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Btx.Client.Domain\Btx.Client.Domain.csproj">
+      <Project>{99e598ec-e0b6-4d35-99df-b046a257d823}</Project>
+      <Name>Btx.Client.Domain</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Btx.Mobile\Btx.Mobile.csproj">
       <Project>{a7052c4c-eb83-404e-b7f4-bb9495e9d3f0}</Project>
       <Name>Btx.Mobile</Name>

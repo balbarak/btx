@@ -71,8 +71,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Wrappers\" />
     <Folder Include="Views\Headers\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Btx.Client.Domain\Btx.Client.Domain.csproj" />
   </ItemGroup>
 
 </Project>

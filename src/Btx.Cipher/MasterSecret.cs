@@ -18,12 +18,12 @@ namespace Btx.Cipher
 
             if (PrivateKey == null || PrivateKey.Length == 0)
             {
-                AssignNewKey();
+                AssignNewKeys();
                 Save();
             }
         }
 
-        public void AssignNewKey()
+        public void AssignNewKeys()
         {
             using (var rsa = new RSACryptoServiceProvider(CipherConfig.RSA_KEY_SIZE))
             {
