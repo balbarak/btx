@@ -114,7 +114,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Btx.Mobile\Btx.Mobile.csproj">
-      <Project>{4a6a9eac-a7d8-4934-ab2e-54a656a27221}</Project>
+      <Project>{a7052c4c-eb83-404e-b7f4-bb9495e9d3f0}</Project>
       <Name>Btx.Mobile</Name>
     </ProjectReference>
   </ItemGroup>
