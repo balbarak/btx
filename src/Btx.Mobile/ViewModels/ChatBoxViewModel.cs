@@ -1,4 +1,5 @@
-﻿using Btx.Mobile.MockData;
+﻿using Btx.Client.Application.Services;
+using Btx.Mobile.MockData;
 using Btx.Mobile.Models;
 using Btx.Mobile.Views;
 using MvvmHelpers;
@@ -59,6 +60,7 @@ namespace Btx.Mobile.ViewModels
             App.ChatManager.AddChatItem(Chat.Id, chatMessage);
 
             MessageToSend = "";
+            
             
         }
 

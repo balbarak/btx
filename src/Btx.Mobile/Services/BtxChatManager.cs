@@ -23,7 +23,7 @@ namespace Btx.Mobile.Services
 
             Users.AddRange(MockChatService.GetUsers());
             
-            AddSampleChats();
+            //AddSampleChats();
 
             //MockChatService.StartSimulateChat(ChatViewModels.First().Id);
 

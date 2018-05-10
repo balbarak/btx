@@ -5,6 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Persistance\**" />
+    <EmbeddedResource Remove="Persistance\**" />
+    <None Remove="Persistance\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Images\chat-bg.jpg" />
     <None Remove="Images\user.png" />
     <None Remove="MockData\samples.json" />
@@ -73,7 +79,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Persistance\" />
     <Folder Include="Views\Headers\" />
   </ItemGroup>
 
