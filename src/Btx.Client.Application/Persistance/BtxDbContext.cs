@@ -15,6 +15,8 @@ namespace Btx.Client.Application.Persistance
 
         public DbSet<BtxUser> BtxUsers { get; set; }
 
+        public DbSet<BtxThread> BtxThreads { get; set; }
+        
         public BtxDbContext()
         {
             _databaseFilePath = BtxSetting.DATABASE_FULL_FILE_PATH;
@@ -27,6 +29,16 @@ namespace Btx.Client.Application.Persistance
             optionsBuilder.UseSqlite($"Filename={_databaseFilePath}");
         }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+
+            modelBuilder.Entity<BtxThread>()
+                .HasKey(a => a.Id);
+
+            base.OnModelCreating(modelBuilder);
+            
+        }
+
         public static void InitDatabase()
         {
             var context = new BtxDbContext();
@@ -35,7 +47,7 @@ namespace Btx.Client.Application.Persistance
             {
                 Directory.CreateDirectory(BtxSetting.DATA_FOLDER_PATH);
             }
-
+            
             context.Database.EnsureCreated();
             context.Database.Migrate();
         }

@@ -55,24 +55,23 @@ namespace Btx.Mobile.ViewModels
             _Navigation?.InsertPageBefore(page, before);
         }
 
-        public async Task PushAsync(Page page)
+        public Task PushAsync(Page page)
         {
             var task = _Navigation?.PushAsync(page);
-            if (task != null)
-                await task;
+            return task;
         }
 
-        public async Task<Page> PopAsync()
+        public Task<Page> PopAsync()
         {
             var task = _Navigation?.PopAsync();
-            return task != null ? await task : await Task.FromResult(null as Page);
+            return task;
         }
 
-        public async Task PopToRootAsync()
+        public Task PopToRootAsync()
         {
             var task = _Navigation?.PopToRootAsync();
-            if (task != null)
-                await task;
+
+            return task;
         }
 
         public async Task PushModalAsync(Page page)

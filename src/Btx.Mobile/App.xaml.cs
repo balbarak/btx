@@ -23,11 +23,8 @@ namespace Btx.Mobile
 		{
 			InitializeComponent();
 
-
-            //MainPage = GetNavigationPage(new ChatBoxPage());
-
-            //MainPage = new TestPage();
-
+            BtxDbContext.InitDatabase();
+            
             MainPage = new MasterDetailPage()
             {
                 Master = new MenuPage(),
@@ -39,14 +36,7 @@ namespace Btx.Mobile
                 MainPage.Padding = new Thickness(0, 40, 0, 0);
                 
             }
-
-
-            BtxDbContext.InitDatabase();
-
-            //MainPage = new MainPage();
             
-            //MainPage = new AttachmentPage("/storage/emulated/0/Android/data/com.companyname.Btx.Mobile/files/Pictures/temp/IMG_20180304_024511_8.jpg");
-
         }
 
         public NavigationPage GetNavigationPage(Page page)

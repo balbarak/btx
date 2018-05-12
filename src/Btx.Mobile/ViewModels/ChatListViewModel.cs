@@ -1,4 +1,5 @@
-﻿using Btx.Client.Domain.Models;
+﻿using Btx.Client.Application.Services;
+using Btx.Client.Domain.Models;
 using Btx.Mobile.MockData;
 using Btx.Mobile.Models;
 using Btx.Mobile.Views;
@@ -24,13 +25,14 @@ namespace Btx.Mobile.ViewModels
             get { return _selectedItem; }
             set { _selectedItem = value; OnPropertyChanged();}
         }
-
-
+        
         public ChatListViewModel()
         {
             Title = "BTX Chat";
+            
+            LoadChats();
 
-            AddTestItem();
+            //AddTestItem();
             
         }
 
@@ -39,20 +41,21 @@ namespace Btx.Mobile.ViewModels
             Title = title;
         }
 
-        public async Task GoToChatBox(ChatViewModel item)
+        public Task GoToChatBox()
         {
-            await PushAsync(new ChatBoxPage(item));
+            return PushAsync(new ChatBoxPage());
         }
-
-
-        private void AddTestItem()
+        
+        public void LoadChats()
         {
-            var thread = new BtxThread()
+            var chats = BtxThreadService.Instance.GetAll();
+
+            foreach (var item in chats)
             {
-                Title = "Welcome",
-            };
-
-            Chats.Add(new BtxThreadWrapper(thread));
+                BtxThreadWrapper wrapper = new BtxThreadWrapper(item);
+                Chats.Add(wrapper);
+            }
         }
+        
     }
 }

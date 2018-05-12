@@ -9,6 +9,7 @@ using Btx.Mobile.MockData;
 using System.Threading;
 using System.Diagnostics;
 using Btx.Mobile.ViewModels;
+using Btx.Client.Application.Services;
 
 namespace Btx.Mobile.Services
 {
@@ -20,8 +21,9 @@ namespace Btx.Mobile.Services
 
         public BtxChatManager()
         {
+            //AddRandomThreads();
 
-            Users.AddRange(MockChatService.GetUsers());
+            //Users.AddRange(MockChatService.GetUsers());
             
             //AddSampleChats();
 
@@ -89,8 +91,16 @@ namespace Btx.Mobile.Services
             {
                 ChatViewModels.Add(new ChatViewModel(item));
             }
+        }
 
+        private void AddRandomThreads()
+        {
+            var threads = MockChatService.GetRandomThreads(4);
 
+            foreach (var item in threads)
+            {
+                BtxThreadService.Instance.AddOrUpdate(item);
+            }
         }
     }
 }

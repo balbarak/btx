@@ -61,7 +61,7 @@ namespace Btx.Mobile.ViewModels
 
             var chat = await App.ChatManager.AddChat(item);
 
-            PushAsync(new ChatBoxPage(chat));
+            //PushAsync(new ChatBoxPage());
 
             await PopModalAsync();
 

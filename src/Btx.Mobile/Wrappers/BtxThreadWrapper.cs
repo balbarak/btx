@@ -26,7 +26,31 @@ namespace Btx.Mobile.Wrappers
                 SetValue(value);
             }
         }
-        
+
+        private string _lastMessage;
+
+        public string LastMessage
+        {
+            get { return _lastMessage; }
+            set { _lastMessage = value; OnPropertyChanged(); }
+        }
+
+        private bool _hasUnreadMessages;
+
+        public bool HasUnreadMessages
+        {
+            get { return _hasUnreadMessages; }
+            set { _hasUnreadMessages = value; OnPropertyChanged(); }
+        }
+
+        private int _unReadMessageCount;
+
+        public int UnreadMessageCount
+        {
+            get { return _unReadMessageCount; }
+            set { _unReadMessageCount = value; OnPropertyChanged();}
+        }
+
 
         public BtxThreadWrapper(BtxThread model) : base(model)
         {

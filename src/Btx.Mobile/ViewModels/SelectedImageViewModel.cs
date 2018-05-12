@@ -44,7 +44,7 @@ namespace Btx.Mobile.ViewModels
                 LocalFilePath = ImageFilePath
             };
 
-            App.ChatManager.AddChatItem(ChatBox.Chat.Id, chatMessage);
+            App.ChatManager.AddChatItem(ChatBox.BtxThread.Id, chatMessage);
 
 
         }

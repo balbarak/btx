@@ -43,7 +43,7 @@
 
             <Frame CornerRadius="10"  
                    HorizontalOptions="Center"
-                   IsVisible="{Binding HasUnreadMessage}"
+                   IsVisible="{Binding HasUnreadMessages}"
                    BackgroundColor="{StaticResource Primary}"
                    Padding="5">
                 <Frame.HasShadow>

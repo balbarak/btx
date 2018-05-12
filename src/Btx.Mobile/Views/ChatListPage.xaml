@@ -22,7 +22,7 @@
                 CachingStrategy="RecycleElement" 
                 RowHeight="80" 
                 HasUnevenRows="false"
-                ItemSelected="OnSelected"
+                SelectedItem="{Binding SelectedItem}"
                 ItemTapped="OnTabbed"
                 IsVisible="{Binding IsNotBusy}"
                 IsPullToRefreshEnabled="false" >
@@ -32,6 +32,7 @@
                         <templates:ChatListItemTemplate />
                     </DataTemplate>
                 </ListView.ItemTemplate>
+                
             </ListView>
         </Grid>
 

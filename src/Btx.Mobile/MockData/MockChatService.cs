@@ -10,6 +10,7 @@ using System.Reflection;
 using System.IO;
 using Newtonsoft.Json;
 using System.Text.RegularExpressions;
+using Btx.Client.Domain.Models;
 
 namespace Btx.Mobile.MockData
 {
@@ -107,6 +108,25 @@ namespace Btx.Mobile.MockData
                 };
 
                 chat.Items.AddRange(GetChatItem());
+
+                result.Add(chat);
+            }
+
+            return result;
+
+        }
+
+        public static List<BtxThread> GetRandomThreads(int max)
+        {
+            List<BtxThread> result = new List<BtxThread>();
+
+            for (int i = 0; i < max; i++)
+            {
+                var chat = new BtxThread()
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Title = LoremGenerator.GenerateText(3, 1)
+                };
 
                 result.Add(chat);
             }
