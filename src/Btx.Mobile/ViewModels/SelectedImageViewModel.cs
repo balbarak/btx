@@ -38,13 +38,13 @@ namespace Btx.Mobile.ViewModels
         {
             PopModalAsync();
 
-            var chatMessage = new ImageItemViewModel(ChatItemType.OutgoingImage,ImageFilePath)
-            {
-                Body = "ss",
-                LocalFilePath = ImageFilePath
-            };
+            //var chatMessage = new ImageItemViewModel(ChatItemType.OutgoingImage,ImageFilePath)
+            //{
+            //    Body = "ss",
+            //    LocalFilePath = ImageFilePath
+            //};
 
-            App.ChatManager.AddChatItem(ChatBox.BtxThread.Id, chatMessage);
+            //App.ChatManager.AddChatItem(ChatBox.BtxThread.Id, chatMessage);
 
 
         }

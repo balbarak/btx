@@ -17,8 +17,6 @@ namespace Btx.Mobile.Services
 {
     public class BtxChatManager
     {
-        public ObservableRangeCollection<ChatViewModel> ChatViewModels { get; set; } = new ObservableRangeCollection<ChatViewModel>();
-
         public ObservableRangeCollection<User> Users { get; set; } = new ObservableRangeCollection<User>();
 
         public ObservableRangeCollection<BtxThreadWrapper> BtxThreads { get; private set; } = new ObservableRangeCollection<BtxThreadWrapper>();
@@ -36,69 +34,21 @@ namespace Btx.Mobile.Services
             //MockChatService.StartSimulateChat(ChatViewModels.First().Id);
 
         }
-
-        public async Task<ChatViewModel> AddChat(Chat chat)
-        {
-            var found = ChatViewModels.Where(a => a.Id == chat.Id).FirstOrDefault();
-
-            if (found == null)
-            {
-                found = new ChatViewModel(chat);
-
-                ChatViewModels.Insert(0,(found));
-            }
-            
-            
-            return found;
-        }
         
-        public ChatItem AddChatItem(string chatId,ChatItem item)
-        {
-            var chat = ChatViewModels.Where(a => a.Id == chatId).FirstOrDefault();
-            
-            chat.Items.Add(new ChatItemViewModel(item));
-
-            SortChats();
-            
-            return item;
-        }
-
-        public ChatItemViewModel AddChatItem(string chatId, ChatItemViewModel item)
-        {
-            var chat = ChatViewModels.Where(a => a.Id == chatId).FirstOrDefault();
-
-            chat.Items.Add(item);
-
-            SortChats();
-
-            return item;
-        }
-
         private async Task SortChats()
         {
-            var sortedItems = ChatViewModels.OrderByDescending(a => a.LastChatItem.Date).ToList();
+            var sortedItems = BtxThreads.OrderByDescending(a => a.LastMessageDate).ToList();
             
             foreach (var item in sortedItems)
             {
                 var newIndex = sortedItems.IndexOf(item);
-                var oldIndex = ChatViewModels.IndexOf(item);
+                var oldIndex = BtxThreads.IndexOf(item);
 
-                ChatViewModels.Move(oldIndex, newIndex);
+                BtxThreads.Move(oldIndex, newIndex);
             }
             
         }
-
-        private async Task AddSampleChats()
-        {
-
-            var chats = MockChatService.GetChats(4);
-
-            foreach (var item in chats)
-            {
-                ChatViewModels.Add(new ChatViewModel(item));
-            }
-        }
-
+        
         private void AddRandomThreads()
         {
             var threads = MockChatService.GetRandomThreads(4);

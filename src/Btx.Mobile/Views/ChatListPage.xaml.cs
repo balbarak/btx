@@ -44,9 +44,13 @@ namespace Btx.Mobile.Views
 
         private void OnTabbed(object sender, ItemTappedEventArgs e)
         {
+            if (ViewModel.IsBusy)
+                return;
+
             Device.BeginInvokeOnMainThread(async () =>
             {
                await ViewModel.GoToChatBox();
+
             });
             
         }

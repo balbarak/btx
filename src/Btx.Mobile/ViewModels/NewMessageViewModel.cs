@@ -59,7 +59,7 @@ namespace Btx.Mobile.ViewModels
         {
             App.MasterPage.IsPresented = false;
 
-            var chat = await App.ChatManager.AddChat(item);
+            //var chat = await App.ChatManager.AddChat(item);
 
             //PushAsync(new ChatBoxPage());
 

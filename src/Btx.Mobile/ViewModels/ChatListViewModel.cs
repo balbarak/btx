@@ -42,13 +42,21 @@ namespace Btx.Mobile.ViewModels
             Title = title;
         }
 
-        public Task GoToChatBox()
+        public async Task GoToChatBox()
         {
+            if (IsBusy)
+                return;
+
+            IsBusy = true;
+
             App.ChatManager.CurrentThread = SelectedItem;
+            
+            await PushAsync(new ChatBoxPage(),true);
 
             SelectedItem = null;
 
-            return PushAsync(new ChatBoxPage());
+            IsBusy = false;
+           
         }
         
         public void LoadChats()

@@ -51,7 +51,26 @@ namespace Btx.Mobile.Wrappers
             set { _unReadMessageCount = value; OnPropertyChanged();}
         }
 
+        public string LastMessageTime
+        {
+            get
+            {
+                //if (LastChatItem == null)
+                //    return "";
 
+                //return LastChatItem.Date.ToString("hh:mm tt");
+                return null;
+            }
+        }
+
+        private DateTimeOffset _lastMessageDate;
+
+        public DateTimeOffset LastMessageDate
+        {
+            get { return _lastMessageDate; }
+            set { _lastMessageDate = value; OnPropertyChanged(); }
+        }
+        
         public BtxThreadWrapper(BtxThread model) : base(model)
         {
 
