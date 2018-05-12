@@ -1,5 +1,6 @@
 ﻿using Btx.Client.Application.Services;
 using Btx.Client.Domain.Models;
+using Btx.Mobile.Helpers;
 using Btx.Mobile.MockData;
 using Btx.Mobile.Models;
 using Btx.Mobile.Views;
@@ -43,6 +44,9 @@ namespace Btx.Mobile.ViewModels
 
         public Task GoToChatBox()
         {
+            CacheHelper.CurrentThread = SelectedItem;
+
+            SelectedItem = null;
             return PushAsync(new ChatBoxPage());
         }
         

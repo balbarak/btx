@@ -29,17 +29,15 @@ namespace Btx.Mobile.Views
             this.BindingContext = new ChatBoxViewModel();
         }
 
-        public ChatBoxPage(BtxThread chat) : this()
-        {
-            //chatTxtBox.ScrollView = textScroll;
-
+        //public ChatBoxPage(BtxThread chat) : this()
+        //{
+        //    //chatTxtBox.ScrollView = textScroll;
             
+        //    //SetEvents();
 
-            //SetEvents();
+        //    //ScrollToEnd();
 
-            //ScrollToEnd();
-
-        }
+        //}
 
         ~ChatBoxPage()
         {

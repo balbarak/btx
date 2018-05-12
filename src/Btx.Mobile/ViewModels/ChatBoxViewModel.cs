@@ -1,8 +1,10 @@
 ﻿using Btx.Client.Application.Services;
 using Btx.Client.Domain.Models;
+using Btx.Mobile.Helpers;
 using Btx.Mobile.MockData;
 using Btx.Mobile.Models;
 using Btx.Mobile.Views;
+using Btx.Mobile.Wrappers;
 using MvvmHelpers;
 using Plugin.FilePicker;
 using Plugin.Media;
@@ -21,7 +23,7 @@ namespace Btx.Mobile.ViewModels
     
     public class ChatBoxViewModel : BaseViewModel
     {
-        public BtxThread BtxThread { get; private set; }
+        public BtxThreadWrapper BtxThread { get; private set; }
 
         public ObservableRangeCollection<ChatItemViewModel> Items = new ObservableRangeCollection<ChatItemViewModel>();
         
@@ -39,8 +41,13 @@ namespace Btx.Mobile.ViewModels
 
         public ChatBoxViewModel()
         {
+            BtxThread = CacheHelper.CurrentThread;
+
             SendCommand = new Command(async () => { await Send(); });
             SelectImageCommand = new Command(async () => await SelectImage());
+
+            this.Title = BtxThread.Title;
+            
 
         }
         
@@ -55,7 +62,8 @@ namespace Btx.Mobile.ViewModels
             chatMessage.ItemType = ChatItemType.Outgoing;
             chatMessage.Status = ChatItemStatus.Read;
 
-            App.ChatManager.AddChatItem(BtxThread.Id, chatMessage);
+            //App.ChatManager.AddChatItem(BtxThread.Id, chatMessage);
+            
 
             MessageToSend = "";
             
