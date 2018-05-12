@@ -1,5 +1,6 @@
 ﻿using Btx.Client.Domain.Models;
 using Btx.Mobile.Models;
+using MvvmHelpers;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -70,7 +71,9 @@ namespace Btx.Mobile.Wrappers
             get { return _lastMessageDate; }
             set { _lastMessageDate = value; OnPropertyChanged(); }
         }
-        
+
+        public ObservableRangeCollection<BtxMessageWrapper> Messages { get; private set; } = new ObservableRangeCollection<BtxMessageWrapper>();
+
         public BtxThreadWrapper(BtxThread model) : base(model)
         {
 

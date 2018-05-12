@@ -25,8 +25,7 @@ namespace Btx.Mobile.ViewModels
     {
         public BtxThreadWrapper BtxThread { get; private set; }
 
-        public ObservableRangeCollection<BtxMessageWrapper> Items { get; private set; } = new ObservableRangeCollection<BtxMessageWrapper>();
-        
+        public ObservableRangeCollection<BtxMessageWrapper> Items { get { return BtxThread.Messages; } } 
         private string messageToSend;
 
         public string MessageToSend
