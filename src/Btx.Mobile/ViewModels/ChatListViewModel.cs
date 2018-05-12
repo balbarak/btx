@@ -44,9 +44,6 @@ namespace Btx.Mobile.ViewModels
 
         public async Task GoToChatBox()
         {
-            if (IsBusy)
-                return;
-
             IsBusy = true;
 
             App.ChatManager.CurrentThread = SelectedItem;
