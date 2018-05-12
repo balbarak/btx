@@ -10,6 +10,8 @@ using System.Threading;
 using System.Diagnostics;
 using Btx.Mobile.ViewModels;
 using Btx.Client.Application.Services;
+using Btx.Client.Domain.Models;
+using Btx.Mobile.Wrappers;
 
 namespace Btx.Mobile.Services
 {
@@ -19,6 +21,10 @@ namespace Btx.Mobile.Services
 
         public ObservableRangeCollection<User> Users { get; set; } = new ObservableRangeCollection<User>();
 
+        public ObservableRangeCollection<BtxThreadWrapper> BtxThreads { get; private set; } = new ObservableRangeCollection<BtxThreadWrapper>();
+
+        public BtxThreadWrapper CurrentThread { get; set; }
+        
         public BtxChatManager()
         {
             //AddRandomThreads();
@@ -99,6 +105,8 @@ namespace Btx.Mobile.Services
 
             foreach (var item in threads)
             {
+                item.Messages = MockChatService.GetRandomMessages();
+               
                 BtxThreadService.Instance.AddOrUpdate(item);
             }
         }

@@ -1,6 +1,8 @@
-﻿using Btx.Mobile.Models;
+﻿using Btx.Client.Domain.Models;
+using Btx.Mobile.Models;
 using Btx.Mobile.ViewModels;
 using Btx.Mobile.Views;
+using Btx.Mobile.Wrappers;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -29,30 +31,30 @@ namespace Btx.Mobile.Helpers
 
         protected override DataTemplate OnSelectTemplate(object item, BindableObject container)
         {
-            var model = item as ChatItemViewModel;
+            var model = item as BtxMessageWrapper;
 
             if (model == null)
-                return null;
+                throw new ArgumentNullException("Template id cann't be null");
 
-            switch (model.ItemType)
+            switch (model.BtxMessageType)
             {
-                case ChatItemType.Incoming:
+                case BtxMessageType.Incoming:
 
                     return incomingDataTemplate;
 
-                case ChatItemType.Outgoing:
+                case BtxMessageType.Outgoing:
 
                     return outgoingDataTemplate;
 
-                case ChatItemType.Info:
+                case BtxMessageType.Info:
 
                     return infoDataTemplate;
 
-                case ChatItemType.OutgoingImage:
+                case BtxMessageType.OutgoingImage:
                     
                     return outgoinrFileTemplate;
 
-                case ChatItemType.IncomingImage:
+                case BtxMessageType.IncomingImage:
 
                     return incomingImageTemplate;
 

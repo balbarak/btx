@@ -25,7 +25,7 @@ namespace Btx.Mobile.ViewModels
     {
         public BtxThreadWrapper BtxThread { get; private set; }
 
-        public ObservableRangeCollection<ChatItemViewModel> Items = new ObservableRangeCollection<ChatItemViewModel>();
+        public ObservableRangeCollection<BtxMessageWrapper> Items { get; private set; } = new ObservableRangeCollection<BtxMessageWrapper>();
         
         private string messageToSend;
 
@@ -41,12 +41,14 @@ namespace Btx.Mobile.ViewModels
 
         public ChatBoxViewModel()
         {
-            BtxThread = CacheHelper.CurrentThread;
+            BtxThread = App.ChatManager.CurrentThread;
 
             SendCommand = new Command(async () => { await Send(); });
             SelectImageCommand = new Command(async () => await SelectImage());
 
             this.Title = BtxThread.Title;
+
+            LoadMessages();
             
 
         }
@@ -56,15 +58,16 @@ namespace Btx.Mobile.ViewModels
             if (String.IsNullOrWhiteSpace(MessageToSend))
                 return;
 
-            var chatMessage = new ChatItem(MessageToSend);
+            var chatMessage = new BtxMessage()
+            {
+                Body = messageToSend,
+                Date = DateTime.Now,
+                BtxMessageType = BtxMessageType.Outgoing,
+                IsReadByUser = true
+            };
 
-            chatMessage.Date = DateTimeOffset.Now;
-            chatMessage.ItemType = ChatItemType.Outgoing;
-            chatMessage.Status = ChatItemStatus.Read;
-
-            //App.ChatManager.AddChatItem(BtxThread.Id, chatMessage);
+            Items.Add(new BtxMessageWrapper(chatMessage));
             
-
             MessageToSend = "";
             
             
@@ -96,6 +99,18 @@ namespace Btx.Mobile.ViewModels
 
             }
 
+        }
+
+        private void LoadMessages()
+        {
+            var msgs = BtxMessageService.Instance.GetByThreadId(BtxThread.Id);
+
+            foreach (var item in msgs)
+            {
+                BtxMessageWrapper wrapper = new BtxMessageWrapper(item);
+
+                Items.Add(wrapper);
+            }
         }
 
     }

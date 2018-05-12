@@ -41,7 +41,7 @@
                 <!--<Image IsVisible="False" WidthResquest="175" HeightRequest="175" Source="{Binding AttachementUrl}" />-->
 
                 <Label TextColor="Red"  
-                       Text="{Binding From}"
+                       Text="{Binding Nickname}"
                        HorizontalTextAlignment="Start"/>
 
 

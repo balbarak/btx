@@ -22,7 +22,7 @@
                 CachingStrategy="RecycleElement" 
                 RowHeight="80" 
                 HasUnevenRows="false"
-                SelectedItem="{Binding SelectedItem}"
+                SelectedItem="{Binding SelectedItem,Mode=TwoWay}"
                 ItemTapped="OnTabbed"
                 IsVisible="{Binding IsNotBusy}"
                 IsPullToRefreshEnabled="false" >

@@ -53,6 +53,44 @@ namespace Btx.Mobile.MockData
             return result;
         }
 
+        public static List<BtxMessage> GetRandomMessages()
+        {
+            List<BtxMessage> result = new List<BtxMessage>();
+
+            int max = LoremGenerator.Random.Next(2, 1200);
+
+            for (int i = 0; i < max; i++)
+            {
+                var chatItem = new BtxMessage()
+                {
+                    FromUserId = LoremGenerator.GenerateText(1),
+                    Body = LoremGenerator.GenerateText(LoremGenerator.Random.Next(2, 30), LoremGenerator.Random.Next(1, 4)),
+                    Date = DateTime.Now.AddMinutes(LoremGenerator.Random.Next(-50, -3)),
+                    BtxMessageType = BtxMessageType.Incoming,
+                    Status = BtxMessageStatus.Read
+                };
+
+                var percent = LoremGenerator.Random.NextDouble();
+
+                if (percent > 0.7)
+                    chatItem.BtxMessageType = BtxMessageType.Outgoing;
+
+                if (percent > 0.4)
+                {
+                    chatItem.BtxMessageType = BtxMessageType.IncomingImage;
+                   
+                }
+
+
+                result.Add(chatItem);
+            }
+
+
+
+            return result;
+        }
+
+
         public static byte[] GetRandomImage()
         {
             byte[] result;
@@ -134,6 +172,7 @@ namespace Btx.Mobile.MockData
             return result;
 
         }
+        
 
         public static List<User> GetUsers()
         {

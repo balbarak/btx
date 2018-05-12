@@ -20,8 +20,12 @@ namespace Btx.Client.Domain.Models
 
         public BtxMessageStatus Status { get; set; }
 
-        public DateTimeOffset Date { get; set; }
+        public BtxMessageType BtxMessageType { get; set; }
         
+        public DateTimeOffset Date { get; set; }
+
+        public bool IsReadByUser { get; set; }
+
         public BtxMessage()
         {
             Id = Guid.NewGuid().ToString();

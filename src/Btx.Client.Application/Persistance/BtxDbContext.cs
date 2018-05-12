@@ -35,6 +35,18 @@ namespace Btx.Client.Application.Persistance
             modelBuilder.Entity<BtxThread>()
                 .HasKey(a => a.Id);
 
+            modelBuilder.Entity<BtxMessage>()
+                .HasKey(a => a.Id);
+
+            modelBuilder.Entity<BtxMessage>()
+                .HasOne(a => a.Thread)
+                .WithMany(a => a.Messages)
+                .HasForeignKey(a => a.ThreadId);
+            
+
+
+
+
             base.OnModelCreating(modelBuilder);
             
         }
@@ -47,7 +59,8 @@ namespace Btx.Client.Application.Persistance
             {
                 Directory.CreateDirectory(BtxSetting.DATA_FOLDER_PATH);
             }
-            
+
+            //context.Database.EnsureDeleted();
             context.Database.EnsureCreated();
             context.Database.Migrate();
         }

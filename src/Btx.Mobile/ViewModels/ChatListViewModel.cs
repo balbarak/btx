@@ -44,9 +44,10 @@ namespace Btx.Mobile.ViewModels
 
         public Task GoToChatBox()
         {
-            CacheHelper.CurrentThread = SelectedItem;
+            App.ChatManager.CurrentThread = SelectedItem;
 
             SelectedItem = null;
+
             return PushAsync(new ChatBoxPage());
         }
         

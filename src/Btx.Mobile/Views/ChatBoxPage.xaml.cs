@@ -3,6 +3,7 @@ using Btx.Mobile.Models;
 using Btx.Mobile.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -27,82 +28,26 @@ namespace Btx.Mobile.Views
             InitializeComponent();
             chatTxtBox.ScrollView = textScroll;
             this.BindingContext = new ChatBoxViewModel();
+            ViewModel.Items.CollectionChanged += Items_CollectionChanged;
+
+            ScrollToEnd();
         }
 
-        //public ChatBoxPage(BtxThread chat) : this()
-        //{
-        //    //chatTxtBox.ScrollView = textScroll;
-            
-        //    //SetEvents();
-
-        //    //ScrollToEnd();
-
-        //}
-
-        ~ChatBoxPage()
+        private void Items_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            RemoveEvents();
+            if (e.Action == NotifyCollectionChangedAction.Add)
+            {
+                ScrollToEnd();
+            }
         }
-
-        private void SetEvents()
-        {
-            lvChatItems.ItemAppearing += OnListViewItemAppearing;
-            lvChatItems.ItemDisappearing += OnListViewItemDisappearing;
-            //ViewModel.BtxThread.OnChatItemAdded += OnChatItemAdded;
-
-        }
-
-        private void RemoveEvents()
-        {
-            lvChatItems.ItemAppearing -= OnListViewItemAppearing;
-            lvChatItems.ItemDisappearing -= OnListViewItemDisappearing;
-            //ViewModel.BtxThread.OnChatItemAdded -= OnChatItemAdded;
-        }
-
-        protected override void OnAppearing()
-        {
-            //ScrollToEnd();
-
-            //base.OnAppearing();
-        }
-
-        private void OnListViewItemDisappearing(object sender, ItemVisibilityEventArgs e)
-        {
-            //var currentItem = e.Item as ChatItemViewModel;
-
-            //int index = ViewModel.Items.IndexOf(currentItem);
-
-            //if (index == ViewModel.Items.Count - 1)
-            //    IsAllowToScroll = false;
-        }
-
-        private void OnListViewItemAppearing(object sender, ItemVisibilityEventArgs e)
-        {
-            //var newItem = e.Item as ChatItemViewModel;
-
-            //int index = ViewModel.Items.IndexOf(newItem);
-
-            //if (index == ViewModel.Items.Count - 1)
-            //    IsAllowToScroll = true;
-        }
-
+        
         private void ScrollToEnd()
         {
             
             if (ViewModel.Items != null && ViewModel.Items.Count > 0)
                 lvChatItems.ScrollTo(ViewModel.Items.Last(), ScrollToPosition.End, false);
         }
-
-
-        private void OnChatItemAdded(object sender, EventArgs e)
-        {
-            Device.BeginInvokeOnMainThread(() =>
-            {
-                if (IsAllowToScroll)
-                    ScrollToEnd();
-
-            });
-        }
+        
 
         private void OnSelection(object sender, SelectedItemChangedEventArgs e)
         {

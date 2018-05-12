@@ -24,8 +24,7 @@ namespace Btx.Mobile.ViewModels
                 return null;
             }
         }
-
-
+        
         private bool showRetryButton = true;
         public bool ShowRetryButton
         {
