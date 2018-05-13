@@ -31,5 +31,17 @@ namespace Btx.Client.Application.Services
 
             return result;
         }
+
+        public BtxMessage GetLastMessageByThreadId(string threadId)
+        {
+            BtxMessage result;
+
+            using (BtxDbContext context = new BtxDbContext())
+            {
+                result = context.BtxMessages.Where(a => a.ThreadId == threadId).OrderByDescending(a => a.Date).FirstOrDefault();
+            }
+
+            return result;
+        }
     }
 }

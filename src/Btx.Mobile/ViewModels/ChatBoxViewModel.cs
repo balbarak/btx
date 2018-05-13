@@ -13,6 +13,7 @@ using Plugin.Permissions;
 using Plugin.Permissions.Abstractions;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -20,12 +21,12 @@ using Xamarin.Forms;
 
 namespace Btx.Mobile.ViewModels
 {
-    
+
     public class ChatBoxViewModel : BaseViewModel
     {
         public BtxThreadWrapper BtxThread { get; private set; }
 
-        public ObservableRangeCollection<BtxMessageWrapper> Items { get { return BtxThread.Messages; } } 
+        public ObservableRangeCollection<BtxMessageWrapper> Items { get { return BtxThread.Messages; } }
         private string messageToSend;
 
         public string MessageToSend
@@ -46,12 +47,9 @@ namespace Btx.Mobile.ViewModels
             SelectImageCommand = new Command(async () => await SelectImage());
 
             this.Title = BtxThread.Title;
-
-            LoadMessages();
             
-
         }
-        
+
         private async Task Send()
         {
             if (String.IsNullOrWhiteSpace(MessageToSend))
@@ -66,10 +64,10 @@ namespace Btx.Mobile.ViewModels
             };
 
             Items.Add(new BtxMessageWrapper(chatMessage));
-            
+
             MessageToSend = "";
-            
-            
+
+
         }
 
         private async Task SelectImage()
@@ -84,7 +82,7 @@ namespace Btx.Mobile.ViewModels
                 var results = await CrossPermissions.Current.RequestPermissionsAsync(new[] { Permission.Camera, Permission.Storage });
                 cameraStatus = results[Permission.Camera];
                 storageStatus = results[Permission.Storage];
-                
+
             }
             else
             {
@@ -92,25 +90,44 @@ namespace Btx.Mobile.ViewModels
                 {
                     CompressionQuality = 70
                 });
-                
+
                 if (file != null)
-                    await PushModalAsync(new SelectedImagePage(null,file.Path, this));
+                    await PushModalAsync(new SelectedImagePage(null, file.Path, this));
 
             }
 
         }
 
-        private void LoadMessages()
+        public  Task LoadMessages()
         {
-            var msgs = BtxMessageService.Instance.GetByThreadId(BtxThread.Id);
-
-            foreach (var item in msgs)
+            return Task.Run(() =>
             {
-                BtxMessageWrapper wrapper = new BtxMessageWrapper(item);
+                IsBusy = true;
 
-                Items.Add(wrapper);
-            }
+                var msgs = BtxMessageService.Instance.GetByThreadId(BtxThread.Id);
+                var list = new List<BtxMessageWrapper>();
+                int index = 1;
+
+                foreach (var item in msgs)
+                {
+                    BtxMessageWrapper wrapper = new BtxMessageWrapper(item);
+
+                    Debug.WriteLine($"Reading msg from db {index}");
+
+                    list.Add(wrapper);
+                    index++;
+                }
+
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    Items.AddRange(list);
+                });
+
+                IsBusy = false;
+            });
+            
         }
-
     }
+
 }
+

@@ -11,37 +11,38 @@ using Xamarin.Forms.Xaml;
 
 namespace Btx.Mobile.Views
 {
-	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class ChatListPage : ContentPage
-	{
+    [XamlCompilation(XamlCompilationOptions.Compile)]
+    public partial class ChatListPage : ContentPage
+    {
         public ChatListViewModel ViewModel => BindingContext as ChatListViewModel;
 
-        public ChatListPage ()
-		{
-			InitializeComponent ();
-           
+        public ChatListPage()
+        {
+            InitializeComponent();
+
             this.BindingContext = new ChatListViewModel();
 
             App.ChatListPage = this;
-            
+
         }
 
         protected override void OnAppearing()
         {
             base.OnAppearing();
         }
-        
-        private void OnTabbed(object sender, ItemTappedEventArgs e)
+
+        private async void OnTabbed(object sender, ItemTappedEventArgs e)
         {
-            if (ViewModel.IsBusy)
+            if (!this.IsEnabled)
                 return;
 
-            Device.BeginInvokeOnMainThread(async () =>
-            {
-               await ViewModel.GoToChatBox();
+            this.IsEnabled = false;
 
-            });
-            
+            await ViewModel.GoToChatBox();
+
+            this.IsEnabled = true;
+
+
         }
     }
 }

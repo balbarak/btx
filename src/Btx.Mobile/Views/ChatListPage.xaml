@@ -24,6 +24,7 @@
                 HasUnevenRows="false"
                 SelectedItem="{Binding SelectedItem,Mode=TwoWay}"
                 ItemTapped="OnTabbed"
+                IsRefreshing="{Binding IsBusy}"
                 IsVisible="{Binding IsNotBusy}"
                 IsPullToRefreshEnabled="false" >
 

@@ -24,6 +24,7 @@ namespace Btx.Client.Application.Services
         }
 
 
+
         public List<BtxThread> GetAll()
         {
             List<BtxThread> threads = new List<BtxThread>();

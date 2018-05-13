@@ -49,18 +49,18 @@ namespace Btx.Mobile.Wrappers
         public int UnreadMessageCount
         {
             get { return _unReadMessageCount; }
-            set { _unReadMessageCount = value; OnPropertyChanged();}
+            set { _unReadMessageCount = value; OnPropertyChanged(); }
         }
 
         public string LastMessageTime
         {
             get
             {
-                //if (LastChatItem == null)
-                //    return "";
+                if (LastMessageDate == null)
+                    return "";
 
-                //return LastChatItem.Date.ToString("hh:mm tt");
-                return null;
+                return LastMessageDate.Date.ToString("hh:mm tt");
+
             }
         }
 
@@ -69,8 +69,15 @@ namespace Btx.Mobile.Wrappers
         public DateTimeOffset LastMessageDate
         {
             get { return _lastMessageDate; }
-            set { _lastMessageDate = value; OnPropertyChanged(); }
+            set
+            {
+                _lastMessageDate = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(LastMessageTime));
+            }
         }
+
+
 
         public ObservableRangeCollection<BtxMessageWrapper> Messages { get; private set; } = new ObservableRangeCollection<BtxMessageWrapper>();
 

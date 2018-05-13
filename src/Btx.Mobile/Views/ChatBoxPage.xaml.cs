@@ -40,14 +40,13 @@ namespace Btx.Mobile.Views
                 ScrollToEnd();
             }
         }
-        
+
         private void ScrollToEnd()
         {
-            
+
             if (ViewModel.Items != null && ViewModel.Items.Count > 0)
                 lvChatItems.ScrollTo(ViewModel.Items.Last(), ScrollToPosition.End, false);
         }
-        
 
         private void OnSelection(object sender, SelectedItemChangedEventArgs e)
         {
@@ -57,6 +56,14 @@ namespace Btx.Mobile.Views
             }
 
             ((ListView)sender).SelectedItem = null; //uncomment line if you want to disable the visual selection state.
+        }
+
+        protected override async void OnAppearing()
+        {
+            base.OnAppearing();
+
+            if (!ViewModel.Items.Any())
+                await ViewModel.LoadMessages();
         }
 
     }

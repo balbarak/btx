@@ -24,17 +24,17 @@ namespace Btx.Mobile.ViewModels
         public BtxThreadWrapper SelectedItem
         {
             get { return _selectedItem; }
-            set { _selectedItem = value; OnPropertyChanged();}
+            set { _selectedItem = value; OnPropertyChanged(); }
         }
-        
+
         public ChatListViewModel()
         {
             Title = "BTX Chat";
-            
-            LoadChats();
+
+            LoadThreads();
 
             //AddTestItem();
-            
+
         }
 
         public void ChangeTitle(string title)
@@ -44,28 +44,41 @@ namespace Btx.Mobile.ViewModels
 
         public async Task GoToChatBox()
         {
-            IsBusy = true;
-
             App.ChatManager.CurrentThread = SelectedItem;
-            
-            await PushAsync(new ChatBoxPage(),true);
 
             SelectedItem = null;
-
-            IsBusy = false;
-           
+            
+            await PushAsync(new ChatBoxPage(), true);
         }
-        
-        public void LoadChats()
+
+        public Task LoadThreads()
         {
-            var chats = BtxThreadService.Instance.GetAll();
-
-            foreach (var item in chats)
+            return Task.Run(async () =>
             {
-                BtxThreadWrapper wrapper = new BtxThreadWrapper(item);
-                Chats.Add(wrapper);
-            }
+                IsBusy = true;
+
+                var chats = BtxThreadService.Instance.GetAll();
+
+                foreach (var item in chats)
+                {
+                    BtxThreadWrapper wrapper = new BtxThreadWrapper(item);
+
+                    var lastMessage = BtxMessageService.Instance.GetLastMessageByThreadId(item.Id);
+
+                    if (lastMessage != null)
+                    {
+                        wrapper.LastMessage = lastMessage.Body;
+                        wrapper.LastMessageDate = lastMessage.Date;
+                    }
+
+                    Chats.Add(wrapper);
+                }
+
+                IsBusy = false;
+            });
+
         }
-        
     }
+
 }
+

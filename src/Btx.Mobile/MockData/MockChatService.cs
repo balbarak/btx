@@ -163,7 +163,8 @@ namespace Btx.Mobile.MockData
                 var chat = new BtxThread()
                 {
                     Id = Guid.NewGuid().ToString(),
-                    Title = LoremGenerator.GenerateText(3, 1)
+                    Title = LoremGenerator.GenerateText(3, 1),
+
                 };
 
                 result.Add(chat);

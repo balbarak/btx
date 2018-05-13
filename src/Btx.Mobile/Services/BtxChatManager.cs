@@ -51,7 +51,7 @@ namespace Btx.Mobile.Services
         
         private void AddRandomThreads()
         {
-            var threads = MockChatService.GetRandomThreads(4);
+            var threads = MockChatService.GetRandomThreads(7);
 
             foreach (var item in threads)
             {
