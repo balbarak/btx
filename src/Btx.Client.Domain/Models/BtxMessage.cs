@@ -7,7 +7,7 @@ namespace Btx.Client.Domain.Models
     public class BtxMessage
     {
         public string Id { get; private set; }
-
+        
         public string FromUserId { get; set; }
 
         public string ToUserId { get; set; }

@@ -1,61 +1,77 @@
 ﻿using Microsoft.AspNetCore.SignalR.Client;
+using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
+using System.Diagnostics;
+using Microsoft.Extensions.Logging;
 
 namespace Btx.Client
 {
-    
     public class BtxClient
     {
-        private string _connectionUrl = "http://localhost:5000/btx";
+        private HubConnection _hubConnection;
+        private CancellationToken _ctk = new CancellationToken();
+        private ILoggerProvider _loggerProvider;
+        private ILogger _logger;
 
-        public delegate Task BtxConnectionEventHandler(object sender);
-        public delegate Task BtxConnectionCloseEventHanlder(Exception ex);
-
-        public event BtxConnectionEventHandler OnConnected;
-        public event BtxConnectionCloseEventHanlder OnClosed;
+        public bool IsConnected { get; private set; }
         
-        private HubConnection Connection { get; set; }
-
         public BtxClient()
         {
-            Connection = new HubConnectionBuilder()
-            .WithUrl(_connectionUrl)
-            .WithConsoleLogger()
-            .Build();
-
-            SetupEvents();
+            SetupConnection();
         }
 
+        public BtxClient(ILoggerProvider loggerProvider) 
+        {
+            _loggerProvider = loggerProvider;
+            _logger = loggerProvider.CreateLogger("Client");
+
+            SetupConnection();
+        }
+        
         public async Task Connect()
         {
-            await Connection.StartAsync();
+            try
+            {
+                await _hubConnection.StartAsync(_ctk);
+
+                IsConnected = true;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Unable to coneect: {ex}");
+                
+                IsConnected = false;
+            }
+            
+            
+            
         }
 
-        public async Task Disconnect()
+        private void SetupConnection()
         {
-            await Connection.DisposeAsync();
+            HubConnectionBuilder builder = new HubConnectionBuilder();
+            _hubConnection = builder
+                .WithUrl(Config.BTX_URL)
+                .ConfigureLogging((logger) =>
+                {
+                    if (_loggerProvider != null)
+                        logger.AddProvider(_loggerProvider);
+                    
+                })
+                .Build();
+            _hubConnection.Closed += InternalClosed;
         }
-
-        private void SetupEvents()
+        
+        private Task InternalClosed(Exception arg)
         {
-            Connection.Connected += OnConnectedInternal;
-            Connection.Closed += OnClosedInternal;
-        }
-
-        private Task OnClosedInternal(Exception arg)
-        {
-            OnClosed?.Invoke(arg);
+            IsConnected = false;
 
             return Task.FromResult(0);
         }
 
-        private async Task OnConnectedInternal()
-        {
-            await OnConnected?.Invoke(this);
-        }
-        
     }
 }

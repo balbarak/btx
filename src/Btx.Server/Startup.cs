@@ -48,7 +48,7 @@ namespace Btx.Server
 
             app.UseSignalR(routes =>
             {
-                routes.MapHub<BtxHub>("btx");
+                routes.MapHub<BtxHub>("/btx");
             });
 
             app.UseMvc(routes =>
