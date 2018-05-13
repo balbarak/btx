@@ -53,7 +53,7 @@ namespace Btx.Mobile.ViewModels
 
         public Task LoadThreads()
         {
-            return Task.Run(async () =>
+            return Task.Run(() =>
             {
                 IsBusy = true;
 

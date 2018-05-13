@@ -15,18 +15,27 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
+using System.Linq;
 
 namespace Btx.Mobile.ViewModels
 {
 
     public class ChatBoxViewModel : BaseViewModel
     {
+        private readonly ReaderWriterLockSlim _itemsLock = new ReaderWriterLockSlim();
+
         public BtxThreadWrapper BtxThread { get; private set; }
 
-        public ObservableRangeCollection<BtxMessageWrapper> Items { get { return BtxThread.Messages; } }
+        public ObservableRangeCollection<BtxMessageWrapper> Items
+        {
+            get { return BtxThread.Messages; }
+            set { BtxThread.Messages = value; OnPropertyChanged(); }
+        }
+
         private string messageToSend;
 
         public string MessageToSend
@@ -100,12 +109,14 @@ namespace Btx.Mobile.ViewModels
 
         public  Task LoadMessages()
         {
+            var _itemsLock = new object();
+            
             return Task.Run(() =>
             {
                 IsBusy = true;
 
                 var msgs = BtxMessageService.Instance.GetByThreadId(BtxThread.Id);
-                var list = new List<BtxMessageWrapper>();
+                var list = new ObservableRangeCollection<BtxMessageWrapper>();
                 int index = 1;
 
                 foreach (var item in msgs)
@@ -113,21 +124,18 @@ namespace Btx.Mobile.ViewModels
                     BtxMessageWrapper wrapper = new BtxMessageWrapper(item);
 
                     Debug.WriteLine($"Reading msg from db {index}");
-
+                    
                     list.Add(wrapper);
                     index++;
                 }
 
-                Device.BeginInvokeOnMainThread(() =>
-                {
-                    Items.AddRange(list);
-                });
-
+                Items = list;
+                
                 IsBusy = false;
             });
             
         }
+        
     }
 
 }
-

@@ -63,7 +63,11 @@ namespace Btx.Mobile.Views
             base.OnAppearing();
 
             if (!ViewModel.Items.Any())
+            {
                 await ViewModel.LoadMessages();
+
+                ScrollToEnd();
+            }
         }
 
     }

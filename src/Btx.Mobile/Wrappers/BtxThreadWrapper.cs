@@ -79,7 +79,7 @@ namespace Btx.Mobile.Wrappers
 
 
 
-        public ObservableRangeCollection<BtxMessageWrapper> Messages { get; private set; } = new ObservableRangeCollection<BtxMessageWrapper>();
+        public ObservableRangeCollection<BtxMessageWrapper> Messages { get; set; } = new ObservableRangeCollection<BtxMessageWrapper>();
 
         public BtxThreadWrapper(BtxThread model) : base(model)
         {
