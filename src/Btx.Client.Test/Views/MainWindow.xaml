@@ -13,8 +13,8 @@
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="317*"/>
+            <ColumnDefinition Width="526*"/>
         </Grid.ColumnDefinitions>
 
         <GroupBox Header="Client One" Height="556" Margin="10,-4,10,0" VerticalAlignment="Top">
@@ -25,12 +25,23 @@
                     <RowDefinition Height="161*"/>
                 </Grid.RowDefinitions>
                 <Button Content="Connect" 
+                        IsEnabled="{Binding IsDisconnected}"
                 Command="{Binding ConnectCommand}"
                 HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="111" Height="20"/>
 
                 <TextBox Text="{Binding LogMessages,Mode=OneWay}" TextWrapping="Wrap" IsReadOnly="True" Margin="0,10,0,0" Grid.Row="1"/>
+                
 
             </Grid>
+        </GroupBox>
+        <GroupBox Grid.Column="1" Header="Registration" HorizontalAlignment="Left" Height="160" Margin="10,10,0,0" VerticalAlignment="Top" Width="506">
+            <StackPanel>
+                <TextBox Margin="10" />
+                <TextBox Margin="10" />
+                <Button Content="Register" 
+                        Margin="10"
+                        Command="{Binding RegisterCommand}"/>
+            </StackPanel>
         </GroupBox>
     </Grid>
 </Window>

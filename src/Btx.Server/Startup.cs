@@ -1,14 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
+using Btx.Server.Domain;
+using Btx.Server.Helper;
+using Btx.Server.Identity;
 using Btx.Server.Persistance;
 using Btx.Server.Protocol;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Btx.Server
 {
@@ -27,7 +33,31 @@ namespace Btx.Server
             services.AddDbContext<BtxDbContext>(options =>
                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
+            services.AddIdentity<User, Role>()
+                .AddEntityFrameworkStores<BtxDbContext>()
+                .AddUserManager<BtxUserManager>();
+
+            //Bearer Token Authentication
+            services.AddAuthentication()
+                .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, config =>
+                {
+                    var key = Configuration[WebConstants.TOKEN_KEY];
+
+                    config.TokenValidationParameters = new TokenValidationParameters()
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = false,
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = Configuration[WebConstants.TOKEN_ISSUER],
+                        ValidAudience = Configuration[WebConstants.TOKEN_AUDIENCE],
+                        IssuerSigningKey = new SymmetricSecurityKey(
+                                            Encoding.UTF8.GetBytes(Configuration[WebConstants.TOKEN_KEY]))
+                    };
+                });
+
             services.AddSignalR();
+
             services.AddMvc();
         }
 
@@ -46,9 +76,11 @@ namespace Btx.Server
 
             app.UseStaticFiles();
 
+            app.UseAuthentication();
+
             app.UseSignalR(routes =>
             {
-                routes.MapHub<BtxHub>("/btx");
+                routes.MapHub<BtxProtocol>("/btx");
             });
 
             app.UseMvc(routes =>

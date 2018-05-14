@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.SignalR;
+﻿using Btx.Client.Domain.Models;
+using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Btx.Server.Protocol
 {
-    public class BtxHub : Hub
+    public class BtxProtocol : Hub
     {
         public override Task OnConnectedAsync()
         {
@@ -18,5 +19,9 @@ namespace Btx.Server.Protocol
             return base.OnDisconnectedAsync(exception);
         }
         
+        public void Send(BtxMessage msg)
+        {
+            
+        }
     }
 }

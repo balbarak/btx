@@ -1,4 +1,5 @@
-﻿using Btx.Client.Test.Helpers;
+﻿using Btx.Client.Domain.Models;
+using Btx.Client.Test.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,16 @@ namespace Btx.Client.Test.ViewModels
 
         public ICommand ConnectCommand { get; }
 
+        public ICommand RegisterCommand { get; }
+
+        public bool IsDisconnected
+        {
+            get
+            {
+                return !Client.IsConnected;
+            }
+        }
+
         public string LogMessages
         {
             get
@@ -24,8 +35,9 @@ namespace Btx.Client.Test.ViewModels
 
         public MainViewModel()
         {
-            
+
             Client = new BtxClient(LoggerProvider);
+            SetupEvents();
 
             LoggerProvider.CurrentLogger.OnWriteLog += CurrentLogger_OnWriteLog;
 
@@ -34,6 +46,27 @@ namespace Btx.Client.Test.ViewModels
                 {
                     await Connect();
                 });
+
+            RegisterCommand = new RelayCommand(async (obj) =>
+            {
+                await Register();
+            });
+        }
+
+        private void SetupEvents()
+        {
+            Client.OnConnected += OnConnected;
+            Client.OnDisconnected += OnDisconnected;
+        }
+
+        private void OnDisconnected(object sender, EventArgs e)
+        {
+            OnPropertyChanged(nameof(IsDisconnected));
+        }
+
+        private void OnConnected(object sender, EventArgs e)
+        {
+            OnPropertyChanged(nameof(IsDisconnected));
         }
 
         private void CurrentLogger_OnWriteLog(object sender, EventArgs e)
@@ -44,6 +77,18 @@ namespace Btx.Client.Test.ViewModels
         private async Task Connect()
         {
             await Client.Connect();
+        }
+
+        private async Task Register()
+        {
+            Registeration model = new Registeration()
+            {
+                Nickname = "looksharp",
+                Username = "Fuckoff",
+                Password = "1122"
+            };
+
+            await Client.Register(model);
         }
 
     }
