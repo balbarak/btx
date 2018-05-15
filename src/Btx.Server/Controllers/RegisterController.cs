@@ -25,7 +25,7 @@ namespace Btx.Server.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody]Registeration model)
+        public async Task<IActionResult> Post([FromBody]RegisterForm model)
         {
             try
             {

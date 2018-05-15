@@ -72,11 +72,13 @@ namespace Btx.Client
             await _hubConnection.InvokeAsync<BtxMessage>("Send");
         }
 
-        public async Task Register(Registeration model)
+        public async Task Register(RegisterForm model)
         {
 
             try
             {
+                _logger.LogInformation("Begin registering ...");
+
                 using (HttpClient client = new HttpClient())
                 {
                     client.BaseAddress = new Uri(Config.BTX_API_BASE_URL);
@@ -90,9 +92,16 @@ namespace Btx.Client
                     var result = await response.Content.ReadAsStringAsync();
 
                     if (response.StatusCode != System.Net.HttpStatusCode.OK)
+                    {
+                        _logger.LogInformation("Unable to register");
                         throw new BtxClientException(result);
+                    }
+
+                    _logger.LogInformation("register success. reading token ...");
 
                     _accessToken = result;
+
+                    _logger.LogInformation($"access toke: {_accessToken}");
                 }
             }
             catch (Exception ex)
@@ -133,6 +142,7 @@ namespace Btx.Client
 
             return Task.FromResult(0);
         }
+        
 
     }
 }

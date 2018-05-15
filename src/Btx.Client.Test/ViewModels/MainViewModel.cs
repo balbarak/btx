@@ -1,10 +1,12 @@
 ﻿using Btx.Client.Domain.Models;
+using Btx.Client.Exceptions;
 using Btx.Client.Test.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace Btx.Client.Test.ViewModels
@@ -21,6 +23,7 @@ namespace Btx.Client.Test.ViewModels
         {
             get
             {
+                
                 return !Client.IsConnected;
             }
         }
@@ -81,14 +84,30 @@ namespace Btx.Client.Test.ViewModels
 
         private async Task Register()
         {
-            Registeration model = new Registeration()
+            try
             {
-                Nickname = "looksharp",
-                Username = "Fuckoff",
-                Password = "1122"
-            };
+                IsBusy = true;
 
-            await Client.Register(model);
+                Registeration model = new Registeration()
+                {
+                    Nickname = "looksharp",
+                    Username = "Fuckoff",
+                    Password = "1122"
+                };
+
+                await Client.Register(model);
+
+                
+            }
+            catch (BtxClientException ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+            
         }
 
     }
