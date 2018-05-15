@@ -19,6 +19,41 @@ namespace Btx.Client.Test.ViewModels
 
         public ICommand RegisterCommand { get; }
 
+        public ICommand LoginCommand { get; }
+
+        private string _username = "user";
+
+        public string Username
+        {
+            get { return _username; }
+            set { _username = value; OnPropertyChanged(); }
+        }
+
+        private string _nickname = "looksharp";
+
+        public string Nickname
+        {
+            get { return _nickname; }
+            set { _nickname = value; OnPropertyChanged(); }
+        }
+
+        private string _password;
+
+        public string Password
+        {
+            get { return _password; }
+            set { _password = value; OnPropertyChanged(); }
+        }
+
+        private string _loginUsername = "user";
+
+        public string LoginUsername
+        {
+            get { return _loginUsername; }
+            set { _loginUsername = value; OnPropertyChanged(); }
+        }
+
+
         public bool IsDisconnected
         {
             get
@@ -54,6 +89,11 @@ namespace Btx.Client.Test.ViewModels
             {
                 await Register();
             });
+
+            LoginCommand = new RelayCommand(async (obj) =>
+            {
+                await Login();
+            });
         }
 
         private void SetupEvents()
@@ -88,10 +128,10 @@ namespace Btx.Client.Test.ViewModels
             {
                 IsBusy = true;
 
-                Registeration model = new Registeration()
+                BtxRegister model = new BtxRegister()
                 {
-                    Nickname = "looksharp",
-                    Username = "Fuckoff",
+                    Nickname = Nickname,
+                    Username = Username,
                     Password = "1122"
                 };
 
@@ -110,5 +150,31 @@ namespace Btx.Client.Test.ViewModels
             
         }
 
+        private async Task Login()
+        {
+            try
+            {
+                IsBusy = true;
+
+                BtxLogin model = new BtxLogin()
+                {
+                    Username = LoginUsername,
+                    Password = "1122"
+                };
+
+                await Client.Login(model);
+
+
+            }
+            catch (BtxClientException ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+
+        }
     }
 }

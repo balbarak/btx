@@ -18,4 +18,8 @@
     <ProjectReference Include="..\Btx.Client.Domain\Btx.Client.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="ViewModels\" />
+  </ItemGroup>
+
 </Project>

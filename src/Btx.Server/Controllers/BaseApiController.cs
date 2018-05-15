@@ -10,6 +10,7 @@ using Btx.Server.Helper;
 using Btx.Server.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Btx.Server.Controllers
@@ -19,14 +20,13 @@ namespace Btx.Server.Controllers
     public class BaseApiController : Controller
     {
         protected IConfiguration _configuration;
-
         protected BtxUserManager _userManager;
-
 
         public BaseApiController(IConfiguration config,BtxUserManager userManager)
         {
             _configuration = config;
             _userManager = userManager;
+            
         }
 
 

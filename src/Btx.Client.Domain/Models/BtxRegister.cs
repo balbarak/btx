@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Btx.Client.Domain.Models
 {
-    public class RegisterForm
+    public class BtxRegister
     {
         public string Username { get; set; }
 

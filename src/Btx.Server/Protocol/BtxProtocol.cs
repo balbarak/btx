@@ -1,4 +1,6 @@
 ﻿using Btx.Client.Domain.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Generic;
@@ -7,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace Btx.Server.Protocol
 {
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class BtxProtocol : Hub
     {
         public override Task OnConnectedAsync()

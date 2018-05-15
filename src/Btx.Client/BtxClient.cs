@@ -41,14 +41,16 @@ namespace Btx.Client
         {
             _loggerProvider = loggerProvider;
             _logger = loggerProvider.CreateLogger("Client");
-
-            SetupConnection();
         }
 
         public async Task Connect()
         {
+            if (String.IsNullOrWhiteSpace(_accessToken))
+                throw new BtxClientException("no access token to login");
+
             try
             {
+                SetupConnection();
 
                 await _hubConnection.StartAsync(_ctk);
 
@@ -72,7 +74,7 @@ namespace Btx.Client
             await _hubConnection.InvokeAsync<BtxMessage>("Send");
         }
 
-        public async Task Register(RegisterForm model)
+        public async Task Register(BtxRegister model)
         {
 
             try
@@ -101,6 +103,8 @@ namespace Btx.Client
 
                     _accessToken = result;
 
+                    RemoveExtraFromToken();
+
                     _logger.LogInformation($"access toke: {_accessToken}");
                 }
             }
@@ -111,13 +115,56 @@ namespace Btx.Client
 
         }
 
+        public async Task Login(BtxLogin model)
+        {
+
+            try
+            {
+                _logger.LogInformation("Begin login ...");
+
+                using (HttpClient client = new HttpClient())
+                {
+                    client.BaseAddress = new Uri(Config.BTX_API_BASE_URL);
+
+                    var jsonModel = JsonConvert.SerializeObject(model);
+
+                    StringContent content = new StringContent(jsonModel, Encoding.UTF8, _jsonContentType);
+
+                    var response = await client.PostAsync("login", content);
+
+                    var result = await response.Content.ReadAsStringAsync();
+
+                    if (response.StatusCode != System.Net.HttpStatusCode.OK)
+                    {
+                        _logger.LogInformation("Unable to login");
+                        throw new BtxClientException(result);
+                    }
+
+                    _logger.LogInformation("login success. reading token ...");
+
+                    _accessToken = result.Trim();
+
+                    RemoveExtraFromToken();
+
+                    _logger.LogInformation($"access toke: {_accessToken}");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new BtxClientException("Unable to login", ex);
+            }
+
+        }
+
         private void SetupConnection()
         {
             var httpOptions = new HttpConnectionOptions
             {
-                Url = new Uri(Config.BTX_URL)
+                Url = new Uri(Config.BTX_URL),
             };
-
+            
+            httpOptions.Headers.Add("Authorization", $"Bearer {_accessToken}");
+            
             var loggerFactory = new LoggerFactory();
 
             if (_loggerProvider != null)
@@ -143,6 +190,11 @@ namespace Btx.Client
             return Task.FromResult(0);
         }
         
+
+        private void RemoveExtraFromToken()
+        {
+            _accessToken = _accessToken.Replace("\"", "");
+        }
 
     }
 }

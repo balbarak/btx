@@ -39,11 +39,13 @@
                 <Label Content="Username"/>
                 <TextBox 
                     Height="22" 
+                    Text="{Binding Username}"
                     Margin="10 0 10 10" />
 
                 <Label Content="Nickname"/>
 
                 <TextBox 
+                    Text="{Binding Nickname}"
                     Height="22"
                     Margin="10 0 10 10" />
 
@@ -57,6 +59,26 @@
                         IsEnabled="{Binding IsNotBusy}"
                         Margin="10,10,9.778,10"
                         Command="{Binding RegisterCommand}" Height="27"/>
+            </StackPanel>
+        </GroupBox>
+        <GroupBox Grid.Column="1" Header="Login" HorizontalAlignment="Left" Height="291" Margin="10,261,0,0" VerticalAlignment="Top" Width="315">
+            <StackPanel>
+                <Label Content="Username"/>
+                <TextBox 
+                    Height="22" 
+                    Text="{Binding LoginUsername}"
+                    Margin="10 0 10 10" />
+                <Label 
+                    Content="Password"/>
+                <PasswordBox 
+                    x:Name="txtPassword"
+                    Height="22"
+                    Margin="10 0 10 10" />
+
+                <Button Content="Login" 
+                        IsEnabled="{Binding IsNotBusy}"
+                        Margin="10,10,9.778,10"
+                        Command="{Binding LoginCommand}" Height="27"/>
             </StackPanel>
         </GroupBox>
     </Grid>

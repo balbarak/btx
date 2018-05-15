@@ -4,7 +4,10 @@ using System.Text;
 
 namespace Btx.Client.Domain.Models
 {
-    class LoginForm
+    public class BtxLogin
     {
+        public string Username { get; set; }
+
+        public string Password { get; set; }
     }
 }

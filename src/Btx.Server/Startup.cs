@@ -11,9 +11,11 @@ using Btx.Server.Protocol;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Btx.Server
@@ -23,6 +25,8 @@ namespace Btx.Server
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+
+            AppSettings.Configuration = configuration;
         }
 
         public IConfiguration Configuration { get; }
@@ -35,7 +39,9 @@ namespace Btx.Server
 
             services.AddIdentity<User, Role>()
                 .AddEntityFrameworkStores<BtxDbContext>()
-                .AddUserManager<BtxUserManager>();
+                .AddUserManager<BtxUserManager>()
+                .AddSignInManager<BtxSignInManager>();
+
 
             //Bearer Token Authentication
             services.AddAuthentication()
@@ -55,15 +61,17 @@ namespace Btx.Server
                                             Encoding.UTF8.GetBytes(Configuration[WebConstants.TOKEN_KEY]))
                     };
                 });
-
+            
             services.AddSignalR();
 
             services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env,ILoggerFactory logger)
         {
+            AppLogger.Configure(logger);
+
             if (env.IsDevelopment())
             {
                 app.UseBrowserLink();
@@ -82,6 +90,8 @@ namespace Btx.Server
             {
                 routes.MapHub<BtxProtocol>("/btx");
             });
+
+           
 
             app.UseMvc(routes =>
             {

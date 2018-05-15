@@ -14,7 +14,7 @@ namespace Btx.Server.Domain
 
         }
 
-        public User(RegisterForm registeration)
+        public User(BtxRegister registeration)
         {
             this.UserName = registeration.Username;
             this.Email = "btx@user.com";
