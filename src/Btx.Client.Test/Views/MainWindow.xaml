@@ -7,6 +7,7 @@
         xmlns:vm="clr-namespace:Btx.Client.Test.ViewModels"
         mc:Ignorable="d"
         Title="Btx Test Client v1.0" Height="593.14" Width="851.364">
+    
     <Window.DataContext>
         <vm:MainViewModel />
     </Window.DataContext>
@@ -29,7 +30,14 @@
                 Command="{Binding ConnectCommand}"
                 HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="111" Height="20"/>
 
-                <TextBox Text="{Binding LogMessages,Mode=OneWay}" TextWrapping="Wrap" IsReadOnly="True" Margin="0,10,0,0" Grid.Row="1"/>
+                <TextBox 
+                    Text="{Binding LogMessages,Mode=OneWay}" 
+                    TextWrapping="Wrap" 
+                    AcceptsReturn="True"
+                    VerticalScrollBarVisibility="Auto"
+                    IsReadOnly="True" 
+                    Margin="0,10,0,0" 
+                    Grid.Row="1"/>
 
 
             </Grid>

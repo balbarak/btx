@@ -28,9 +28,7 @@ namespace Btx.Server.Controllers
             _userManager = userManager;
             
         }
-
-
-
+        
         protected JwtSecurityToken GetJwtSecurityToken(User user)
         {
             var claims = _userManager.GetClaimsAsync(user).GetAwaiter().GetResult();
@@ -48,6 +46,7 @@ namespace Btx.Server.Controllers
                     issuer: _configuration[WebConstants.TOKEN_ISSUER],
                     audience: _configuration[WebConstants.TOKEN_AUDIENCE],
                     claims: claims,
+                    expires: DateTime.Now.AddMonths(2),
                     signingCredentials: creds
                 );
         }

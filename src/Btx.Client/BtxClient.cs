@@ -34,7 +34,6 @@ namespace Btx.Client
         public BtxClient()
         {
 
-            SetupConnection();
         }
 
         public BtxClient(ILoggerProvider loggerProvider)

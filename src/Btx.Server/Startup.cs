@@ -53,7 +53,8 @@ namespace Btx.Server
                     {
                         ValidateIssuer = true,
                         ValidateAudience = true,
-                        ValidateLifetime = false,
+                        ValidateLifetime = true,
+                        
                         ValidateIssuerSigningKey = true,
                         ValidIssuer = Configuration[WebConstants.TOKEN_ISSUER],
                         ValidAudience = Configuration[WebConstants.TOKEN_AUDIENCE],
