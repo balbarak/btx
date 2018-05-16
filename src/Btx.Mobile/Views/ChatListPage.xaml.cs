@@ -21,9 +21,7 @@ namespace Btx.Mobile.Views
             InitializeComponent();
 
             this.BindingContext = new ChatListViewModel();
-
-            App.ChatListPage = this;
-
+            
         }
 
         protected override void OnAppearing()

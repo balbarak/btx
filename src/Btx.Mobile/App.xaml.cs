@@ -15,9 +15,10 @@ namespace Btx.Mobile
                 return App.Current.MainPage as MasterDetailPage;
             }
         }
-        public static ChatListPage ChatListPage { get; set; }
         
         public static BtxChatManager ChatManager { get; set; } = new BtxChatManager();
+
+        public static App Instance { get; private set; }
 
 		public App ()
 		{
@@ -25,14 +26,15 @@ namespace Btx.Mobile
 
             BtxDbContext.InitDatabase();
 
-            MainPage = GetLoggedOut();
+            SetLoggedOutPage();
 
             if (Device.RuntimePlatform == Device.iOS)
             {
                 MainPage.Padding = new Thickness(0, 40, 0, 0);
                 
             }
-            
+
+            Instance = this;
         }
 
         public NavigationPage GetNavigationPage(Page page)
@@ -59,18 +61,19 @@ namespace Btx.Mobile
 			// Handle when your app resumes
 		}
 
-        public MasterDetailPage GetLoggedIn()
+        public void SetLoginPage()
         {
-            return new MasterDetailPage()
+            
+            this.MainPage = new MasterDetailPage()
             {
                 Master = new MenuPage(),
                 Detail = GetNavigationPage(new ChatListPage()),
             };
         }
 
-        public MasterDetailPage GetLoggedOut()
+        public void SetLoggedOutPage()
         {
-            return new MasterDetailPage()
+            MainPage = new MasterDetailPage()
             {
                 Master = new LogoutMenuPage(),
                 Detail = GetNavigationPage(new LoginPage()),

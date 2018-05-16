@@ -10,7 +10,7 @@
                 <Label Text="Username"/>
                 <Entry Text="{Binding Username}"/>
 
-                <Button Text="Login"/>
+                <Button Text="Login" Command="{Binding LoginCommand}"/>
                 
             </StackLayout>
             
