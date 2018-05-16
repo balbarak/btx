@@ -42,7 +42,13 @@ namespace Btx.Server.Protocol
         public async Task Send(BtxMessage msg)
         {
 
-            var activeConnections = ConnectionService.Instance.GetActiveConnections(msg.ToUserId);
+            var activeConnections = ConnectionService.Instance.GetActiveConnections(msg.RecipientId);
+
+            var newMessage = new BtxMessage()
+            {
+                RecipientId = UserId,
+                Body = msg.Body,
+            };
 
             foreach (var item in activeConnections)
             {

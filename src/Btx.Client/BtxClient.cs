@@ -29,6 +29,7 @@ namespace Btx.Client
 
         public event EventHandler OnDisconnected;
         public event EventHandler OnConnected;
+        public event BtxMessageEventHandler OnMessageRecieved;
 
         public bool IsConnected { get; private set; }
 
@@ -202,7 +203,7 @@ namespace Btx.Client
 
             _hubConnection.On<BtxMessage>(ClientMethods.ON_MESSAGE_RECIEVE, (msg) =>
             {
-                
+                OnMessageRecieved?.Invoke(msg);
             });
         }
 

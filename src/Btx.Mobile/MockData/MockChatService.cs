@@ -63,7 +63,7 @@ namespace Btx.Mobile.MockData
             {
                 var chatItem = new BtxMessage()
                 {
-                    FromUserId = LoremGenerator.GenerateText(1),
+                    RecipientId = LoremGenerator.GenerateText(1),
                     Body = LoremGenerator.GenerateText(LoremGenerator.Random.Next(2, 30), LoremGenerator.Random.Next(1, 4)),
                     Date = DateTime.Now.AddMinutes(LoremGenerator.Random.Next(-50, -3)),
                     BtxMessageType = BtxMessageType.Incoming,

@@ -24,12 +24,8 @@ namespace Btx.Mobile
 			InitializeComponent();
 
             BtxDbContext.InitDatabase();
-            
-            MainPage = new MasterDetailPage()
-            {
-                Master = new MenuPage(),
-                Detail = GetNavigationPage(new ChatListPage()),
-            };
+
+            MainPage = GetLoggedOut();
 
             if (Device.RuntimePlatform == Device.iOS)
             {
@@ -62,5 +58,24 @@ namespace Btx.Mobile
 		{
 			// Handle when your app resumes
 		}
-	}
+
+        public MasterDetailPage GetLoggedIn()
+        {
+            return new MasterDetailPage()
+            {
+                Master = new MenuPage(),
+                Detail = GetNavigationPage(new ChatListPage()),
+            };
+        }
+
+        public MasterDetailPage GetLoggedOut()
+        {
+            return new MasterDetailPage()
+            {
+                Master = new LogoutMenuPage(),
+                Detail = GetNavigationPage(new LoginPage()),
+            };
+        }
+
+    }
 }

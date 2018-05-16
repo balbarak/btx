@@ -1,6 +1,7 @@
 ﻿using Btx.Client.Domain.Models;
 using Btx.Client.Exceptions;
 using Btx.Client.Test.Helpers;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -123,6 +124,12 @@ namespace Btx.Client.Test.ViewModels
         {
             Client.OnConnected += OnConnected;
             Client.OnDisconnected += OnDisconnected;
+            Client.OnMessageRecieved += OnMessageRecieved;
+        }
+
+        private void OnMessageRecieved(BtxMessage msg)
+        {
+            LoggerProvider.CurrentLogger.LogInformation(msg.Body);
         }
 
         private void OnDisconnected(object sender, EventArgs e)

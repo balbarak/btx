@@ -8,9 +8,9 @@ namespace Btx.Client.Domain.Models
     {
         public string Id { get; private set; }
         
-        public string FromUserId { get; set; }
+        public string RecipientId { get; set; }
 
-        public string ToUserId { get; set; }
+        public BtxUser Recipient { get; set; }
 
         public string ThreadId { get; set; }
 
