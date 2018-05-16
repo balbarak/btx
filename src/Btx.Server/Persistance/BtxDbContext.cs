@@ -13,6 +13,7 @@ namespace Btx.Server.Persistance
 {
     public class BtxDbContext : IdentityDbContext<User,Role,string>
     {
+        public DbSet<Connection> Connections { get; set; }
 
         public BtxDbContext()
         {

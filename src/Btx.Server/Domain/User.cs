@@ -9,6 +9,10 @@ namespace Btx.Server.Domain
 {
     public class User : IdentityUser
     {
+        public List<Connection> Connections { get; set; }
+
+        public string PublicKey { get; set; }
+
         public User()
         {
 

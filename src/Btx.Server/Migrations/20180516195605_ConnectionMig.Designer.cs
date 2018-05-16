@@ -11,9 +11,10 @@ using System;
 namespace Btx.Server.Migrations
 {
     [DbContext(typeof(BtxDbContext))]
-    partial class BtxDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180516195605_ConnectionMig")]
+    partial class ConnectionMig
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

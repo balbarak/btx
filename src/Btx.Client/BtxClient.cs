@@ -14,6 +14,7 @@ using Microsoft.Extensions.Options;
 using System.Net.Http;
 using Newtonsoft.Json;
 using Btx.Client.Exceptions;
+using Btx.Client.Domain;
 
 namespace Btx.Client
 {
@@ -50,6 +51,7 @@ namespace Btx.Client
             try
             {
                 SetupConnection();
+                
 
                 await _hubConnection.StartAsync(_ctk);
 
@@ -68,9 +70,9 @@ namespace Btx.Client
 
         }
 
-        public async Task Send()
+        public async Task Send(BtxMessage msg)
         {
-            await _hubConnection.InvokeAsync<BtxMessage>("Send");
+            await _hubConnection.InvokeAsync<BtxMessage>("Send",msg);
         }
 
         public async Task Register(BtxRegister model)
@@ -176,8 +178,8 @@ namespace Btx.Client
             JsonHubProtocol jsonProtocol = new JsonHubProtocol();
 
             _hubConnection = new HubConnection(factory, jsonProtocol, loggerFactory);
-
-            _hubConnection.Closed += InternalClosed;
+            
+            SetupEvents();
         }
 
         private Task InternalClosed(Exception arg)
@@ -189,10 +191,19 @@ namespace Btx.Client
             return Task.FromResult(0);
         }
         
-
         private void RemoveExtraFromToken()
         {
             _accessToken = _accessToken.Replace("\"", "");
+        }
+
+        private void SetupEvents()
+        {
+            _hubConnection.Closed += InternalClosed;
+
+            _hubConnection.On<BtxMessage>(ClientMethods.ON_MESSAGE_RECIEVE, (msg) =>
+            {
+                
+            });
         }
 
     }

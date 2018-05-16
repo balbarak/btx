@@ -51,7 +51,7 @@ namespace Btx.Server.Controllers
             {
                 _logger.LogError(ex.ToString());
 
-                return BadRequest(ex);
+                return BadRequest();
             }
 
         }

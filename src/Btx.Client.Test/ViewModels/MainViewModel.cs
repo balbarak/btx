@@ -21,6 +21,8 @@ namespace Btx.Client.Test.ViewModels
 
         public ICommand LoginCommand { get; }
 
+        public ICommand SendCommand { get; }
+        
         private string _username = "user";
 
         public string Username
@@ -51,6 +53,22 @@ namespace Btx.Client.Test.ViewModels
         {
             get { return _loginUsername; }
             set { _loginUsername = value; OnPropertyChanged(); }
+        }
+
+        private string _toUserId;
+
+        public string ToUserId
+        {
+            get { return _toUserId; }
+            set { _toUserId = value; OnPropertyChanged(); }
+        }
+
+        private string _messageToSend;
+
+        public string MessageToSend
+        {
+            get { return _messageToSend; }
+            set { _messageToSend = value; OnPropertyChanged(); }
         }
 
 
@@ -93,6 +111,11 @@ namespace Btx.Client.Test.ViewModels
             LoginCommand = new RelayCommand(async (obj) =>
             {
                 await Login();
+            });
+
+            SendCommand = new RelayCommand(async (obj) =>
+            {
+                await Send();
             });
         }
 
@@ -163,6 +186,33 @@ namespace Btx.Client.Test.ViewModels
                 };
 
                 await Client.Login(model);
+
+
+            }
+            catch (BtxClientException ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+
+        }
+
+        private async Task Send()
+        {
+            try
+            {
+                IsBusy = true;
+
+                BtxMessage msg = new BtxMessage()
+                {
+                    Body = MessageToSend,
+                    ToUserId = ToUserId
+                };
+
+                await Client.Send(msg);
 
 
             }
