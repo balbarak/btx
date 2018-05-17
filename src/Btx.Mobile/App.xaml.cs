@@ -76,7 +76,7 @@ namespace Btx.Mobile
             MainPage = new MasterDetailPage()
             {
                 Master = new LogoutMenuPage(),
-                Detail = GetNavigationPage(new LoginPage()),
+                Detail = GetNavigationPage(new RegisterPage()),
             };
         }
 

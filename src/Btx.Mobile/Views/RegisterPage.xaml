@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:Btx.Mobile.Views"
+             x:Class="Btx.Mobile.Views.RegisterPage">
+    <ContentPage.Content>
+        <Grid>
+            <StackLayout Padding="5"
+                         Grid.Row="0">
+
+                <Label Text="Create New Account" 
+                   FontSize="Large" 
+                   Margin="10"
+                   HorizontalTextAlignment="Center" />
+
+                <Entry  Placeholder="Username" Text="{Binding Username}"/>
+                <Entry Placeholder="Nickname" Text="{Binding Nickname}" />
+                <Entry Placeholder="Password" IsPassword="True" Text="{Binding Password}" />
+                <Button Text="Create account" Command="{Binding RegisterCommand}"/>
+
+            </StackLayout>
+    
+            <local:Loading IsVisible="{Binding IsBusy}" />
+
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>
