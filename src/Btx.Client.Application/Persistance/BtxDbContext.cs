@@ -43,10 +43,6 @@ namespace Btx.Client.Application.Persistance
                 .WithMany(a => a.Messages)
                 .HasForeignKey(a => a.ThreadId);
             
-
-
-
-
             base.OnModelCreating(modelBuilder);
             
         }

@@ -81,7 +81,7 @@ namespace Btx.Client
 
             try
             {
-                _logger.LogInformation("Begin registering ...");
+                _logger?.LogInformation("Begin registering ...");
 
                 using (HttpClient client = new HttpClient())
                 {
@@ -101,17 +101,19 @@ namespace Btx.Client
                         throw new BtxClientException(result);
                     }
 
-                    _logger.LogInformation("register success. reading token ...");
+                    _logger?.LogInformation("register success. reading token ...");
 
                     _accessToken = result;
 
                     RemoveExtraFromToken();
 
-                    _logger.LogInformation($"access toke: {_accessToken}");
+                    _logger?.LogInformation($"access toke: {_accessToken}");
                 }
             }
             catch (Exception ex)
             {
+                _logger?.LogError("Unable to register error: {0}", ex);
+
                 throw new BtxClientException("Unable to register", ex);
             }
 

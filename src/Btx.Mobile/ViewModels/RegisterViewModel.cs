@@ -57,8 +57,15 @@ namespace Btx.Mobile.ViewModels
                 Username = this.Username
             };
 
-            await App.ChatManager.Client.Register(model);
-
+            try
+            {
+                await App.ChatManager.Client.Register(model);
+            }
+            catch (Exception ex)
+            {
+                
+            }
+            
 
             IsBusy = false;
         }
