@@ -12,11 +12,14 @@ using Btx.Mobile.ViewModels;
 using Btx.Client.Application.Services;
 using Btx.Client.Domain.Models;
 using Btx.Mobile.Wrappers;
+using Btx.Client;
 
 namespace Btx.Mobile.Services
 {
     public class BtxChatManager
     {
+        public BtxClient Client { get; set; } = new BtxClient();
+
         public ObservableRangeCollection<User> Users { get; set; } = new ObservableRangeCollection<User>();
 
         public ObservableRangeCollection<BtxThreadWrapper> BtxThreads { get; private set; } = new ObservableRangeCollection<BtxThreadWrapper>();

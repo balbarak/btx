@@ -1,4 +1,4 @@
-﻿using Btx.Mobile.Validations;
+﻿using Btx.Client.Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -11,9 +11,9 @@ namespace Btx.Mobile.ViewModels
 {
     public class RegisterViewModel : BaseViewModel
     {
-        private UsernameValidation<string> _username;
+        private string _username;
 
-        public UsernameValidation<string> Username
+        public string Username
         {
             get { return _username; }
             set { _username = value; OnPropertyChanged(); }
@@ -49,8 +49,16 @@ namespace Btx.Mobile.ViewModels
         {
             
             IsBusy = true;
-           
-            await Task.Delay(5000);
+
+            var model = new BtxRegister()
+            {
+                Nickname = this.Nickname,
+                Password = this.Password,
+                Username = this.Username
+            };
+
+            await App.ChatManager.Client.Register(model);
+
 
             IsBusy = false;
         }

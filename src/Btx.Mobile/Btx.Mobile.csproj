@@ -31,7 +31,7 @@
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
     <PackageReference Include="Refractored.MvvmHelpers" Version="1.3.0" />
     <PackageReference Include="Rg.Plugins.Popup" Version="1.1.4.145-pre" />
-    <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="4.4.0" />
+    <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="4.5.0" />
     <PackageReference Include="Xam.Plugin.Media" Version="3.1.3" />
     <PackageReference Include="Xamarin.FFImageLoading.Forms" Version="2.3.6" />
     <PackageReference Include="Xamarin.FFImageLoading.Transformations" Version="2.3.6" />
@@ -96,6 +96,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Btx.Client.Application\Btx.Client.Application.csproj" />
     <ProjectReference Include="..\Btx.Client.Domain\Btx.Client.Domain.csproj" />
+    <ProjectReference Include="..\Btx.Client\Btx.Client.csproj" />
   </ItemGroup>
 
 </Project>

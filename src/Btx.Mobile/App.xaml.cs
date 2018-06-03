@@ -22,6 +22,7 @@ namespace Btx.Mobile
 
 		public App ()
 		{
+
 			InitializeComponent();
 
             BtxDbContext.InitDatabase();
@@ -44,8 +45,7 @@ namespace Btx.Mobile
                 
             };
         }
-
-
+        
         protected override void OnStart ()
 		{
 			// Handle when your app starts
