@@ -62,7 +62,7 @@ namespace Btx.Client
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Unable to coneect: {ex}");
+                _logger?.LogError($"Unable to coneect: {ex}");
 
                 IsConnected = false;
             }
@@ -97,7 +97,7 @@ namespace Btx.Client
 
                     if (response.StatusCode != System.Net.HttpStatusCode.OK)
                     {
-                        _logger.LogInformation("Unable to register");
+                        _logger?.LogInformation("Unable to register");
                         throw new BtxClientException(result);
                     }
 
@@ -160,7 +160,7 @@ namespace Btx.Client
 
         }
 
-        private void SetupConnection()
+        public void SetupConnection()
         {
             var httpOptions = new HttpConnectionOptions
             {

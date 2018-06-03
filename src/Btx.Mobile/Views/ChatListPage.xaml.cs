@@ -29,6 +29,8 @@ namespace Btx.Mobile.Views
             base.OnAppearing();
 
             await ViewModel.LoadThreads();
+
+            await ViewModel.Connect();
         }
 
         private async void OnTabbed(object sender, ItemTappedEventArgs e)

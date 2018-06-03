@@ -37,6 +37,23 @@ namespace Btx.Mobile.ViewModels
 
         }
 
+        public void SetupEvents()
+        {
+            App.ChatManager.Client.OnConnected += OnConnected;
+            App.ChatManager.Client.OnDisconnected += OnDisconnected;
+            
+        }
+
+        private void OnDisconnected(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void OnConnected(object sender, EventArgs e)
+        {
+            this.Title = "Connected";
+        }
+
         public void ChangeTitle(string title)
         {
             Title = title;
@@ -56,7 +73,7 @@ namespace Btx.Mobile.ViewModels
             return Task.Run(() =>
             {
                 IsBusy = true;
-
+                
                 var chats = BtxThreadService.Instance.GetAll();
 
                 foreach (var item in chats)
@@ -77,6 +94,15 @@ namespace Btx.Mobile.ViewModels
                 IsBusy = false;
             });
 
+        }
+
+        public Task Connect()
+        {
+            if (App.ChatManager.Client.IsConnected)
+                return Task.CompletedTask;
+
+            return App.ChatManager.Client.Connect();
+            
         }
     }
 
