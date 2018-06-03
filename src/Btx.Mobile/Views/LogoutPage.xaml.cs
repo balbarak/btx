@@ -11,17 +11,15 @@ using Xamarin.Forms.Xaml;
 namespace Btx.Mobile.Views
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class RegisterPage : ContentPage
+	public partial class LogoutPage : ContentPage
 	{
-        protected RegisterViewModel ViewModel => BindingContext as RegisterViewModel;
+        protected LogoutViewModel ViewModel => BindingContext as LogoutViewModel;
 
-		public RegisterPage ()
+        public LogoutPage ()
 		{
-			InitializeComponent ();
-            
-            this.BindingContext = new RegisterViewModel();
+			InitializeComponent();
 
-            
-		}
+            this.BindingContext = new LogoutViewModel();
+        }
 	}
 }

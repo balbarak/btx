@@ -1,18 +1,24 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             Title="Login"
+             xmlns:local="clr-namespace:Btx.Mobile.Views"
              x:Class="Btx.Mobile.Views.LoginPage">
     <ContentPage.Content>
 
         <Grid>
 
-            <StackLayout>
-                <Label Text="Username"/>
-                <Entry Text="{Binding Username}"/>
+            <StackLayout Padding="5"
+                         Margin="10,40,10,10"
+                         Grid.Row="0">
+                <Entry  Placeholder="Username" Text="{Binding Username}"/>
+                <Entry Placeholder="Password" IsPassword="True" Text="{Binding Password}" />
 
                 <Button Text="Login" Command="{Binding LoginCommand}"/>
                 
             </StackLayout>
+
+            <local:Loading IsVisible="{Binding IsBusy}" />
             
         </Grid>
         

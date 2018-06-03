@@ -61,7 +61,7 @@ namespace Btx.Mobile
 			// Handle when your app resumes
 		}
 
-        public void SetLoginPage()
+        public void SetLoggedInPage()
         {
             
             this.MainPage = new MasterDetailPage()
@@ -76,7 +76,7 @@ namespace Btx.Mobile
             MainPage = new MasterDetailPage()
             {
                 Master = new LogoutMenuPage(),
-                Detail = GetNavigationPage(new RegisterPage()),
+                Detail = GetNavigationPage(new LogoutPage()),
             };
         }
 

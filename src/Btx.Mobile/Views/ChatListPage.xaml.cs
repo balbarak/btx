@@ -23,10 +23,12 @@ namespace Btx.Mobile.Views
             this.BindingContext = new ChatListViewModel();
             
         }
-
-        protected override void OnAppearing()
+        
+        protected override async void OnAppearing()
         {
             base.OnAppearing();
+
+            await ViewModel.LoadThreads();
         }
 
         private async void OnTabbed(object sender, ItemTappedEventArgs e)

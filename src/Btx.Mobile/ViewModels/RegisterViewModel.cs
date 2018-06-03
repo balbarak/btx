@@ -60,10 +60,12 @@ namespace Btx.Mobile.ViewModels
             try
             {
                 await App.ChatManager.Client.Register(model);
+
+                App.Instance.SetLoggedInPage();
             }
             catch (Exception ex)
             {
-                
+                await Application.Current.MainPage.DisplayAlert("Unable to register", ex.ToString(), "Ok");
             }
             
 

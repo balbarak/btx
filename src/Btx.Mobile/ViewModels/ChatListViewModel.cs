@@ -31,7 +31,7 @@ namespace Btx.Mobile.ViewModels
         {
             Title = "BTX Chat";
 
-            LoadThreads();
+            //LoadThreads();
 
             //AddTestItem();
 

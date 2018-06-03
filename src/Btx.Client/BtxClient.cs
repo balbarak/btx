@@ -124,7 +124,7 @@ namespace Btx.Client
 
             try
             {
-                _logger.LogInformation("Begin login ...");
+                _logger?.LogInformation("Begin login ...");
 
                 using (HttpClient client = new HttpClient())
                 {
@@ -140,22 +140,22 @@ namespace Btx.Client
 
                     if (response.StatusCode != System.Net.HttpStatusCode.OK)
                     {
-                        _logger.LogInformation("Unable to login");
+                        _logger?.LogInformation("Unable to login");
                         throw new BtxClientException(result);
                     }
 
-                    _logger.LogInformation("login success. reading token ...");
+                    _logger?.LogInformation("login success. reading token ...");
 
                     _accessToken = result.Trim();
 
                     RemoveExtraFromToken();
 
-                    _logger.LogInformation($"access toke: {_accessToken}");
+                    _logger?.LogInformation($"access toke: {_accessToken}");
                 }
             }
             catch (Exception ex)
             {
-                throw new BtxClientException("Unable to login", ex);
+                throw ex;
             }
 
         }
