@@ -114,7 +114,7 @@ namespace Btx.Client
             {
                 _logger?.LogError("Unable to register error: {0}", ex);
 
-                throw new BtxClientException("Unable to register", ex);
+                throw ex;
             }
 
         }
