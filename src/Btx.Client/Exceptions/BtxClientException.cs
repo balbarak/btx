@@ -4,8 +4,7 @@ using System.Text;
 
 namespace Btx.Client.Exceptions
 {
-
-    [Serializable]
+    
     public class BtxClientException : Exception
     {
         public BtxClientException() { }

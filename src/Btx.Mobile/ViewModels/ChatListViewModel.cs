@@ -31,6 +31,8 @@ namespace Btx.Mobile.ViewModels
         {
             Title = "BTX Chat";
 
+            App.ChatManager.Client.Connect();
+
             //LoadThreads();
 
             //AddTestItem();
@@ -96,14 +98,7 @@ namespace Btx.Mobile.ViewModels
 
         }
 
-        public Task Connect()
-        {
-            if (App.ChatManager.Client.IsConnected)
-                return Task.CompletedTask;
-
-            return App.ChatManager.Client.Connect();
-            
-        }
+       
     }
 
 }

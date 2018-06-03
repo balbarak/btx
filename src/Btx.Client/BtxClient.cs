@@ -15,7 +15,7 @@ using System.Net.Http;
 using Newtonsoft.Json;
 using Btx.Client.Exceptions;
 using Btx.Client.Domain;
-
+using Microsoft.AspNetCore.SignalR.Protocol;
 namespace Btx.Client
 {
     public class BtxClient
@@ -44,7 +44,7 @@ namespace Btx.Client
             _logger = loggerProvider.CreateLogger("Client");
         }
 
-        public async Task Connect()
+        public void Connect()
         {
             if (String.IsNullOrWhiteSpace(_accessToken))
                 throw new BtxClientException("no access token to login");
@@ -52,9 +52,8 @@ namespace Btx.Client
             try
             {
                 SetupConnection();
-                
 
-                await _hubConnection.StartAsync(_ctk);
+                _hubConnection.StartAsync(_ctk).GetAwaiter().GetResult();
 
                 IsConnected = true;
 
@@ -73,7 +72,7 @@ namespace Btx.Client
 
         public async Task Send(BtxMessage msg)
         {
-            await _hubConnection.InvokeAsync<BtxMessage>("Send",msg);
+            await _hubConnection.InvokeAsync<BtxMessage>("Send", msg);
         }
 
         public async Task Register(BtxRegister model)
@@ -92,7 +91,7 @@ namespace Btx.Client
                     StringContent content = new StringContent(jsonModel, Encoding.UTF8, _jsonContentType);
 
                     var response = await client.PostAsync("register", content);
-                    
+
                     var result = await response.Content.ReadAsStringAsync();
 
                     if (response.StatusCode != System.Net.HttpStatusCode.OK)
@@ -166,9 +165,9 @@ namespace Btx.Client
             {
                 Url = new Uri(Config.BTX_URL),
             };
-            
+
             httpOptions.Headers.Add("Authorization", $"Bearer {_accessToken}");
-            
+
             var loggerFactory = new LoggerFactory();
 
             if (_loggerProvider != null)
@@ -181,7 +180,7 @@ namespace Btx.Client
             JsonHubProtocol jsonProtocol = new JsonHubProtocol();
 
             _hubConnection = new HubConnection(factory, jsonProtocol, loggerFactory);
-            
+
             SetupEvents();
         }
 
@@ -193,7 +192,7 @@ namespace Btx.Client
 
             return Task.FromResult(0);
         }
-        
+
         private void RemoveExtraFromToken()
         {
             _accessToken = _accessToken.Replace("\"", "");
