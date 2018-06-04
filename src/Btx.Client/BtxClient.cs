@@ -1,21 +1,17 @@
 ﻿using Microsoft.AspNetCore.SignalR.Client;
-using Microsoft.AspNetCore.SignalR;
+using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
-using System.Diagnostics;
-using Microsoft.Extensions.Logging;
 using Btx.Client.Domain.Models;
 using Microsoft.AspNetCore.Http.Connections.Client;
-using Microsoft.AspNetCore.SignalR.Protocol;
 using Microsoft.Extensions.Options;
 using System.Net.Http;
 using Newtonsoft.Json;
 using Btx.Client.Exceptions;
 using Btx.Client.Domain;
-using Microsoft.AspNetCore.SignalR.Protocol;
+
 namespace Btx.Client
 {
     public class BtxClient
@@ -174,12 +170,16 @@ namespace Btx.Client
                 loggerFactory.AddProvider(_loggerProvider);
 
             var options = Options.Create(httpOptions);
+            
+            //HttpConnectionFactory factory = new HttpConnectionFactory(options, loggerFactory);
 
-            HttpConnectionFactory factory = new HttpConnectionFactory(options, loggerFactory);
+            //JsonHubProtocol jsonProtocol = new JsonHubProtocol();
 
-            JsonHubProtocol jsonProtocol = new JsonHubProtocol();
 
-            _hubConnection = new HubConnection(factory, jsonProtocol, loggerFactory);
+            //_hubConnection = new HubConnection(factory, jsonProtocol, loggerFactory);
+            _hubConnection = new HubConnectionBuilder()
+                .WithUrl(Config.BTX_URL)
+                .Build();
 
             SetupEvents();
         }
