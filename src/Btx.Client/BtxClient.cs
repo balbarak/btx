@@ -12,6 +12,7 @@ using Newtonsoft.Json;
 using Btx.Client.Exceptions;
 using Btx.Client.Domain;
 using Microsoft.AspNetCore.SignalR.Protocol;
+using Btx.Client.BtxEventsArg;
 
 namespace Btx.Client
 {
@@ -27,6 +28,7 @@ namespace Btx.Client
         public event EventHandler OnDisconnected;
         public event EventHandler OnConnected;
         public event BtxMessageEventHandler OnMessageRecieved;
+        public event EventHandler OnTokenRecieved;
 
         public bool IsConnected { get; private set; }
 
@@ -62,7 +64,15 @@ namespace Btx.Client
 
                 IsConnected = false;
             }
-            
+
+        }
+
+        public async Task Disconnect()
+        {
+            IsConnected = false;
+
+            if (_hubConnection != null)
+                await _hubConnection.DisposeAsync();
         }
 
         public async Task Send(BtxMessage msg)
@@ -102,11 +112,13 @@ namespace Btx.Client
                     RemoveExtraFromToken();
 
                     _logger?.LogInformation($"access toke: {_accessToken}");
+
+                    OnTokenRecieved?.Invoke(this, new TokenEventArgs(_accessToken));
                 }
             }
             catch (Exception ex)
             {
-                _logger?.LogError("Unable to register error: {0}", ex);
+                _logger?.LogError("Unable to login error: {0}", ex);
 
                 throw ex;
             }
@@ -145,10 +157,14 @@ namespace Btx.Client
                     RemoveExtraFromToken();
 
                     _logger?.LogInformation($"access toke: {_accessToken}");
+
+                    OnTokenRecieved?.Invoke(this, new TokenEventArgs(_accessToken));
                 }
             }
             catch (Exception ex)
             {
+                _logger?.LogError("Unable to register error: {0}", ex);
+
                 throw ex;
             }
 
@@ -169,13 +185,13 @@ namespace Btx.Client
                 loggerFactory.AddProvider(_loggerProvider);
 
             var options = Options.Create(httpOptions);
-            
+
             HttpConnectionFactory factory = new HttpConnectionFactory(options, loggerFactory);
 
             JsonHubProtocol jsonProtocol = new JsonHubProtocol();
-            
+
             _hubConnection = new HubConnection(factory, jsonProtocol, loggerFactory);
-            
+
             SetupEvents();
         }
 
