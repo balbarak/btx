@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace Btx.Server.Protocol
 {
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class BtxProtocol : Hub
     {
         public string UserId

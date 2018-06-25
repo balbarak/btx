@@ -40,7 +40,7 @@ namespace Btx.Client
             _logger = loggerProvider.CreateLogger("Client");
         }
 
-        public void Connect()
+        public async Task Connect()
         {
             if (String.IsNullOrWhiteSpace(_accessToken))
                 throw new BtxClientException("no access token to login");
@@ -49,7 +49,7 @@ namespace Btx.Client
             {
                 SetupConnection();
 
-                _hubConnection.StartAsync(_ctk).GetAwaiter().GetResult();
+                await _hubConnection.StartAsync(_ctk);
 
                 IsConnected = true;
 
@@ -171,12 +171,13 @@ namespace Btx.Client
 
             var options = Options.Create(httpOptions);
             
-            //HttpConnectionFactory factory = new HttpConnectionFactory(options, loggerFactory);
+            HttpConnectionFactory factory = new HttpConnectionFactory(options, loggerFactory);
 
             //JsonHubProtocol jsonProtocol = new JsonHubProtocol();
 
 
             //_hubConnection = new HubConnection(factory, jsonProtocol, loggerFactory);
+
             _hubConnection = new HubConnectionBuilder()
                 .WithUrl(Config.BTX_URL)
                 .Build();

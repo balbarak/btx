@@ -37,14 +37,6 @@ namespace Btx.Mobile
 
             Instance = this;
         }
-
-        public NavigationPage GetNavigationPage(Page page)
-        {
-            return new NavigationPage(page)
-            {
-                
-            };
-        }
         
         protected override void OnStart ()
 		{
@@ -77,6 +69,15 @@ namespace Btx.Mobile
             {
                 Master = new LogoutMenuPage(),
                 Detail = GetNavigationPage(new LogoutPage()),
+            };
+        }
+
+
+        public NavigationPage GetNavigationPage(Page page)
+        {
+            return new NavigationPage(page)
+            {
+
             };
         }
 

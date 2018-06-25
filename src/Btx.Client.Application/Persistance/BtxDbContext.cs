@@ -24,11 +24,12 @@ namespace Btx.Client.Application.Persistance
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            base.OnConfiguring(optionsBuilder);
+            if (optionsBuilder.IsConfigured)
+                return;
 
             optionsBuilder.UseSqlite($"Filename={_databaseFilePath}");
         }
-
+        
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 
@@ -49,14 +50,14 @@ namespace Btx.Client.Application.Persistance
 
         public static void InitDatabase()
         {
-            var context = new BtxDbContext();
-
             if (!Directory.Exists(BtxSetting.DATA_FOLDER_PATH))
             {
                 Directory.CreateDirectory(BtxSetting.DATA_FOLDER_PATH);
             }
 
-            //context.Database.EnsureDeleted();
+            var context = new BtxDbContext();
+
+            context.Database.EnsureDeleted();
             context.Database.EnsureCreated();
             context.Database.Migrate();
         }

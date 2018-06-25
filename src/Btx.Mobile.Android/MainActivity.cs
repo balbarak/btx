@@ -17,7 +17,7 @@ namespace Btx.Mobile.Droid
     {
         protected override void OnCreate(Bundle bundle)
         {
-            Plugin.CurrentActivity.CrossCurrentActivity.Current.Activity = this;
+            //Plugin.CurrentActivity.CrossCurrentActivity.Current.Activity = this;
 
 
             TabLayoutResource = Resource.Layout.Tabbar;
@@ -28,13 +28,13 @@ namespace Btx.Mobile.Droid
             Rg.Plugins.Popup.Popup.Init(this,bundle);
 
             global::Xamarin.Forms.Forms.Init(this, bundle);
-            CachedImageRenderer.Init(true);
+            //CachedImageRenderer.Init(true);
             LoadApplication(new App());
         }
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
         {
-            PermissionsImplementation.Current.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+            //PermissionsImplementation.Current.OnRequestPermissionsResult(requestCode, permissions, grantResults);
 
             //base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
