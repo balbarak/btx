@@ -66,29 +66,28 @@
             <TextBox IsReadOnly="True" Text="{Binding Token,Mode=OneWay}"/>
         </GroupBox>
 
-        <GroupBox Header="Log" Margin="10,267,10,10.5">
+        <GroupBox Header="Log" Margin="10,446,10,10.5">
             <TextBox 
                 VerticalScrollBarVisibility="Visible"
                 TextChanged="TextBox_TextChanged"
                 Text="{Binding Log,Mode=OneWay}"/>
         </GroupBox>
-        <GroupBox Header="Messages" Height="107" Margin="323,155,10,0" VerticalAlignment="Top">
-            <Grid>
-                <StackPanel Margin="5,0,329,0">
-                    <Label Content="User Id"/>
-                    <TextBox Height="24" />
-                </StackPanel>
-                <StackPanel Margin="247,0,145,10">
-                    <Label Content="Messages"/>
-                    <TextBox Height="24" Width="200" Margin="176,0" />
-                </StackPanel>
+        <GroupBox Header="Send Message" Height="208" Margin="323,155,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="308">
+
+            <StackPanel Margin="5">
+                <Label Content="User Id"/>
+                <TextBox Height="24" />
+                <Label Content="Message"/>
+                <TextBox Height="60" />
                 <Button 
-                    Margin="422,37,40,23"
+                    Margin="0,10"
                     Height="24"
                     Width="100"
-                    VerticalAlignment="Center"
-                    Content="Send" RenderTransformOrigin="0.785,0.542"/>
-            </Grid>
+                    HorizontalAlignment="Left"
+                    IsEnabled="{Binding IsConnected}"
+                    Content="Send"/>
+            </StackPanel>
+
         </GroupBox>
     </Grid>
 </Window>
