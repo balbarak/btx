@@ -11,6 +11,7 @@ using System.Net.Http;
 using Newtonsoft.Json;
 using Btx.Client.Exceptions;
 using Btx.Client.Domain;
+using Microsoft.AspNetCore.SignalR.Protocol;
 
 namespace Btx.Client
 {
@@ -173,14 +174,14 @@ namespace Btx.Client
             
             HttpConnectionFactory factory = new HttpConnectionFactory(options, loggerFactory);
 
-            //JsonHubProtocol jsonProtocol = new JsonHubProtocol();
+            JsonHubProtocol jsonProtocol = new JsonHubProtocol();
 
 
-            //_hubConnection = new HubConnection(factory, jsonProtocol, loggerFactory);
+            _hubConnection = new HubConnection(factory, jsonProtocol, loggerFactory);
 
-            _hubConnection = new HubConnectionBuilder()
-                .WithUrl(Config.BTX_URL)
-                .Build();
+            //_hubConnection = new HubConnectionBuilder()
+            //    .WithUrl(Config.BTX_URL)
+            //    .Build();
 
             SetupEvents();
         }
