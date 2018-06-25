@@ -62,9 +62,7 @@ namespace Btx.Client
 
                 IsConnected = false;
             }
-
-
-
+            
         }
 
         public async Task Send(BtxMessage msg)
@@ -178,11 +176,7 @@ namespace Btx.Client
 
 
             _hubConnection = new HubConnection(factory, jsonProtocol, loggerFactory);
-
-            //_hubConnection = new HubConnectionBuilder()
-            //    .WithUrl(Config.BTX_URL)
-            //    .Build();
-
+            
             SetupEvents();
         }
 

@@ -76,9 +76,7 @@ namespace Btx.Mobile.Wrappers
                 OnPropertyChanged(nameof(LastMessageTime));
             }
         }
-
-
-
+        
         public ObservableRangeCollection<BtxMessageWrapper> Messages { get; set; } = new ObservableRangeCollection<BtxMessageWrapper>();
 
         public BtxThreadWrapper(BtxThread model) : base(model)

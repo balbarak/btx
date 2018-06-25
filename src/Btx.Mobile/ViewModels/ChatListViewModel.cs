@@ -26,12 +26,13 @@ namespace Btx.Mobile.ViewModels
             get { return _selectedItem; }
             set { _selectedItem = value; OnPropertyChanged(); }
         }
-
+        
         public ChatListViewModel()
         {
             Title = "BTX Chat";
 
             App.ChatManager.Client.Connect();
+          
 
             //LoadThreads();
 
@@ -43,7 +44,13 @@ namespace Btx.Mobile.ViewModels
         {
             App.ChatManager.Client.OnConnected += OnConnected;
             App.ChatManager.Client.OnDisconnected += OnDisconnected;
+            App.ChatManager.Client.OnMessageRecieved += OnMessageRecived;
             
+        }
+
+        private void OnMessageRecived(BtxMessage msg)
+        {
+
         }
 
         private void OnDisconnected(object sender, EventArgs e)
@@ -98,7 +105,6 @@ namespace Btx.Mobile.ViewModels
 
         }
 
-       
     }
 
 }

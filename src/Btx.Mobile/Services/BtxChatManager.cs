@@ -28,6 +28,8 @@ namespace Btx.Mobile.Services
         
         public BtxChatManager()
         {
+
+            Client.OnMessageRecieved += OnMessageRecieved;
             //AddRandomThreads();
 
             //Users.AddRange(MockChatService.GetUsers());
@@ -37,7 +39,12 @@ namespace Btx.Mobile.Services
             //MockChatService.StartSimulateChat(ChatViewModels.First().Id);
 
         }
-        
+
+        private void OnMessageRecieved(BtxMessage msg)
+        {
+
+        }
+
         private async Task SortChats()
         {
             var sortedItems = BtxThreads.OrderByDescending(a => a.LastMessageDate).ToList();
