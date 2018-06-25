@@ -1,4 +1,5 @@
 ﻿using Btx.Client.Domain.Models;
+using Btx.Mobile.Services;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -59,7 +60,7 @@ namespace Btx.Mobile.ViewModels
 
             try
             {
-                await App.ChatManager.Client.Register(model);
+                await BtxProtocolService.Instance.Client.Register(model);
 
                 App.Instance.SetLoggedInPage();
             }

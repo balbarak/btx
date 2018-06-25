@@ -18,7 +18,7 @@ namespace Btx.Mobile.Services
 {
     public class BtxChatManager
     {
-        public BtxClient Client { get; set; } = new BtxClient();
+       // public BtxClient Client { get; set; } = new BtxClient();
 
         public ObservableRangeCollection<User> Users { get; set; } = new ObservableRangeCollection<User>();
 
@@ -29,7 +29,7 @@ namespace Btx.Mobile.Services
         public BtxChatManager()
         {
 
-            Client.OnMessageRecieved += OnMessageRecieved;
+            //Client.OnMessageRecieved += OnMessageRecieved;
             //AddRandomThreads();
 
             //Users.AddRange(MockChatService.GetUsers());

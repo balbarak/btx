@@ -25,7 +25,7 @@ namespace Btx.Mobile
 
 			InitializeComponent();
 
-            BtxDbContext.InitDatabase();
+            //BtxDbContext.InitDatabase();
 
             SetLoggedOutPage();
 

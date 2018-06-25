@@ -216,7 +216,7 @@ namespace Btx.Client.Test.ViewModels
                 BtxMessage msg = new BtxMessage()
                 {
                     Body = MessageToSend,
-                    ToUserId = ToUserId
+                    RecipientId = ToUserId
                 };
 
                 await Client.Send(msg);

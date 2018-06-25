@@ -30,10 +30,7 @@ namespace Btx.Mobile.ViewModels
         public ChatListViewModel()
         {
             Title = "BTX Chat";
-
-            App.ChatManager.Client.Connect();
-          
-
+            
             //LoadThreads();
 
             //AddTestItem();
@@ -42,27 +39,9 @@ namespace Btx.Mobile.ViewModels
 
         public void SetupEvents()
         {
-            App.ChatManager.Client.OnConnected += OnConnected;
-            App.ChatManager.Client.OnDisconnected += OnDisconnected;
-            App.ChatManager.Client.OnMessageRecieved += OnMessageRecived;
-            
-        }
-
-        private void OnMessageRecived(BtxMessage msg)
-        {
 
         }
-
-        private void OnDisconnected(object sender, EventArgs e)
-        {
-            
-        }
-
-        private void OnConnected(object sender, EventArgs e)
-        {
-            this.Title = "Connected";
-        }
-
+        
         public void ChangeTitle(string title)
         {
             Title = title;

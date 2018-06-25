@@ -6,7 +6,7 @@ namespace Btx.Client
 {
     public class Config
     {
-        public const string BTX_API_BASE_URL = "http://192.168.100.24:5000/api/v1/";
-        public const string BTX_URL = "http://192.168.100.24:5000/btx";
+        public const string BTX_API_BASE_URL = "http://192.168.100.9:5000/api/v1/";
+        public const string BTX_URL = "http://192.168.100.9:5000/btx";
     }
 }

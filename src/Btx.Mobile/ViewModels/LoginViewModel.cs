@@ -1,4 +1,5 @@
 ﻿using Btx.Client.Domain.Models;
+using Btx.Mobile.Services;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -45,7 +46,7 @@ namespace Btx.Mobile.ViewModels
                     Username = this.Username
                 };
 
-                await App.ChatManager.Client.Login(model);
+                await BtxProtocolService.Instance.Client.Login(model);
 
                 App.Instance.SetLoggedInPage();
             }

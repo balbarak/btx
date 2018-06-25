@@ -29,7 +29,7 @@ namespace Btx.Client.Domain.Models
         public BtxMessage()
         {
             Id = Guid.NewGuid().ToString();
-            Status = BtxMessageStatus.Pending;
+            Status = BtxMessageStatus.Pending;            
         }
         
 

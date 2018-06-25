@@ -73,8 +73,5 @@ namespace Btx.Server.Protocol
 
             ConnectionService.Instance.Add(connection);
         }
-        
-
-        
     }
 }

@@ -50,7 +50,7 @@ namespace Btx.Client
             {
                 SetupConnection();
 
-                await _hubConnection.StartAsync(_ctk);
+                await _hubConnection.StartAsync(_ctk).ConfigureAwait(false);
 
                 IsConnected = true;
 
@@ -128,9 +128,9 @@ namespace Btx.Client
 
                     StringContent content = new StringContent(jsonModel, Encoding.UTF8, _jsonContentType);
 
-                    var response = await client.PostAsync("login", content);
+                    var response = await client.PostAsync("login", content).ConfigureAwait(false);
 
-                    var result = await response.Content.ReadAsStringAsync();
+                    var result = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
                     if (response.StatusCode != System.Net.HttpStatusCode.OK)
                     {
@@ -173,8 +173,7 @@ namespace Btx.Client
             HttpConnectionFactory factory = new HttpConnectionFactory(options, loggerFactory);
 
             JsonHubProtocol jsonProtocol = new JsonHubProtocol();
-
-
+            
             _hubConnection = new HubConnection(factory, jsonProtocol, loggerFactory);
             
             SetupEvents();
