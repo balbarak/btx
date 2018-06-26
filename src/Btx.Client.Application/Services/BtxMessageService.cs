@@ -12,21 +12,38 @@ namespace Btx.Client.Application.Services
     {
         public async Task<BtxMessage> Add(BtxMessage entity)
         {
-            entity = await _repository.CreateAsync(entity);
+            using (UnitOfWork work = new UnitOfWork())
+            {
+                var users = await work.GenericRepository.GetAsync<BtxUser>(a => a.Id == entity.RecipientId);
+                var user = users.FirstOrDefault();
 
+                if (user == null)
+                {
+                    entity.Recipient = new BtxUser()
+                    {
+                        Id = entity.RecipientId,
+                        Username = entity.Recipient?.Username
+                    };
+
+                    entity.RecipientId = null;
+                }
+                else
+                {
+                    entity.RecipientId = null;
+                    entity.Recipient = user;
+                }
+
+                entity = await work.GenericRepository.CreateAsync(entity);
+
+                await work.CommitAsync();
+            }
+            
             return entity;
         }
 
-        public List<BtxMessage> GetByThreadId(string threadId)
+        public async Task<List<BtxMessage>> GetByThreadId(string threadId)
         {
-            List<BtxMessage> result = new List<BtxMessage>();
-
-            using (BtxDbContext context = new BtxDbContext())
-            {
-                result = context.BtxMessages.Where(a => a.ThreadId == threadId).ToList();
-            }
-
-            return result;
+            return await _repository.GetAsync<BtxMessage>(a => a.ThreadId == threadId,orderBy:p=> p.OrderBy(f=> f.Date)).ConfigureAwait(false);
         }
 
         public BtxMessage GetLastMessageByThreadId(string threadId)

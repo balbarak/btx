@@ -48,12 +48,13 @@ namespace Btx.Server.Protocol
             {
                 RecipientId = UserId,
                 Recipient = new BtxUser() { Username = Context.User.Identity.Name },
+                Date = DateTime.UtcNow,
                 Body = msg.Body,
             };
 
             foreach (var item in activeConnections)
             {
-                await Clients.Client(item.Id).SendAsync(ClientMethods.ON_MESSAGE_RECIEVE, msg);
+                await Clients.Client(item.Id).SendAsync(ClientMethods.ON_MESSAGE_RECIEVE, newMessage);
             }
         }
 

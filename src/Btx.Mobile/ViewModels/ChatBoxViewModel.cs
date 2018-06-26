@@ -26,15 +26,9 @@ namespace Btx.Mobile.ViewModels
 
     public class ChatBoxViewModel : BaseViewModel
     {
-        private readonly ReaderWriterLockSlim _itemsLock = new ReaderWriterLockSlim();
-
         public BtxThreadWrapper BtxThread { get; private set; }
 
-        public ObservableRangeCollection<BtxMessageWrapper> Items
-        {
-            get { return BtxThread.Messages; }
-            set { BtxThread.Messages = value; OnPropertyChanged(); }
-        }
+        public ObservableRangeCollection<BtxMessageWrapper> Messages { get; private set; } = new ObservableRangeCollection<BtxMessageWrapper>();
 
         private string messageToSend;
 
@@ -56,7 +50,9 @@ namespace Btx.Mobile.ViewModels
             SelectImageCommand = new Command(async () => await SelectImage());
 
             this.Title = BtxThread.Title;
-            
+
+            LoadMessages();
+
         }
 
         private async Task Send()
@@ -72,7 +68,7 @@ namespace Btx.Mobile.ViewModels
                 IsReadByUser = true
             };
 
-            Items.Add(new BtxMessageWrapper(chatMessage));
+            Messages.Add(new BtxMessageWrapper(chatMessage));
 
             MessageToSend = "";
 
@@ -107,35 +103,30 @@ namespace Btx.Mobile.ViewModels
 
         }
 
-        public  Task LoadMessages()
+        public async Task LoadMessages()
         {
-            var _itemsLock = new object();
+            IsBusy = true;
+
+            var msgs = await BtxMessageService.Instance.GetByThreadId(BtxThread.Id);
             
-            return Task.Run(() =>
+            int index = 1;
+
+            foreach (var item in msgs)
             {
-                IsBusy = true;
+                BtxMessageWrapper wrapper = new BtxMessageWrapper(item);
 
-                var msgs = BtxMessageService.Instance.GetByThreadId(BtxThread.Id);
-                var list = new ObservableRangeCollection<BtxMessageWrapper>();
-                int index = 1;
+                Debug.WriteLine($"Reading msg from db {index}");
 
-                foreach (var item in msgs)
-                {
-                    BtxMessageWrapper wrapper = new BtxMessageWrapper(item);
+                Messages.Add(wrapper);
 
-                    Debug.WriteLine($"Reading msg from db {index}");
-                    
-                    list.Add(wrapper);
-                    index++;
-                }
+                index++;
+            }
 
-                Items = list;
-                
-                IsBusy = false;
-            });
             
+            IsBusy = false;
+
         }
-        
+
     }
 
 }

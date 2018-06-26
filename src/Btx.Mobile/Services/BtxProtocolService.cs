@@ -57,18 +57,13 @@ namespace Btx.Mobile.Services
         {
             var thread = new BtxThread(msg);
 
-            //thread = await BtxThreadService.Instance.AddOrUpdate(thread);
+            thread = await BtxThreadService.Instance.AddOrUpdate(thread);
 
-            //await BtxMessageService.Instance.Add(msg);
+            await BtxMessageService.Instance.Add(msg);
 
             var chatListViewModel = ServiceLocator.Current.GetService<ChatListViewModel>();
 
-            chatListViewModel.Chats.Add(new BtxThreadWrapper(thread)
-            {
-                LastMessage = msg.Body,
-                HasUnreadMessages = false,
-                LastMessageDate = msg.Date.ToLocalTime(),
-            });
+            chatListViewModel.AddChatMessage(msg);
 
         }
 

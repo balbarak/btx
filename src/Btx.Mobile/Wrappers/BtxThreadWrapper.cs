@@ -76,12 +76,24 @@ namespace Btx.Mobile.Wrappers
                 OnPropertyChanged(nameof(LastMessageTime));
             }
         }
-        
+
         public ObservableRangeCollection<BtxMessageWrapper> Messages { get; set; } = new ObservableRangeCollection<BtxMessageWrapper>();
 
         public BtxThreadWrapper(BtxThread model) : base(model)
         {
 
+        }
+
+        public BtxThreadWrapper(BtxThread model, BtxMessage msg) : base(model)
+        {
+            SetMessageData(msg);
+        }
+
+        public void SetMessageData(BtxMessage msg)
+        {
+            LastMessage = msg.Body;
+            HasUnreadMessages = false;
+            LastMessageDate = msg.Date.ToLocalTime();
         }
     }
 }

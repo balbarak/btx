@@ -32,6 +32,5 @@ namespace Btx.Client.Domain.Models
             Status = BtxMessageStatus.Pending;            
         }
         
-
     }
 }

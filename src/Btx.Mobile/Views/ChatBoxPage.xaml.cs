@@ -28,7 +28,7 @@ namespace Btx.Mobile.Views
             InitializeComponent();
             chatTxtBox.ScrollView = textScroll;
             this.BindingContext = new ChatBoxViewModel();
-            ViewModel.Items.CollectionChanged += Items_CollectionChanged;
+            ViewModel.Messages.CollectionChanged += Items_CollectionChanged;
 
             ScrollToEnd();
         }
@@ -44,8 +44,8 @@ namespace Btx.Mobile.Views
         private void ScrollToEnd()
         {
 
-            if (ViewModel.Items != null && ViewModel.Items.Count > 0)
-                lvChatItems.ScrollTo(ViewModel.Items.Last(), ScrollToPosition.End, false);
+            if (ViewModel.Messages != null && ViewModel.Messages.Count > 0)
+                lvChatItems.ScrollTo(ViewModel.Messages.Last(), ScrollToPosition.End, false);
         }
 
         private void OnSelection(object sender, SelectedItemChangedEventArgs e)
@@ -62,7 +62,7 @@ namespace Btx.Mobile.Views
         {
             base.OnAppearing();
 
-            if (!ViewModel.Items.Any())
+            if (!ViewModel.Messages.Any())
             {
                 await ViewModel.LoadMessages();
 

@@ -19,7 +19,7 @@ namespace Btx.Client.Domain.Models
 
         public BtxThread(BtxMessage msg)
         {
-            Id = msg.Id;
+            Id = msg.RecipientId;
             Title = msg.Recipient?.Username;
         }
     }

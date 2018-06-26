@@ -41,7 +41,7 @@
                 Grid.Row="0"
                 IsRefreshing="{Binding IsBusy}"
                 ItemTemplate="{StaticResource ChatItemTemplate}"
-                ItemsSource="{Binding Items}"
+                ItemsSource="{Binding Messages}"
                 HasUnevenRows="True" 
                 SeparatorVisibility="None" />
 

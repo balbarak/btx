@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
+using System.Linq;
 
 namespace Btx.Mobile.ViewModels
 {
@@ -77,6 +78,21 @@ namespace Btx.Mobile.ViewModels
                 IsBusy = false;
             });
 
+        }
+
+        public void AddChatMessage(BtxMessage msg)
+        {
+            var found = Chats.Where(a => a.Id == msg.RecipientId).FirstOrDefault();
+
+            if (found != null)
+            {
+                found.SetMessageData(msg);
+            }
+            else
+            {
+                BtxThreadWrapper thread = new BtxThreadWrapper(new BtxThread(msg), msg);
+                Chats.Add(thread);
+            }
         }
 
     }

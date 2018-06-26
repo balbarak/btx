@@ -8,7 +8,7 @@ namespace Btx.Mobile.Wrappers
 {
     public class WrapperBase<TModel> : ObservableObject
     {
-        public TModel Model { get; private set; }
+        public TModel Model { get; protected set; }
 
         public WrapperBase(TModel model)
         {
