@@ -59,6 +59,8 @@ namespace Btx.Mobile.Services
 
             thread = await BtxThreadService.Instance.AddOrUpdate(thread);
 
+            msg.ThreadId = thread.Id;
+
             await BtxMessageService.Instance.Add(msg);
 
             var chatListViewModel = ServiceLocator.Current.GetService<ChatListViewModel>();

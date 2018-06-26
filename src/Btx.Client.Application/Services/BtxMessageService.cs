@@ -29,8 +29,8 @@ namespace Btx.Client.Application.Services
                 }
                 else
                 {
-                    entity.RecipientId = null;
-                    entity.Recipient = user;
+                    entity.RecipientId = user.Id;
+                    entity.Recipient = null;
                 }
 
                 entity = await work.GenericRepository.CreateAsync(entity);
