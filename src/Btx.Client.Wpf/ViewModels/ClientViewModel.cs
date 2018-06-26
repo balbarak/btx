@@ -3,6 +3,7 @@ using Btx.Client.Domain.Models;
 using Btx.Client.Wpf.Helpers;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -77,11 +78,11 @@ namespace Btx.Client.Wpf.ViewModels
         {
             get
             {
-                if (_registerCommand != null)
+                if (_registerCommand == null)
                     _registerCommand = new RelayCommand(async (args) => { await Register(); });
+
                 return _registerCommand;
             }
-            set { _registerCommand = value; }
         }
 
         private ICommand _connectCommand;
@@ -110,6 +111,81 @@ namespace Btx.Client.Wpf.ViewModels
             }
         }
 
+        private ICommand _searchUserCommand;
+
+        public ICommand SearchUserCommand
+        {
+            get
+            {
+                if (_searchUserCommand == null)
+                    _searchUserCommand = new RelayCommand(async (arg) => { await SearchUser(); });
+
+                return _searchUserCommand;
+            }
+        }
+
+        private ICommand _sendCommand;
+
+        public ICommand SendCommand
+        {
+            get
+            {
+                if (_sendCommand == null)
+                    _sendCommand = new RelayCommand(async (arg) => { await Send(); });
+
+                return _sendCommand;
+            }
+        }
+        
+        private string _recievedMessages;
+
+        public string RecievedMessages
+        {
+            get { return _recievedMessages; }
+            set { _recievedMessages = value; RaisePropertyChanged(); }
+        }
+
+        private BtxUser _selectedBtxUser;
+
+        public BtxUser SelectedBtxUser
+        {
+            get { return _selectedBtxUser; }
+            set
+            {
+                if (_selectedBtxUser != value)
+                {
+                    _selectedBtxUser = value;
+
+                    RaisePropertyChanged();
+                    RaisePropertyChanged(nameof(CanSendMessage));
+                }
+            }
+        }
+
+        public bool CanSendMessage
+        {
+            get
+            {
+                return SelectedBtxUser != null && IsConnected && !string.IsNullOrWhiteSpace(MessageToSend);
+            }
+        }
+
+        private string _messageToSend;
+
+        public string MessageToSend
+        {
+            get { return _messageToSend; }
+            set
+            {
+                _messageToSend = value;
+
+                RaisePropertyChanged();
+                RaisePropertyChanged(nameof(CanSendMessage));
+
+            }
+        }
+        
+        public ObservableCollection<BtxUser> BtxUsers { get; set; } = new ObservableCollection<BtxUser>();
 
         private string _token;
 
@@ -149,18 +225,26 @@ namespace Btx.Client.Wpf.ViewModels
             Client.OnConnected += OnConnected;
             Client.OnDisconnected += OnDisconnected;
             Client.OnTokenRecieved += OnTokenRecieved;
+            Client.OnMessageRecieved += OnMessageRecieved;
+        }
+
+        private void OnMessageRecieved(BtxMessage msg)
+        {
+            this.RecievedMessages += $"[{msg.Date.ToLocalTime()}]: {msg.Body} {Environment.NewLine}";
         }
 
         private void OnDisconnected(object sender, EventArgs e)
         {
             RaisePropertyChanged(nameof(IsConnected));
             RaisePropertyChanged(nameof(IsDisconnected));
+            RaisePropertyChanged(nameof(CanSendMessage));
         }
 
         private void OnConnected(object sender, EventArgs e)
         {
             RaisePropertyChanged(nameof(IsConnected));
             RaisePropertyChanged(nameof(IsDisconnected));
+            RaisePropertyChanged(nameof(CanSendMessage));
         }
 
         private void OnTokenRecieved(object sender, EventArgs e)
@@ -220,10 +304,44 @@ namespace Btx.Client.Wpf.ViewModels
                 MessageBox.Show(ex.ToString(), "Unable to connect", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-        
+
+        private async Task SearchUser()
+        {
+
+            var result = await Client.SearchUsers();
+
+            BtxUsers.Clear();
+
+            foreach (var item in result.Result)
+            {
+                BtxUsers.Add(item);
+            }
+        }
+
+        private async Task Send()
+        {
+            try
+            {
+                await Client.Send(new BtxMessage()
+                {
+                    Body = MessageToSend,
+                    Date = DateTime.Now,
+                    RecipientId = SelectedBtxUser.Id
+                });
+
+                MessageToSend = "";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString(), "Unable to send message", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
         private void OnLog(object sender, EventArgs e)
         {
             RaisePropertyChanged(nameof(Log));
         }
+
+
     }
 }

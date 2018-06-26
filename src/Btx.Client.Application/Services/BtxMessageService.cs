@@ -4,18 +4,15 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Btx.Client.Application.Services
 {
     public class BtxMessageService : ServiceBase<BtxMessageService>
     {
-        public BtxMessage Add(BtxMessage entity)
+        public async Task<BtxMessage> Add(BtxMessage entity)
         {
-            using (BtxDbContext context = new BtxDbContext())
-            {
-                context.BtxMessages.Add(entity);
-                context.SaveChanges();
-            }
+            entity = await _repository.CreateAsync(entity);
 
             return entity;
         }

@@ -12,6 +12,15 @@ namespace Btx.Client.Domain.Models
 
         public List<BtxMessage> Messages { get; set; }
 
+        public BtxThread()
+        {
 
+        }
+
+        public BtxThread(BtxMessage msg)
+        {
+            Id = msg.Id;
+            Title = msg.Recipient?.Username;
+        }
     }
 }

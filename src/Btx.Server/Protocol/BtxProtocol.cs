@@ -47,6 +47,7 @@ namespace Btx.Server.Protocol
             var newMessage = new BtxMessage()
             {
                 RecipientId = UserId,
+                Recipient = new BtxUser() { Username = Context.User.Identity.Name },
                 Body = msg.Body,
             };
 

@@ -1,4 +1,4 @@
-﻿using Btx.Server.Models.Search;
+﻿using Btx.Client.Domain.Search;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;

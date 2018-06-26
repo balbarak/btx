@@ -15,7 +15,7 @@ namespace Btx.Client.Wpf.ViewModels
         
         public event PropertyChangedEventHandler PropertyChanged;
 
-        protected void RaisePropertyChanged([CallerMemberName] string propertyName = "")
+        public void RaisePropertyChanged([CallerMemberName] string propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }

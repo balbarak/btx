@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Btx.Client.Domain.Extensions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Threading.Tasks;
+using System.Text;
 
-namespace Btx.Server.Models.Search
+namespace Btx.Client.Domain.Search
 {
     public class SearchCriteria<T> where T : class
     {
@@ -52,6 +53,15 @@ namespace Btx.Server.Models.Search
         {
             this.FilterExpression = filterExpression;
             this.SortExpression = sortExpression;
+        }
+
+        public void AddAndFilter(Expression<Func<T, bool>> filter)
+        {
+            if (FilterExpression == null)
+                FilterExpression = filter;
+            else
+                FilterExpression = FilterExpression.And(filter);
+
         }
 
     }

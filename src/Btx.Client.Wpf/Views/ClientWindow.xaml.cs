@@ -35,5 +35,6 @@ namespace Btx.Client.Wpf.Views
             
             textBox.ScrollToEnd();
         }
+
     }
 }

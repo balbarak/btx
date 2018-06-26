@@ -11,20 +11,21 @@ namespace Btx.Client.Application.Services
 {
     public class BtxThreadService : ServiceBase<BtxThreadService>
     {
-        public BtxThread AddOrUpdate(BtxThread entity)
+        public async Task<BtxThread> AddOrUpdate(BtxThread entity)
         {
-            using (BtxDbContext context = new BtxDbContext())
+            using (UnitOfWork work = new UnitOfWork())
             {
-                context.Add(entity);
+                var result = await _repository.GetAsync<BtxThread>(a => a.Id == entity.Id);
 
-                context.SaveChanges();
+                if (result.FirstOrDefault() == null)
+                {
+                    entity = await work.GenericRepository.CreateAsync(entity);
+                }
             }
-
+            
             return entity;
         }
-
-
-
+        
         public List<BtxThread> GetAll()
         {
             List<BtxThread> threads = new List<BtxThread>();

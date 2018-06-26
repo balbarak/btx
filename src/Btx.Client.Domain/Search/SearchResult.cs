@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Text;
 
-namespace Btx.Server.Models.Search
+namespace Btx.Client.Domain.Search
 {
     public class SearchResult<T> where T : class
     {

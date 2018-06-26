@@ -14,14 +14,14 @@ namespace Btx.Mobile.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ChatListPage : ContentPage
     {
-        public ChatListViewModel ViewModel => BindingContext as ChatListViewModel;
+        public ChatListViewModel ViewModel { get; } = ServiceLocator.Current.GetService<ChatListViewModel>();
 
         public ChatListPage()
         {
             InitializeComponent();
 
-            this.BindingContext = new ChatListViewModel();
-            
+            this.BindingContext = ViewModel;
+
         }
         
         protected override async void OnAppearing()

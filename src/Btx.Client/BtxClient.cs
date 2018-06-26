@@ -13,6 +13,7 @@ using Btx.Client.Exceptions;
 using Btx.Client.Domain;
 using Microsoft.AspNetCore.SignalR.Protocol;
 using Btx.Client.BtxEventsArg;
+using Btx.Client.Domain.Search;
 
 namespace Btx.Client
 {
@@ -168,6 +169,38 @@ namespace Btx.Client
                 throw ex;
             }
 
+        }
+
+        public async Task<SearchResult<BtxUser>> SearchUsers()
+        {
+            SearchResult<BtxUser> result;
+
+            try
+            {
+                if (string.IsNullOrWhiteSpace(_accessToken))
+                    throw new Exception("There is no access token");
+
+                using (HttpClient client = new HttpClient())
+                {
+                    client.BaseAddress = new Uri(Config.BTX_API_BASE_URL);
+
+                    client.DefaultRequestHeaders.Add("Authorization", $"Bearer {_accessToken}");
+
+                    var response = await client.GetAsync("BtxUser").ConfigureAwait(false);
+
+                    var data = await response.Content.ReadAsStringAsync();
+
+                    result = JsonConvert.DeserializeObject<SearchResult<BtxUser>>(data);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Unable to search error: {0}", ex);
+
+                throw ex;
+            }
+
+            return result;
         }
 
         public void SetupConnection()

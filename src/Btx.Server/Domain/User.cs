@@ -23,5 +23,15 @@ namespace Btx.Server.Domain
             this.UserName = registeration.Username;
             this.Email = "btx@user.com";
         }
+
+        public BtxUser ToBtxUser()
+        {
+            return new BtxUser()
+            {
+                Id = this.Id,
+                Username = this.UserName,
+                Nickname = ""
+            };
+        }
     }
 }

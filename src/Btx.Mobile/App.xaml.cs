@@ -40,8 +40,10 @@ namespace Btx.Mobile
         
         protected override void OnStart ()
 		{
-			// Handle when your app starts
-		}
+
+            Startup.Configure();
+
+        }
 
 		protected override void OnSleep ()
 		{

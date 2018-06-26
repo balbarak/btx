@@ -1,4 +1,5 @@
-﻿using Btx.Server.Domain;
+﻿using Btx.Client.Domain.Search;
+using Btx.Server.Domain;
 using Btx.Server.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
@@ -34,6 +35,11 @@ namespace Btx.Server.Services
             }
 
             return result;
+        }
+
+        public SearchResult<User> Search(SearchCriteria<User> search)
+        {
+            return repository.Search(search);
         }
     }
 }

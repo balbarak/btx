@@ -30,11 +30,6 @@ namespace Btx.Mobile.ViewModels
         public ChatListViewModel()
         {
             Title = "BTX Chat";
-            
-            //LoadThreads();
-
-            //AddTestItem();
-
         }
 
         public void SetupEvents()
