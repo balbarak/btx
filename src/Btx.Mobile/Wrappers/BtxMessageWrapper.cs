@@ -20,7 +20,7 @@ namespace Btx.Mobile.Wrappers
             get { return _isBusy; }
             set { _isBusy = value; OnPropertyChanged(); }
         }
-        
+
         public BtxMessageStatus Status
         {
             get { return GetValue<BtxMessageStatus>(); }
@@ -28,12 +28,12 @@ namespace Btx.Mobile.Wrappers
         }
 
         public BtxMessageType BtxMessageType { get { return GetValue<BtxMessageType>(); } set { SetValue(value); } }
-        
+
         public string Username
         {
             get { return Model?.Recipient?.Username; }
         }
-        
+
         public Color ReadLabelColor
         {
             get
@@ -44,12 +44,18 @@ namespace Btx.Mobile.Wrappers
                     return Color.Black;
             }
         }
-        
+
         public string Body { get { return GetValue<string>(); } set { SetValue(value); } }
 
         public bool IsReadByUser { get { return GetValue<bool>(); } set { SetValue(value); } }
 
-        public DateTimeOffset Date { get { return GetValue<DateTimeOffset>(); } set { SetValue(value); } }
+        public DateTimeOffset Date
+        {
+            get
+            {
+                return Model.Date.ToLocalTime();
+            }
+        }
 
         public string StatusIconFont
         {
@@ -98,7 +104,7 @@ namespace Btx.Mobile.Wrappers
             get { return localFilePath; }
             set { localFilePath = value; OnPropertyChanged(); }
         }
-        
+
         public ICommand UploadCommand { get; }
         public ICommand TapCommand { get; }
 
@@ -109,7 +115,7 @@ namespace Btx.Mobile.Wrappers
                 return null;
             }
         }
-        
+
         #endregion
 
 
@@ -141,7 +147,7 @@ namespace Btx.Mobile.Wrappers
             if (IsBusy || ShowRetryButton)
                 return;
 
-           // await PopupNavigation.Instance.PushAsync(new ImageModalPage(LocalFilePath, ImageBytes), true);
+            // await PopupNavigation.Instance.PushAsync(new ImageModalPage(LocalFilePath, ImageBytes), true);
         }
     }
 }

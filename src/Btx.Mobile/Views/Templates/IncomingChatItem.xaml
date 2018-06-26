@@ -51,7 +51,7 @@
                        FontSize="Micro" 
                        Grid.Column="1" 
                        HorizontalTextAlignment="End"  
-                       Text="{Binding Date}" 
+                       Text="{Binding Date,StringFormat='{0:hh:mm tt}'}" 
                        TextColor="Gray">
 
                 </Label>

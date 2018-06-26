@@ -64,21 +64,30 @@ namespace Btx.Mobile.Services
             msg.ThreadId = thread.Id;
 
             await BtxMessageService.Instance.Add(msg);
-            
-            var chatListViewModel = ServiceLocator.Current.GetService<ChatListViewModel>();
-            chatListViewModel.AddChatMessage(msg);
 
+            AddMessageToChatList(msg);
+
+            AddMessageToChatBox(msg, thread);
+
+        }
+
+        private void AddMessageToChatList(BtxMessage msg)
+        {
+            var chatListViewModel = ServiceLocator.Current.GetService<ChatListViewModel>();
+
+            chatListViewModel.AddChatMessage(msg);
+        }
+
+        private void AddMessageToChatBox(BtxMessage msg, BtxThread thread)
+        {
             if (CacheHelper.CurrenChatBoxViewModel != null && CacheHelper.CurrenChatBoxViewModel.BtxThread?.Id == thread.Id)
             {
                 Device.BeginInvokeOnMainThread(() =>
                 {
                     CacheHelper.CurrenChatBoxViewModel.Items.Add(new BtxMessageWrapper(msg));
                 });
-                
-            }
-            
-            
 
+            }
         }
 
         private void OnDisconnected(object sender, EventArgs e)

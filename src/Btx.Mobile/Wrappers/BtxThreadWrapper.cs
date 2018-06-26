@@ -59,7 +59,7 @@ namespace Btx.Mobile.Wrappers
                 if (LastMessageDate == null)
                     return "";
 
-                return LastMessageDate.Date.ToString("hh:mm tt");
+                return LastMessageDate.ToLocalTime().ToString("hh:mm tt");
 
             }
         }
