@@ -10,11 +10,19 @@ namespace Btx.Client.Application.Services
 {
     public class BtxMessageService : ServiceBase<BtxMessageService>
     {
+        public BtxMessageService()
+        {
+            Includes = new[]
+            {
+                nameof(BtxMessage.Recipient)
+            };
+        }
+        
         public async Task<BtxMessage> Add(BtxMessage entity)
         {
             using (UnitOfWork work = new UnitOfWork())
             {
-                var users = await work.GenericRepository.GetAsync<BtxUser>(a => a.Id == entity.RecipientId);
+                var users = await work.GenericRepository.GetAsync<BtxUser>(a => a.Id == entity.RecipientId).ConfigureAwait(false);
                 var user = users.FirstOrDefault();
 
                 if (user == null)
@@ -33,17 +41,21 @@ namespace Btx.Client.Application.Services
                     entity.Recipient = null;
                 }
 
-                entity = await work.GenericRepository.CreateAsync(entity);
+                entity = await work.GenericRepository.CreateAsync(entity).ConfigureAwait(false);
 
-                await work.CommitAsync();
+                await work.CommitAsync().ConfigureAwait(false);
             }
-            
+
             return entity;
         }
 
         public async Task<List<BtxMessage>> GetByThreadId(string threadId)
         {
-            return await _repository.GetAsync<BtxMessage>(a => a.ThreadId == threadId,orderBy:p=> p.OrderBy(f=> f.Date)).ConfigureAwait(false);
+            return await _repository.GetAsync<BtxMessage>(
+                a => a.ThreadId == threadId,
+                orderBy:p=> p.OrderBy(f=> f.Date),
+                includeProperties:Includes
+                ).ConfigureAwait(false);
         }
 
         public BtxMessage GetLastMessageByThreadId(string threadId)

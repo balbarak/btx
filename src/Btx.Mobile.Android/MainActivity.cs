@@ -9,6 +9,7 @@ using Android.OS;
 using Plugin.Permissions;
 using Plugin.Permissions.Abstractions;
 using FFImageLoading.Forms.Droid;
+using System.Threading.Tasks;
 
 namespace Btx.Mobile.Droid
 {
@@ -30,6 +31,25 @@ namespace Btx.Mobile.Droid
             global::Xamarin.Forms.Forms.Init(this, bundle);
             //CachedImageRenderer.Init(true);
             LoadApplication(new App());
+
+            AppDomain.CurrentDomain.UnhandledException += OnUnhandledException; ;
+            TaskScheduler.UnobservedTaskException += OnUnobservedTaskException; ;
+            AndroidEnvironment.UnhandledExceptionRaiser += OnUnhandledExceptionRaiser;
+        }
+
+        private void OnUnhandledExceptionRaiser(object sender, RaiseThrowableEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void OnUnobservedTaskException(object sender, UnobservedTaskExceptionEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void OnUnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            throw new NotImplementedException();
         }
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)

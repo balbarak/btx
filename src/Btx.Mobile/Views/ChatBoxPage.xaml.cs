@@ -17,7 +17,7 @@ namespace Btx.Mobile.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ChatBoxPage : ContentPage
     {
-        public ChatBoxViewModel ViewModel => BindingContext as ChatBoxViewModel;
+        public ChatBoxViewModel ViewModel { get; } = ServiceLocator.Current.GetService<ChatBoxViewModel>();
 
         public double CurrentScrollPosition { get; set; }
 
@@ -26,9 +26,12 @@ namespace Btx.Mobile.Views
         public ChatBoxPage()
         {
             InitializeComponent();
+
+            this.BindingContext = ViewModel;
+
             chatTxtBox.ScrollView = textScroll;
-            this.BindingContext = new ChatBoxViewModel();
-            ViewModel.Messages.CollectionChanged += Items_CollectionChanged;
+            
+            ViewModel.Items.CollectionChanged += Items_CollectionChanged;
 
             ScrollToEnd();
         }
@@ -43,9 +46,8 @@ namespace Btx.Mobile.Views
 
         private void ScrollToEnd()
         {
-
-            if (ViewModel.Messages != null && ViewModel.Messages.Count > 0)
-                lvChatItems.ScrollTo(ViewModel.Messages.Last(), ScrollToPosition.End, false);
+            if (ViewModel.Items != null && ViewModel.Items.Count > 0)
+                lvChatItems.ScrollTo(ViewModel.Items.Last(), ScrollToPosition.End, false);
         }
 
         private void OnSelection(object sender, SelectedItemChangedEventArgs e)
@@ -58,17 +60,6 @@ namespace Btx.Mobile.Views
             ((ListView)sender).SelectedItem = null; //uncomment line if you want to disable the visual selection state.
         }
 
-        protected override async void OnAppearing()
-        {
-            base.OnAppearing();
-
-            if (!ViewModel.Messages.Any())
-            {
-                await ViewModel.LoadMessages();
-
-                ScrollToEnd();
-            }
-        }
-
+       
     }
 }

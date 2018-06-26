@@ -28,7 +28,7 @@ namespace Btx.Mobile.ViewModels
     {
         public BtxThreadWrapper BtxThread { get; private set; }
 
-        public ObservableRangeCollection<BtxMessageWrapper> Messages { get; private set; } = new ObservableRangeCollection<BtxMessageWrapper>();
+        public ObservableRangeCollection<BtxMessageWrapper> Items { get; private set; } = new ObservableRangeCollection<BtxMessageWrapper>();
 
         private string messageToSend;
 
@@ -46,13 +46,15 @@ namespace Btx.Mobile.ViewModels
         {
             BtxThread = App.ChatManager.CurrentThread;
 
+            CacheHelper.CurrenChatBoxViewModel = this;
+
             SendCommand = new Command(async () => { await Send(); });
             SelectImageCommand = new Command(async () => await SelectImage());
 
             this.Title = BtxThread.Title;
 
             LoadMessages();
-
+            
         }
 
         private async Task Send()
@@ -68,7 +70,7 @@ namespace Btx.Mobile.ViewModels
                 IsReadByUser = true
             };
 
-            Messages.Add(new BtxMessageWrapper(chatMessage));
+            Items.Add(new BtxMessageWrapper(chatMessage));
 
             MessageToSend = "";
 
@@ -108,7 +110,7 @@ namespace Btx.Mobile.ViewModels
             IsBusy = true;
 
             var msgs = await BtxMessageService.Instance.GetByThreadId(BtxThread.Id);
-            
+
             int index = 1;
 
             foreach (var item in msgs)
@@ -117,12 +119,12 @@ namespace Btx.Mobile.ViewModels
 
                 Debug.WriteLine($"Reading msg from db {index}");
 
-                Messages.Add(wrapper);
+                Items.Add(wrapper);
 
                 index++;
             }
 
-            
+
             IsBusy = false;
 
         }

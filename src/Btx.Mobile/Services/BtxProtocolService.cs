@@ -2,11 +2,13 @@
 using Btx.Client.Application.Services;
 using Btx.Client.BtxEventsArg;
 using Btx.Client.Domain.Models;
+using Btx.Mobile.Helpers;
 using Btx.Mobile.ViewModels;
 using Btx.Mobile.Wrappers;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Xamarin.Forms;
 
 namespace Btx.Mobile.Services
 {
@@ -43,9 +45,9 @@ namespace Btx.Mobile.Services
             Client.OnDisconnected += OnDisconnected;
             Client.OnMessageRecieved += OnMessageRecieved;
             Client.OnTokenRecieved += OnTokenRecieved;
-           
+
         }
-        
+
         private async void OnTokenRecieved(object sender, EventArgs e)
         {
             var token = e as TokenEventArgs;
@@ -62,10 +64,20 @@ namespace Btx.Mobile.Services
             msg.ThreadId = thread.Id;
 
             await BtxMessageService.Instance.Add(msg);
-
+            
             var chatListViewModel = ServiceLocator.Current.GetService<ChatListViewModel>();
-
             chatListViewModel.AddChatMessage(msg);
+
+            if (CacheHelper.CurrenChatBoxViewModel != null && CacheHelper.CurrenChatBoxViewModel.BtxThread?.Id == thread.Id)
+            {
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    CacheHelper.CurrenChatBoxViewModel.Items.Add(new BtxMessageWrapper(msg));
+                });
+                
+            }
+            
+            
 
         }
 

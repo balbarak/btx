@@ -9,6 +9,8 @@ namespace Btx.Client.Application.Services
     {
         protected GenericRepository _repository;
 
+        protected string[] Includes { get; set; }
+
         protected static TService instance;
 
         public static TService Instance { get { return instance; } }

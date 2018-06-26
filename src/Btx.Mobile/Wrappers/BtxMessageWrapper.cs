@@ -29,9 +29,9 @@ namespace Btx.Mobile.Wrappers
 
         public BtxMessageType BtxMessageType { get { return GetValue<BtxMessageType>(); } set { SetValue(value); } }
         
-        public string Nickname
+        public string Username
         {
-            get { return GetValue<string>(nameof(FromUserId)); }
+            get { return Model?.Recipient?.Username; }
         }
         
         public Color ReadLabelColor
@@ -44,9 +44,7 @@ namespace Btx.Mobile.Wrappers
                     return Color.Black;
             }
         }
-
-        public string FromUserId { get { return GetValue<string>(); } set { SetValue(value); } }
-
+        
         public string Body { get { return GetValue<string>(); } set { SetValue(value); } }
 
         public bool IsReadByUser { get { return GetValue<bool>(); } set { SetValue(value); } }

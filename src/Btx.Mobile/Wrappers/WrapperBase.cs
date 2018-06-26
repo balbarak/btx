@@ -35,7 +35,7 @@ namespace Btx.Mobile.Wrappers
         {
             var propertyInfo = Model.GetType().GetProperty(properyName);
 
-            return (TValue) propertyInfo.GetValue(Model);
+            return (TValue) propertyInfo?.GetValue(Model);
             
         }
     }

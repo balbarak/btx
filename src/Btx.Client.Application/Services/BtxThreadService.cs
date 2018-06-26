@@ -20,22 +20,17 @@ namespace Btx.Client.Application.Services
                 if (result.FirstOrDefault() == null)
                 {
                     entity = await work.GenericRepository.CreateAsync(entity);
+
+                    await work.CommitAsync();
                 }
             }
             
             return entity;
         }
         
-        public List<BtxThread> GetAll()
+        public async Task<List<BtxThread>> GetAll()
         {
-            List<BtxThread> threads = new List<BtxThread>();
-
-            using (BtxDbContext context = new BtxDbContext())
-            {
-                threads = context.BtxThreads.ToList();
-            }
-
-            return threads;
+            return await _repository.GetAsync<BtxThread>().ConfigureAwait(false);
         }
     }
 }

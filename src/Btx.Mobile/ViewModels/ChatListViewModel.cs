@@ -27,17 +27,19 @@ namespace Btx.Mobile.ViewModels
             get { return _selectedItem; }
             set { _selectedItem = value; OnPropertyChanged(); }
         }
-        
+
         public ChatListViewModel()
         {
             Title = "BTX Chat";
+
+            LoadThreads();
         }
 
         public void SetupEvents()
         {
 
         }
-        
+
         public void ChangeTitle(string title)
         {
             Title = title;
@@ -48,35 +50,33 @@ namespace Btx.Mobile.ViewModels
             App.ChatManager.CurrentThread = SelectedItem;
 
             SelectedItem = null;
-            
+
             await PushAsync(new ChatBoxPage(), true);
         }
 
-        public Task LoadThreads()
+        public async Task LoadThreads()
         {
-            return Task.Run(() =>
+
+            IsBusy = true;
+
+            var chats = await BtxThreadService.Instance.GetAll();
+
+            foreach (var item in chats)
             {
-                IsBusy = true;
-                
-                var chats = BtxThreadService.Instance.GetAll();
+                BtxThreadWrapper wrapper = new BtxThreadWrapper(item);
 
-                foreach (var item in chats)
+                var lastMessage = BtxMessageService.Instance.GetLastMessageByThreadId(item.Id);
+
+                if (lastMessage != null)
                 {
-                    BtxThreadWrapper wrapper = new BtxThreadWrapper(item);
-
-                    var lastMessage = BtxMessageService.Instance.GetLastMessageByThreadId(item.Id);
-
-                    if (lastMessage != null)
-                    {
-                        wrapper.LastMessage = lastMessage.Body;
-                        wrapper.LastMessageDate = lastMessage.Date;
-                    }
-
-                    Chats.Add(wrapper);
+                    wrapper.LastMessage = lastMessage.Body;
+                    wrapper.LastMessageDate = lastMessage.Date;
                 }
 
-                IsBusy = false;
-            });
+                Chats.Add(wrapper);
+            }
+
+            IsBusy = false;
 
         }
 

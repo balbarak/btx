@@ -30,15 +30,11 @@ namespace Btx.Mobile
 
         static public void Configure(IServiceCollection serviceCollections)
         {
-            //To add dependency injection
 
-            //serviceCollections.AddScoped<IDataService>(opt =>
-            //{
-            //    return new DataService(AppConfig.SQLITE_FILE_PATH);
-            //});
+            serviceCollections.AddTransient<ChatBoxViewModel>();
 
-
-            serviceCollections.AddScoped<ChatListViewModel>();
+            serviceCollections.AddSingleton<ChatListViewModel>();
+            
 
             _rootServiceProvider = serviceCollections.BuildServiceProvider();
 
@@ -55,6 +51,7 @@ namespace Btx.Mobile
             {
                 return _serviceScope.ServiceProvider.GetRequiredService<T>();
             }
+
             return _serviceScope.ServiceProvider.GetService<T>();
         }
         

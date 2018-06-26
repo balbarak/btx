@@ -41,7 +41,7 @@
                 <!--<Image IsVisible="False" WidthResquest="175" HeightRequest="175" Source="{Binding AttachementUrl}" />-->
 
                 <Label TextColor="Red"  
-                       Text="{Binding Nickname}"
+                       Text="{Binding Username}"
                        HorizontalTextAlignment="Start"/>
 
 
@@ -51,7 +51,7 @@
                        FontSize="Micro" 
                        Grid.Column="1" 
                        HorizontalTextAlignment="End"  
-                       Text="{Binding Date, StringFormat='{0:hh:mm tt}'}" 
+                       Text="{Binding Date}" 
                        TextColor="Gray">
 
                 </Label>

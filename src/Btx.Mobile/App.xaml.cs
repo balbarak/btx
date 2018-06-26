@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Btx.Client.Application.Persistance;
 using Btx.Mobile.Services;
 using Btx.Mobile.Views;
@@ -24,7 +25,7 @@ namespace Btx.Mobile
 		{
 
 			InitializeComponent();
-
+            
             BtxDbContext.InitDatabase();
 
             SetLoggedOutPage();
@@ -73,8 +74,7 @@ namespace Btx.Mobile
                 Detail = GetNavigationPage(new LogoutPage()),
             };
         }
-
-
+        
         public NavigationPage GetNavigationPage(Page page)
         {
             return new NavigationPage(page)
