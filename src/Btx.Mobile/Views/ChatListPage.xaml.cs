@@ -21,15 +21,22 @@ namespace Btx.Mobile.Views
             InitializeComponent();
 
             this.BindingContext = ViewModel;
-
+            
         }
         
         protected override async void OnAppearing()
         {
             base.OnAppearing();
 
-            //await ViewModel.LoadThreads();
+            await ViewModel.OnAppearing();
             
+        }
+
+        protected override async void OnDisappearing()
+        {
+            base.OnDisappearing();
+
+            await ViewModel.OnDisappearing();
         }
 
         private async void OnTabbed(object sender, ItemTappedEventArgs e)
@@ -42,7 +49,6 @@ namespace Btx.Mobile.Views
             await ViewModel.GoToChatBox();
 
             this.IsEnabled = true;
-
 
         }
     }

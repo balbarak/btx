@@ -57,6 +57,8 @@ namespace Btx.Mobile.Services
 
         private async void OnMessageRecieved(BtxMessage msg)
         {
+            msg.BtxMessageType = BtxMessageType.Incoming;
+
             var thread = new BtxThread(msg);
 
             thread = await BtxThreadService.Instance.AddOrUpdate(thread);

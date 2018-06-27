@@ -81,7 +81,7 @@
                 <TextBox 
                     Height="60" 
                     Text="{Binding MessageToSend,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
-                
+
                 <Button 
                     Margin="0,10"
                     Height="24"
@@ -132,6 +132,25 @@
                 VerticalScrollBarVisibility="Visible"
                 TextWrapping="Wrap"
                 Text="{Binding RecievedMessages}" />
+        </GroupBox>
+        <GroupBox Header="Simulator" HorizontalAlignment="Left" Height="73" Margin="323,368,0,0" VerticalAlignment="Top" Width="308">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="15*"/>
+                    <ColumnDefinition Width="281*"/>
+                </Grid.ColumnDefinitions>
+                <Button
+                    VerticalAlignment="Top"
+                    HorizontalAlignment="Left"
+                    Command="{Binding SendRandomMessageCommand}"
+                    Height="24"
+                    Content="Send Random Messages" Margin="10,17,0,0" Width="149" Grid.ColumnSpan="2"/>
+                <StackPanel Margin="149,0,77,0" Grid.Column="1">
+                    <Label Content="Count:"/>
+                    <TextBox Height="24" Text="{Binding RandomMessageCount}" />
+                </StackPanel>
+
+            </Grid>
         </GroupBox>
     </Grid>
 </Window>

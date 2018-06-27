@@ -20,12 +20,15 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 using System.Linq;
+using Btx.Client.Domain.Search;
 
 namespace Btx.Mobile.ViewModels
 {
 
     public class ChatBoxViewModel : BaseViewModel
     {
+        private int _page = 1;
+
         public BtxThreadWrapper BtxThread { get; private set; }
 
         public ObservableRangeCollection<BtxMessageWrapper> Items { get; private set; } = new ObservableRangeCollection<BtxMessageWrapper>();
@@ -52,9 +55,11 @@ namespace Btx.Mobile.ViewModels
             SelectImageCommand = new Command(async () => await SelectImage());
 
             this.Title = BtxThread.Title;
+        }
 
-            LoadMessages();
-            
+        public override async Task OnAppearing()
+        {
+            await LoadMessages();
         }
 
         private async Task Send()
@@ -109,11 +114,17 @@ namespace Btx.Mobile.ViewModels
         {
             IsBusy = true;
 
-            var msgs = await BtxMessageService.Instance.GetByThreadId(BtxThread.Id);
+            var search = new SearchCriteria<BtxMessage>()
+            {
+                FilterExpression = a=> a.ThreadId == BtxThread.Id,
+                PageNumber = _page
+            };
+
+            var result = await BtxMessageService.Instance.Search(search);
 
             int index = 1;
 
-            foreach (var item in msgs)
+            foreach (var item in result.Result)
             {
                 BtxMessageWrapper wrapper = new BtxMessageWrapper(item);
 
@@ -124,10 +135,14 @@ namespace Btx.Mobile.ViewModels
                 index++;
             }
 
+            if (result.Result.Any())
+                _page++;
 
             IsBusy = false;
 
         }
+
+
 
     }
 

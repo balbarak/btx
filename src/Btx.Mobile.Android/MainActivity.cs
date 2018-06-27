@@ -39,17 +39,17 @@ namespace Btx.Mobile.Droid
 
         private void OnUnhandledExceptionRaiser(object sender, RaiseThrowableEventArgs e)
         {
-            throw new NotImplementedException();
+            throw e.Exception;
         }
 
         private void OnUnobservedTaskException(object sender, UnobservedTaskExceptionEventArgs e)
         {
-            throw new NotImplementedException();
+            throw e.Exception;
         }
 
         private void OnUnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
-            throw new NotImplementedException();
+
         }
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)

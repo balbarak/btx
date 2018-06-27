@@ -36,6 +36,20 @@ namespace Btx.Mobile.Views
             ScrollToEnd();
         }
 
+        protected async override void OnAppearing()
+        {
+            base.OnAppearing();
+
+            await ViewModel.OnAppearing();
+        }
+
+        protected async override void OnDisappearing()
+        {
+            base.OnDisappearing();
+
+            await ViewModel.OnDisappearing();
+        }
+
         private void Items_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             if (e.Action == NotifyCollectionChangedAction.Add)

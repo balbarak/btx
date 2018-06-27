@@ -39,19 +39,19 @@ namespace Btx.Mobile
             Instance = this;
         }
         
-        protected override void OnStart ()
+        protected override void OnStart()
 		{
 
             Startup.Configure();
 
         }
 
-		protected override void OnSleep ()
+		protected override void OnSleep()
 		{
 			// Handle when your app sleeps
 		}
 
-		protected override void OnResume ()
+		protected override void OnResume()
 		{
 			// Handle when your app resumes
 		}
@@ -64,6 +64,8 @@ namespace Btx.Mobile
                 Master = new MenuPage(),
                 Detail = GetNavigationPage(new ChatListPage()),
             };
+
+            
         }
 
         public void SetLoggedOutPage()

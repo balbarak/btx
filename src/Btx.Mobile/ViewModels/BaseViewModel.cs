@@ -125,6 +125,16 @@ namespace Btx.Mobile.ViewModels
         public IReadOnlyList<Page> ModalStack => _Navigation?.ModalStack;
         #endregion  
 
+        public virtual async Task OnAppearing()
+        {
+            await Task.CompletedTask;
+        }
+
+        public virtual async Task OnDisappearing()
+        {
+            await Task.CompletedTask;
+        }
+
         #region INotifyPropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged([CallerMemberName] string propertyName = "")

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 using System.Threading.Tasks;
+using Btx.Client.Domain.Search;
 
 namespace Btx.Client.Application.Services
 {
@@ -56,6 +57,11 @@ namespace Btx.Client.Application.Services
                 orderBy:p=> p.OrderBy(f=> f.Date),
                 includeProperties:Includes
                 ).ConfigureAwait(false);
+        }
+
+        public async Task<SearchResult<BtxMessage>> Search(SearchCriteria<BtxMessage> search)
+        {
+            return await _repository.Search(search,Includes);
         }
 
         public BtxMessage GetLastMessageByThreadId(string threadId)

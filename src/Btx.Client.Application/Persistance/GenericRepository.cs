@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Btx.Client.Domain.Search;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -48,6 +49,47 @@ namespace Btx.Client.Application.Persistance
 
         }
 
+        public virtual async  Task<SearchResult<TEntity>> Search<TEntity>(SearchCriteria<TEntity> searchCriteria, params string[] includes) where TEntity : class
+        {
+            BtxDbContext context = _context ?? new BtxDbContext();
+
+            var dbSet = context.Set<TEntity>();
+
+            IQueryable<TEntity> query = dbSet;
+            
+            if (searchCriteria.FilterExpression != null)
+            {
+                query = query.Where(searchCriteria.FilterExpression);
+            }
+
+            foreach (var includeProperty in includes)
+            {
+                query = query.Include(includeProperty);
+            }
+
+            if (searchCriteria.SortExpression != null)
+            {
+                query = searchCriteria.SortExpression(query);
+            }
+
+            SearchResult<TEntity> result = new SearchResult<TEntity>(searchCriteria)
+            {
+                TotalResultsCount = await query.CountAsync().ConfigureAwait(false),
+            };
+
+            query = query.Skip(searchCriteria.StartIndex).Take(searchCriteria.PageSize);
+
+            result.Result = await query.ToListAsync().ConfigureAwait(false);
+
+
+            if (_context == null)
+                context.Dispose();
+
+
+            return result;
+
+        }
+
         public virtual async Task<List<TEntity>> GetAsync<TEntity>(
          Expression<Func<TEntity, bool>> filter = null,
          Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
@@ -78,7 +120,7 @@ namespace Btx.Client.Application.Persistance
             }
 
 
-            var result = query.ToList();
+            var result = await query.ToListAsync().ConfigureAwait(false);
 
             if (_context == null)
                 context.Dispose();

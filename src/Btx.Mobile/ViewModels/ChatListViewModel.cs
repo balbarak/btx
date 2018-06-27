@@ -31,8 +31,16 @@ namespace Btx.Mobile.ViewModels
         public ChatListViewModel()
         {
             Title = "BTX Chat";
+        }
 
-            LoadThreads();
+        public override async Task OnAppearing()
+        {
+            await LoadThreads();
+        }
+
+        public override Task OnDisappearing()
+        {
+            return base.OnDisappearing();
         }
 
         public void SetupEvents()
@@ -56,7 +64,8 @@ namespace Btx.Mobile.ViewModels
 
         public async Task LoadThreads()
         {
-
+            Chats.Clear();
+            
             IsBusy = true;
 
             var chats = await BtxThreadService.Instance.GetAll();

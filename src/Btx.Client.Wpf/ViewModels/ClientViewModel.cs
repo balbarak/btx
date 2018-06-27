@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Threading;
 
 namespace Btx.Client.Wpf.ViewModels
 {
@@ -136,7 +137,30 @@ namespace Btx.Client.Wpf.ViewModels
                 return _sendCommand;
             }
         }
-        
+
+        private ICommand _sendRandomMessageCommand;
+
+        public ICommand SendRandomMessageCommand
+        {
+            get
+            {
+                if (_sendRandomMessageCommand == null)
+                    _sendRandomMessageCommand = new RelayCommand(async (arg) => { await SendRandomMessage(); });
+
+                return _sendRandomMessageCommand;
+            }
+
+        }
+
+        private int _randomMessageCount = 10;
+
+        public int RandomMessageCount
+        {
+            get { return _randomMessageCount; }
+            set { _randomMessageCount = value; RaisePropertyChanged(); }
+        }
+
+
         private string _recievedMessages;
 
         public string RecievedMessages
@@ -184,7 +208,7 @@ namespace Btx.Client.Wpf.ViewModels
 
             }
         }
-        
+
         public ObservableCollection<BtxUser> BtxUsers { get; set; } = new ObservableCollection<BtxUser>();
 
         private string _token;
@@ -337,9 +361,23 @@ namespace Btx.Client.Wpf.ViewModels
             }
         }
 
-        private void OnLog(object sender, EventArgs e)
+        private async Task SendRandomMessage()
         {
-            RaisePropertyChanged(nameof(Log));
+            await Task.Run(async () =>
+            {
+                ChatSimulator simulator = new ChatSimulator(Client, LoggerProvider.CurrentLogger);
+                await simulator.SendRandomMessages(SelectedBtxUser.Id, RandomMessageCount);
+
+            });
+
+        }
+
+        private async void OnLog(object sender, EventArgs e)
+        {
+
+            await Dispatcher.CurrentDispatcher.BeginInvoke(new Action(()=> { RaisePropertyChanged(); }),DispatcherPriority.Normal,null);
+            
+            
         }
 
 
