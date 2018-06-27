@@ -110,19 +110,26 @@ namespace Btx.Mobile.ViewModels
 
         }
 
-        public async Task LoadMessages()
+        public async Task LoadMessages(bool isAppendTop = false)
         {
+            if (IsBusy)
+                return;
+
             IsBusy = true;
 
             var search = new SearchCriteria<BtxMessage>()
             {
-                FilterExpression = a=> a.ThreadId == BtxThread.Id,
-                PageNumber = _page
+                FilterExpression = a => a.ThreadId == BtxThread.Id,
+                PageNumber = _page,
+                SortExpression = a => a.OrderByDescending(p => p.Date)
             };
 
             var result = await BtxMessageService.Instance.Search(search);
 
             int index = 1;
+
+            if (!isAppendTop)
+                result.Result.Reverse();
 
             foreach (var item in result.Result)
             {
@@ -130,7 +137,10 @@ namespace Btx.Mobile.ViewModels
 
                 Debug.WriteLine($"Reading msg from db {index}");
 
-                Items.Add(wrapper);
+                if (isAppendTop)
+                    Items.Insert(0, wrapper);
+                else
+                    Items.Add(wrapper);
 
                 index++;
             }
@@ -141,8 +151,6 @@ namespace Btx.Mobile.ViewModels
             IsBusy = false;
 
         }
-
-
 
     }
 

@@ -21,7 +21,7 @@
 
     <ContentPage.Content>
 
-        
+
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
@@ -32,10 +32,9 @@
                    Grid.RowSpan="2"
                    Aspect="Fill"/>
 
-            <ListView
+            <controls:ChatBoxListView
                 x:Name="lvChatItems" 
                 BackgroundColor="Transparent"
-                CachingStrategy="RecycleElement" 
                 ItemSelected="OnSelection"
                 Margin="0,5,0,0"
                 Grid.Row="0"
@@ -43,7 +42,7 @@
                 ItemTemplate="{StaticResource ChatItemTemplate}"
                 ItemsSource="{Binding Items}"
                 HasUnevenRows="True" 
-                SeparatorVisibility="None" />
+                SeparatorVisibility="None"/>
 
 
             <OnPlatform x:TypeArguments="View">
@@ -75,13 +74,13 @@
                                     x:Name="textScroll" 
                                     Padding="10,0,0,0" 
                                     Grid.Column="0">
-                            
+
                                     <controls:ChatEditBox
                                         x:Name="chatTxtBox"
                                         Keyboard="Chat"
                                         Grid.Column="0"
                                         Text="{Binding MessageToSend}"/>
-                                
+
                                 </ScrollView>
 
                                 <Button 

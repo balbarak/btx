@@ -374,9 +374,11 @@ namespace Btx.Client.Wpf.ViewModels
 
         private async void OnLog(object sender, EventArgs e)
         {
+            await Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+            {
+                RaisePropertyChanged(nameof(Log));
 
-            await Dispatcher.CurrentDispatcher.BeginInvoke(new Action(()=> { RaisePropertyChanged(); }),DispatcherPriority.Normal,null);
-            
+            }), DispatcherPriority.Background, null);
             
         }
 
