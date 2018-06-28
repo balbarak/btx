@@ -26,9 +26,13 @@ namespace Btx.Mobile
 
 			InitializeComponent();
             
+            Startup.Configure();
+
             BtxDbContext.InitDatabase();
 
             SetLoggedOutPage();
+
+            //SetLoggedInPage();
 
             if (Device.RuntimePlatform == Device.iOS)
             {
@@ -41,8 +45,6 @@ namespace Btx.Mobile
         
         protected override void OnStart()
 		{
-
-            Startup.Configure();
 
         }
 

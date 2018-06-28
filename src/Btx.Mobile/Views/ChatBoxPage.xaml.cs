@@ -19,7 +19,7 @@ namespace Btx.Mobile.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ChatBoxPage : ContentPage
     {
-        private int _currentItemIndex = 0;
+        private int _lastItemVisibleIndex = 0;
 
         public ChatBoxViewModel ViewModel { get; } = ServiceLocator.Current.GetService<ChatBoxViewModel>();
 
@@ -46,20 +46,39 @@ namespace Btx.Mobile.Views
 
         private async void OnScroll(object sender, EventArgs e)
         {
+
             var args = e as ChatBoxListEventArgs;
-
-            Debug.WriteLine($"First item: {args.FirstItemIndex}");
-            Debug.WriteLine($"Visible item count: {args.VisibleItemCount}");
-            Debug.WriteLine($"Total items count: {args.TotalItemsCount}");
-
-            if (args.FirstItemIndex + args.VisibleItemCount <= args.TotalItemsCount - 3)
-                await ViewModel.LoadMessages(true);
 
             if (args.FirstItemIndex + args.VisibleItemCount >= args.TotalItemsCount - 1)
                 IsAllowToScroll = true;
             else
                 IsAllowToScroll = false;
 
+
+            //scrolling up
+            if (args.FirstItemIndex < _lastItemVisibleIndex)
+            {
+                Debug.WriteLine("Scrolling Up");
+                Debug.WriteLine("First item index" + args.FirstItemIndex);
+
+                if (args.FirstItemIndex == 0)
+                {
+                    var item = ViewModel.Items[0];
+
+                    await ViewModel.LoadMessages(true);
+
+                    if (ViewModel.HasItemToLoads)
+                        lvChatItems.ScrollTo(item, ScrollToPosition.Center, false);
+                }
+
+            }
+            else if (args.FirstItemIndex > _lastItemVisibleIndex)
+            {
+                Debug.WriteLine("Scrolling down");
+                //await ViewModel.LoadMessages(true);
+            }
+
+            _lastItemVisibleIndex = args.FirstItemIndex;
         }
 
         private void OnItemDisappearing(object sender, ItemVisibilityEventArgs e)
@@ -72,11 +91,6 @@ namespace Btx.Mobile.Views
         {
             var index = ViewModel.Items.IndexOf((BtxMessageWrapper)e.Item);
             var count = ViewModel.Items.Count - 1;
-        }
-
-        private void OnSizeChanged(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
         }
 
         protected async override void OnAppearing()

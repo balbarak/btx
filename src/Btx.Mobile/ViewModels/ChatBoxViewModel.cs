@@ -28,6 +28,11 @@ namespace Btx.Mobile.ViewModels
     public class ChatBoxViewModel : BaseViewModel
     {
         private int _page = 1;
+        private int _totalItemsCount = -1;
+
+        private CancellationTokenSource _ctk = new CancellationTokenSource();
+
+        public bool HasItemToLoads { get { return _totalItemsCount != Items.Count; } }
 
         public BtxThreadWrapper BtxThread { get; private set; }
 
@@ -60,6 +65,13 @@ namespace Btx.Mobile.ViewModels
         public override async Task OnAppearing()
         {
             await LoadMessages();
+        }
+
+        public override Task OnDisappearing()
+        {
+            _ctk.Cancel();
+
+            return base.OnDisappearing();
         }
 
         private async Task Send()
@@ -112,7 +124,8 @@ namespace Btx.Mobile.ViewModels
 
         public async Task LoadMessages(bool isAppendTop = false)
         {
-            if (IsBusy)
+            
+            if (IsBusy || !HasItemToLoads)
                 return;
 
             IsBusy = true;
@@ -120,11 +133,14 @@ namespace Btx.Mobile.ViewModels
             var search = new SearchCriteria<BtxMessage>()
             {
                 FilterExpression = a => a.ThreadId == BtxThread.Id,
+                PageSize = 10,
                 PageNumber = _page,
                 SortExpression = a => a.OrderByDescending(p => p.Date)
             };
 
             var result = await BtxMessageService.Instance.Search(search);
+
+            _totalItemsCount = result.TotalResultsCount;
 
             int index = 1;
 
@@ -133,9 +149,13 @@ namespace Btx.Mobile.ViewModels
 
             foreach (var item in result.Result)
             {
+                
                 BtxMessageWrapper wrapper = new BtxMessageWrapper(item);
 
                 Debug.WriteLine($"Reading msg from db {index}");
+
+                if (_ctk.IsCancellationRequested)
+                    break;
 
                 if (isAppendTop)
                     Items.Insert(0, wrapper);

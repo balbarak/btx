@@ -49,15 +49,7 @@ namespace Btx.Client.Application.Services
 
             return entity;
         }
-
-        public async Task<List<BtxMessage>> GetByThreadId(string threadId)
-        {
-            return await _repository.GetAsync<BtxMessage>(
-                a => a.ThreadId == threadId,
-                orderBy:p=> p.OrderBy(f=> f.Date),
-                includeProperties:Includes
-                ).ConfigureAwait(false);
-        }
+        
 
         public async Task<SearchResult<BtxMessage>> Search(SearchCriteria<BtxMessage> search)
         {

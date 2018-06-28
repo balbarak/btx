@@ -44,7 +44,7 @@ namespace Btx.Mobile.Droid
 
         private void OnUnobservedTaskException(object sender, UnobservedTaskExceptionEventArgs e)
         {
-            throw e.Exception;
+            //throw e.Exception;
         }
 
         private void OnUnhandledException(object sender, UnhandledExceptionEventArgs e)

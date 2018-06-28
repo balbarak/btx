@@ -18,6 +18,8 @@ namespace Btx.Mobile.ViewModels
 {
     public class ChatListViewModel : BaseViewModel
     {
+        private bool _isThreadLoaded;
+
         public ObservableRangeCollection<BtxThreadWrapper> Chats { get; private set; } = new ObservableRangeCollection<BtxThreadWrapper>();
 
         private BtxThreadWrapper _selectedItem;
@@ -35,7 +37,8 @@ namespace Btx.Mobile.ViewModels
 
         public override async Task OnAppearing()
         {
-            await LoadThreads();
+            if (!_isThreadLoaded)
+                await LoadThreads();
         }
 
         public override Task OnDisappearing()
@@ -64,8 +67,6 @@ namespace Btx.Mobile.ViewModels
 
         public async Task LoadThreads()
         {
-            Chats.Clear();
-            
             IsBusy = true;
 
             var chats = await BtxThreadService.Instance.GetAll();
@@ -84,6 +85,8 @@ namespace Btx.Mobile.ViewModels
 
                 Chats.Add(wrapper);
             }
+
+            _isThreadLoaded = true;
 
             IsBusy = false;
 
