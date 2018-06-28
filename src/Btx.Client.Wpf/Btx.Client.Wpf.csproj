@@ -54,14 +54,20 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AppEventArgs\LogEventArgs.cs" />
     <Compile Include="Helpers\ChatGenerator.cs" />
     <Compile Include="Helpers\ChatSimulator.cs" />
     <Compile Include="Helpers\Logger.cs" />
     <Compile Include="Helpers\LoremGenerator.cs" />
     <Compile Include="Helpers\RelayCommand.cs" />
+    <Compile Include="Models\LogEntry.cs" />
+    <Compile Include="Usercontrols\SimulatorUC.xaml.cs">
+      <DependentUpon>SimulatorUC.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\ClientViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\SimulatorViewModel.cs" />
     <Compile Include="Views\ClientWindow.xaml.cs">
       <DependentUpon>ClientWindow.xaml</DependentUpon>
     </Compile>
@@ -72,6 +78,10 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Usercontrols\SimulatorUC.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\ClientWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -117,9 +127,7 @@
       <Name>Btx.Client</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Models\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Logging">
       <Version>2.1.1</Version>

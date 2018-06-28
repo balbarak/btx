@@ -1,6 +1,8 @@
 ﻿using Btx.Client.BtxEventsArg;
 using Btx.Client.Domain.Models;
+using Btx.Client.Wpf.AppEventArgs;
 using Btx.Client.Wpf.Helpers;
+using Btx.Client.Wpf.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -159,8 +161,7 @@ namespace Btx.Client.Wpf.ViewModels
             get { return _randomMessageCount; }
             set { _randomMessageCount = value; RaisePropertyChanged(); }
         }
-
-
+        
         private string _recievedMessages;
 
         public string RecievedMessages
@@ -229,11 +230,7 @@ namespace Btx.Client.Wpf.ViewModels
             }
         }
 
-        public string Log
-        {
-            get { return LoggerProvider.CurrentLogger.LogMessages; }
-
-        }
+        public ObservableCollection<LogEntry> LogEntries { get; set; } = new ObservableCollection<LogEntry>();
 
         public ClientViewModel()
         {
@@ -374,11 +371,13 @@ namespace Btx.Client.Wpf.ViewModels
 
         private async void OnLog(object sender, EventArgs e)
         {
-            //await Application.Current.Dispatcher.BeginInvoke(new Action(() =>
-            //{
-            //    RaisePropertyChanged(nameof(Log));
+            var args = e as LogEventArgs;
 
-            //}), DispatcherPriority.Background, null);
+            await Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+            {
+                LogEntries.Add(args.LogEntry);
+
+            }), DispatcherPriority.Background, null);
             
         }
 

@@ -20,6 +20,9 @@ namespace Btx.Client.Wpf.Views
     /// </summary>
     public partial class ClientWindow : Window
     {
+        private bool _isAutoScroll = true;
+
+
         public ClientViewModel ViewModel { get; set; } = new ClientViewModel();
 
         public ClientWindow()
@@ -36,5 +39,30 @@ namespace Btx.Client.Wpf.Views
             textBox.ScrollToEnd();
         }
 
+        private void ScrollViewer_ScrollChanged(object sender, ScrollChangedEventArgs e)
+        {
+            // User scroll event : set or unset autoscroll mode
+            if (e.ExtentHeightChange == 0)
+            {   // Content unchanged : user scroll event
+                if ((e.Source as ScrollViewer).VerticalOffset == (e.Source as ScrollViewer).ScrollableHeight)
+                {   // Scroll bar is in bottom
+                    // Set autoscroll mode
+                    _isAutoScroll = true;
+                }
+                else
+                {   // Scroll bar isn't in bottom
+                    // Unset autoscroll mode
+                    _isAutoScroll = false;
+                }
+            }
+
+            // Content scroll event : autoscroll eventually
+            if (_isAutoScroll && e.ExtentHeightChange != 0)
+            {   // Content changed and autoscroll mode set
+                // Autoscroll
+                (e.Source as ScrollViewer).ScrollToVerticalOffset((e.Source as ScrollViewer).ExtentHeight);
+            }
+
+        }
     }
 }

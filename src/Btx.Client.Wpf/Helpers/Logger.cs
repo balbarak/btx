@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Btx.Client.Wpf.AppEventArgs;
+using Btx.Client.Wpf.Models;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,8 +29,6 @@ namespace Btx.Client.Wpf.Helpers
 
     public class Logger : ILogger
     {
-        public string LogMessages { get; private set; } = "";
-
         public event EventHandler OnWriteLog;
 
         public IDisposable BeginScope<TState>(TState state)
@@ -44,10 +44,16 @@ namespace Btx.Client.Wpf.Helpers
         public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter)
         {
             var date = DateTime.Now;
-
-            LogMessages += $"[{date.ToString("hh:mm:ss")}]: {logLevel.ToString()}-- {formatter(state, exception)} {Environment.NewLine}";
-
-            OnWriteLog?.Invoke(null, null);
+            
+            OnWriteLog?.Invoke(this,new LogEventArgs()
+            {
+                LogEntry = new LogEntry()
+                {
+                    LogLevel = logLevel,
+                    Message = formatter(state,exception),
+                    Date = date
+                }
+            });
         }
 
         private class NoopDisposable : IDisposable

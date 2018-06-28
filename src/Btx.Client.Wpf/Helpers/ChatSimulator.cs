@@ -25,7 +25,7 @@ namespace Btx.Client.Wpf.Helpers
 
             foreach (var item in message)
             {
-                //_logger.LogInformation($"Sending messate to : {to}");
+                _logger.LogInformation($"Sending messate to : {to}");
 
                 await _client.Send(item).ConfigureAwait(false);
             }

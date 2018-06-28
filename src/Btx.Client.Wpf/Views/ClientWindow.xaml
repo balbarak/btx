@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Btx.Client.Wpf.Views"
         mc:Ignorable="d"
+        xmlns:uc="clr-namespace:Btx.Client.Wpf.Usercontrols"
         Title="Client" Height="743" Width="940">
     <Grid>
 
@@ -35,9 +36,13 @@
         </TabControl>
 
 
-        <GroupBox Header="Connection" Margin="323,86,10,0" Height="64" VerticalAlignment="Top">
-            <StackPanel Orientation="Horizontal">
-                <Button 
+        <TabControl Margin="323,10,10,0" Height="431" VerticalAlignment="Top">
+
+            <TabItem Header="General">
+                <Grid>
+                    <GroupBox Header="Connection" Margin="10,77,275,0" Height="64" VerticalAlignment="Top">
+                        <StackPanel Orientation="Horizontal">
+                            <Button 
                     Command="{Binding ConnectCommand}"
                     IsEnabled="{Binding IsDisconnected}"
                     Content="Connect" 
@@ -47,7 +52,7 @@
                     VerticalAlignment="Top" 
                     Width="97"/>
 
-                <Button 
+                            <Button 
                     Command="{Binding DisconnectCommand}"
                     IsEnabled="{Binding IsConnected}"
                     Content="Disconnect" 
@@ -56,33 +61,28 @@
                     Margin="10,10,0,0" 
                     VerticalAlignment="Top" 
                     Width="97"/>
-            </StackPanel>
+                        </StackPanel>
 
-        </GroupBox>
-        <GroupBox Header="Access Token" 
+                    </GroupBox>
+
+                    <GroupBox Header="Access Token" 
                   Height="62" 
-                  Margin="323,24,10,0" 
+                  Margin="10,10,10,0" 
                   VerticalAlignment="Top">
-            <TextBox IsReadOnly="True" Text="{Binding Token,Mode=OneWay}"/>
-        </GroupBox>
+                        <TextBox IsReadOnly="True" Text="{Binding Token,Mode=OneWay}"/>
+                    </GroupBox>
 
-        <GroupBox Header="Log" Margin="10,446,10,10.5">
-            <TextBox 
-                VerticalScrollBarVisibility="Visible"
-                TextChanged="TextBox_TextChanged"
-                Text="{Binding Log,Mode=OneWay}"/>
-        </GroupBox>
-        <GroupBox Header="Send Message" Height="208" Margin="323,155,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="308">
+                    <GroupBox Header="Send Message" Height="208" Margin="10,146,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="308">
 
-            <StackPanel Margin="5">
-                <Label Content="User Id"/>
-                <TextBox Height="24" Text="{Binding SelectedBtxUser.Id}" />
-                <Label Content="Message"/>
-                <TextBox 
+                        <StackPanel Margin="5">
+                            <Label Content="User Id"/>
+                            <TextBox Height="24" Text="{Binding SelectedBtxUser.Id}" />
+                            <Label Content="Message"/>
+                            <TextBox 
                     Height="60" 
                     Text="{Binding MessageToSend,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
 
-                <Button 
+                            <Button 
                     Margin="0,10"
                     Height="24"
                     Width="100"
@@ -90,41 +90,50 @@
                     Command="{Binding SendCommand}"
                     IsEnabled="{Binding CanSendMessage}"
                     Content="Send"/>
-            </StackPanel>
+                        </StackPanel>
 
-        </GroupBox>
-        <GroupBox Header="Users" HorizontalAlignment="Left" Height="208" Margin="646,155,0,0" VerticalAlignment="Top" Width="279">
+                    </GroupBox>
 
-            <Grid Margin="5">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="29"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
-                <Button 
+                    <GroupBox Header="Users" Height="277" Margin="323,77,10,0" VerticalAlignment="Top">
+
+                        <Grid Margin="5">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="29"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Button 
                     Command="{Binding SearchUserCommand}"
                     Height="24"
                     VerticalAlignment="Top"
                     Content="List users"/>
 
-                <ListBox
+                            <ListBox
                     ItemsSource="{Binding BtxUsers}"
                     SelectedItem="{Binding SelectedBtxUser}"
                     Grid.Row="1">
 
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel>
-                                <TextBlock Text="{Binding Username}"/>
-                                <Line/>
-                                <TextBlock Text="{Binding Nickname}"/>
-                            </StackPanel>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
-            </Grid>
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel>
+                                            <TextBlock Text="{Binding Username}"/>
+                                            <Line/>
+                                            <TextBlock Text="{Binding Nickname}"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                        </Grid>
 
 
-        </GroupBox>
+                    </GroupBox>
+
+                </Grid>
+            </TabItem>
+            <TabItem Header="Simulaotr">
+                <uc:SimulatorUC />
+            </TabItem>
+        </TabControl>
+
         <GroupBox 
             Header="Recieved Messages" 
             HorizontalAlignment="Left" Height="174" Margin="10,267,0,0" VerticalAlignment="Top" Width="308">
@@ -133,24 +142,50 @@
                 TextWrapping="Wrap"
                 Text="{Binding RecievedMessages}" />
         </GroupBox>
-        <GroupBox Header="Simulator" HorizontalAlignment="Left" Height="73" Margin="323,368,0,0" VerticalAlignment="Top" Width="308">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="15*"/>
-                    <ColumnDefinition Width="281*"/>
-                </Grid.ColumnDefinitions>
-                <Button
-                    VerticalAlignment="Top"
-                    HorizontalAlignment="Left"
-                    Command="{Binding SendRandomMessageCommand}"
-                    Height="24"
-                    Content="Send Random Messages" Margin="10,17,0,0" Width="149" Grid.ColumnSpan="2"/>
-                <StackPanel Margin="149,0,77,0" Grid.Column="1">
-                    <Label Content="Count:"/>
-                    <TextBox Height="24" Text="{Binding RandomMessageCount}" />
-                </StackPanel>
 
-            </Grid>
+        <GroupBox Header="Log" Margin="10,446,10,10.5">
+            <ItemsControl ItemsSource="{Binding LogEntries}" Margin="5">
+
+                <ItemsControl.Template>
+                    <ControlTemplate>
+                        <ScrollViewer CanContentScroll="True" ScrollChanged="ScrollViewer_ScrollChanged">
+                            <ItemsPresenter/>
+                        </ScrollViewer>
+                    </ControlTemplate>
+                </ItemsControl.Template>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock 
+                                Grid.Column="0"
+                                Foreground="{Binding LogColor,Mode=OneTime}"
+                                Text="{Binding LogLevel,StringFormat='{}--{0} '}"/>
+
+                            <TextBlock 
+                                Grid.Column="1"
+                                Text="{Binding Date,StringFormat='{}{0:[hh:mmtt] }'}"/>
+
+                            <TextBlock 
+                                Grid.Column="2"
+                                TextWrapping="Wrap"
+                                Text="{Binding Message}"/>
+
+                        </Grid>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <VirtualizingStackPanel IsItemsHost="True"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
         </GroupBox>
     </Grid>
 </Window>
