@@ -30,6 +30,25 @@ namespace Btx.Client.Application.Persistance
             _filePath = filePath;
         }
 
+        public virtual TEntity Create<TEntity>(TEntity entity) where TEntity : class
+        {
+            BtxDbContext context = _context ?? new BtxDbContext();
+
+            var dbSet = context.Set<TEntity>();
+
+            dbSet.Add(entity);
+
+            if (_context == null)
+            {
+                context.SaveChanges();
+
+                context.Dispose();
+            }
+
+            return entity;
+
+        }
+
         public virtual async Task<TEntity> CreateAsync<TEntity>(TEntity entity) where TEntity : class
         {
             BtxDbContext context = _context ?? new BtxDbContext();
@@ -49,14 +68,31 @@ namespace Btx.Client.Application.Persistance
 
         }
 
-        public virtual async  Task<SearchResult<TEntity>> Search<TEntity>(SearchCriteria<TEntity> searchCriteria, params string[] includes) where TEntity : class
+        public virtual TEntity Update<TEntity>(TEntity entityToUpdate) where TEntity : class
+        {
+            BtxDbContext context = _context ?? new BtxDbContext();
+
+            var dbSet = context.Set<TEntity>();
+
+            context.Update(entityToUpdate);
+
+            if (_context == null)
+            {
+                context.SaveChanges();
+                context.Dispose();
+            }
+
+            return entityToUpdate;
+        }
+
+        public virtual async Task<SearchResult<TEntity>> SearchAsync<TEntity>(SearchCriteria<TEntity> searchCriteria, params string[] includes) where TEntity : class
         {
             BtxDbContext context = _context ?? new BtxDbContext();
 
             var dbSet = context.Set<TEntity>();
 
             IQueryable<TEntity> query = dbSet;
-            
+
             if (searchCriteria.FilterExpression != null)
             {
                 query = query.Where(searchCriteria.FilterExpression);
@@ -90,6 +126,47 @@ namespace Btx.Client.Application.Persistance
 
         }
 
+        public virtual SearchResult<TEntity> Search<TEntity>(SearchCriteria<TEntity> searchCriteria, params string[] includes) where TEntity : class
+        {
+            BtxDbContext context = _context ?? new BtxDbContext();
+
+            var dbSet = context.Set<TEntity>();
+
+            IQueryable<TEntity> query = dbSet;
+
+            if (searchCriteria.FilterExpression != null)
+            {
+                query = query.Where(searchCriteria.FilterExpression);
+            }
+
+            foreach (var includeProperty in includes)
+            {
+                query = query.Include(includeProperty);
+            }
+
+            if (searchCriteria.SortExpression != null)
+            {
+                query = searchCriteria.SortExpression(query);
+            }
+
+            SearchResult<TEntity> result = new SearchResult<TEntity>(searchCriteria)
+            {
+                TotalResultsCount = query.Count(),
+            };
+
+            query = query.Skip(searchCriteria.StartIndex).Take(searchCriteria.PageSize);
+
+            result.Result = query.ToList();
+
+
+            if (_context == null)
+                context.Dispose();
+
+
+            return result;
+
+        }
+        
         public virtual async Task<List<TEntity>> GetAsync<TEntity>(
          Expression<Func<TEntity, bool>> filter = null,
          Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
@@ -118,9 +195,49 @@ namespace Btx.Client.Application.Persistance
             {
                 query = orderBy(query);
             }
+            
+            var result = await query.ToListAsync();
 
 
-            var result = await query.ToListAsync().ConfigureAwait(false);
+            if (_context == null)
+                context.Dispose();
+
+            return result;
+        }
+
+
+        public virtual List<TEntity> Get<TEntity>(
+        Expression<Func<TEntity, bool>> filter = null,
+        Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
+        string[] includeProperties = null) where TEntity : class
+        {
+            BtxDbContext context = _context ?? new BtxDbContext();
+
+            var dbSet = context.Set<TEntity>();
+
+            IQueryable<TEntity> query = dbSet;
+
+            if (filter != null)
+            {
+                query = query.Where(filter);
+            }
+
+            if (includeProperties != null)
+            {
+                foreach (var includeProperty in includeProperties)
+                {
+                    query = query.Include(includeProperty);
+                }
+            }
+
+            if (orderBy != null)
+            {
+                query = orderBy(query);
+            }
+
+
+            var result = query.ToList();
+
 
             if (_context == null)
                 context.Dispose();

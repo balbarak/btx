@@ -1,5 +1,6 @@
 ﻿using Btx.Client;
 using Btx.Client.Application.Services;
+using Btx.Client.BtxEventArgs;
 using Btx.Client.BtxEventsArg;
 using Btx.Client.Domain.Models;
 using Btx.Mobile.Helpers;
@@ -8,6 +9,7 @@ using Btx.Mobile.Wrappers;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace Btx.Mobile.Services
@@ -25,13 +27,11 @@ namespace Btx.Mobile.Services
                 if (_client == null)
                 {
                     _client = new BtxClient();
-
                     SetupEvents();
                 }
 
                 return _client;
             }
-            private set { _client = value; }
         }
 
         static BtxProtocolService()
@@ -45,6 +45,43 @@ namespace Btx.Mobile.Services
             Client.OnDisconnected += OnDisconnected;
             Client.OnMessageRecieved += OnMessageRecieved;
             Client.OnTokenRecieved += OnTokenRecieved;
+            Client.OnMessageServerDelivered += OnMessageServerDelivered;
+
+        }
+
+        private async void OnMessageServerDelivered(object sender, EventArgs e)
+        {
+
+            if (e is BtxMessageEventArgs args)
+            {
+                var msg = await BtxMessageService.Instance.GetById(args.MessageId);
+
+                if (msg != null)
+                {
+                    msg.Status = BtxMessageStatus.ServerDeliverd;
+
+                    BtxMessageService.Instance.Update(msg);
+
+                    if (CacheHelper.CurrenChatBoxViewModel.BtxThread.Id == msg.ThreadId)
+                    {
+                        CacheHelper.CurrenChatBoxViewModel.UpdateChatMessage(msg);
+                    }
+                }
+            }
+        }
+
+        public async Task SendMessage(BtxMessage msg)
+        {
+           BtxMessageService.Instance.Add(msg);
+
+            await Client.Send(msg);
+
+        }
+
+        public async Task Login(BtxLogin model)
+        {
+            await Client.Login(model);
+
 
         }
 
@@ -65,7 +102,7 @@ namespace Btx.Mobile.Services
 
             msg.ThreadId = thread.Id;
 
-            await BtxMessageService.Instance.Add(msg);
+            await BtxMessageService.Instance.AddAsync(msg);
 
             AddMessageToChatList(msg);
 
@@ -78,6 +115,8 @@ namespace Btx.Mobile.Services
             var chatListViewModel = ServiceLocator.Current.GetService<ChatListViewModel>();
 
             chatListViewModel.AddChatMessage(msg);
+            chatListViewModel.SortChats();
+
         }
 
         private void AddMessageToChatBox(BtxMessage msg, BtxThread thread)
@@ -91,6 +130,15 @@ namespace Btx.Mobile.Services
 
             }
         }
+
+        private bool IsCurrentChatBoxViewModelMatchThreadId(string threadId)
+        {
+            if (CacheHelper.CurrenChatBoxViewModel == null)
+                return false;
+
+            return CacheHelper.CurrenChatBoxViewModel.BtxThread?.Id == threadId;
+        }
+
 
         private void OnDisconnected(object sender, EventArgs e)
         {

@@ -36,7 +36,7 @@ namespace Btx.Server.Controllers
 
                 if (!result.Succeeded || result.IsLockedOut || result.IsNotAllowed)
                     throw new Exception("Authentication failed");
-
+                
                 var jwtToken = GetJwtSecurityToken(user);
                 var token = new JwtSecurityTokenHandler().WriteToken(jwtToken);
 

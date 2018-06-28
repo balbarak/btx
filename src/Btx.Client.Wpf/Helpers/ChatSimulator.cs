@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Btx.Client.Domain.Models;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,6 +31,24 @@ namespace Btx.Client.Wpf.Helpers
                 await _client.Send(item).ConfigureAwait(false);
             }
 
+        }
+
+        public async Task SendCounterMessages(string to, int count = 10)
+        {
+            var message = ChatGenerator.GetRandomMessagesToSend(to, count);
+
+            for (int i = 0; i < count; i++)
+            {
+                var msg = new BtxMessage()
+                {
+                    RecipientId = to,
+                    Date = DateTime.Now,
+                    Body = i.ToString(),
+                };
+
+                await _client.Send(msg).ConfigureAwait(false);
+            }
+            
         }
     }
 }

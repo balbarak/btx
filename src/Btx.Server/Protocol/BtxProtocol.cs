@@ -41,21 +41,24 @@ namespace Btx.Server.Protocol
 
         public async Task Send(BtxMessage msg)
         {
-
             var activeConnections = ConnectionService.Instance.GetActiveConnections(msg.RecipientId);
 
             var newMessage = new BtxMessage()
             {
+                Id = msg.Id,
                 RecipientId = UserId,
                 Recipient = new BtxUser() { Username = Context.User.Identity.Name },
                 Date = DateTime.UtcNow,
                 Body = msg.Body,
             };
+            
+            await Clients.Caller.SendAsync(ClientMethods.ON_MESSAGE_SERVER_DELIEVERED, msg.Id);
 
             foreach (var item in activeConnections)
             {
                 await Clients.Client(item.Id).SendAsync(ClientMethods.ON_MESSAGE_RECIEVE, newMessage);
             }
+            
         }
 
         private void SetOffline()

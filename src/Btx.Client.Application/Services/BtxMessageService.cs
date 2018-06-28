@@ -15,32 +15,31 @@ namespace Btx.Client.Application.Services
         {
             Includes = new[]
             {
-                nameof(BtxMessage.Recipient)
+                nameof(BtxMessage.Recipient),
+                nameof(BtxMessage.Thread),
+
             };
         }
-        
-        public async Task<BtxMessage> Add(BtxMessage entity)
+
+        public BtxMessage Add(BtxMessage entity)
         {
             using (UnitOfWork work = new UnitOfWork())
             {
-                var users = await work.GenericRepository.GetAsync<BtxUser>(a => a.Id == entity.RecipientId).ConfigureAwait(false);
-                var user = users.FirstOrDefault();
+                SetBtxUser(entity, work);
 
-                if (user == null)
-                {
-                    entity.Recipient = new BtxUser()
-                    {
-                        Id = entity.RecipientId,
-                        Username = entity.Recipient?.Username
-                    };
+                entity = work.GenericRepository.Create(entity);
 
-                    entity.RecipientId = null;
-                }
-                else
-                {
-                    entity.RecipientId = user.Id;
-                    entity.Recipient = null;
-                }
+                work.Commit();
+            }
+
+            return entity;
+        }
+
+        public async Task<BtxMessage> AddAsync(BtxMessage entity)
+        {
+            using (UnitOfWork work = new UnitOfWork())
+            {
+                await SetBtxUserAsync(entity, work);
 
                 entity = await work.GenericRepository.CreateAsync(entity).ConfigureAwait(false);
 
@@ -49,11 +48,23 @@ namespace Btx.Client.Application.Services
 
             return entity;
         }
-        
 
+        public BtxMessage Update(BtxMessage entity)
+        {
+            return _repository.Update(entity);
+            
+        }
+        
         public async Task<SearchResult<BtxMessage>> Search(SearchCriteria<BtxMessage> search)
         {
-            return await _repository.Search(search,Includes);
+            return await _repository.SearchAsync(search,Includes);
+        }
+
+        public async Task<BtxMessage> GetById(string id)
+        {
+            var result = await _repository.GetAsync<BtxMessage>(a => a.Id == id, includeProperties: Includes);
+
+            return result.FirstOrDefault();
         }
 
         public BtxMessage GetLastMessageByThreadId(string threadId)
@@ -67,5 +78,55 @@ namespace Btx.Client.Application.Services
 
             return result;
         }
+        
+        private async Task SetBtxUserAsync(BtxMessage entity, UnitOfWork work)
+        {
+            if (string.IsNullOrWhiteSpace(entity.RecipientId))
+                return;
+
+            var users = await work.GenericRepository.GetAsync<BtxUser>(a => a.Id == entity.RecipientId).ConfigureAwait(false);
+            var user = users.FirstOrDefault();
+
+            if (user == null)
+            {
+                entity.Recipient = new BtxUser()
+                {
+                    Id = entity.RecipientId,
+                    Username = entity.Recipient?.Username
+                };
+
+                entity.RecipientId = null;
+            }
+            else
+            {
+                entity.RecipientId = user.Id;
+                entity.Recipient = null;
+            }
+        }
+
+        private void SetBtxUser(BtxMessage entity, UnitOfWork work)
+        {
+            if (string.IsNullOrWhiteSpace(entity.RecipientId))
+                return;
+
+            var user = work.GenericRepository.Get<BtxUser>(a => a.Id == entity.RecipientId).FirstOrDefault();
+            
+            if (user == null)
+            {
+                entity.Recipient = new BtxUser()
+                {
+                    Id = entity.RecipientId,
+                    Username = entity.Recipient?.Username
+                };
+
+                entity.RecipientId = null;
+            }
+            else
+            {
+                entity.RecipientId = user.Id;
+                entity.Recipient = null;
+            }
+        }
+
     }
 }

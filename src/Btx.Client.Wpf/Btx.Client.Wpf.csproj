@@ -66,6 +66,7 @@
     </Compile>
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\ClientViewModel.cs" />
+    <Compile Include="ViewModels\ClientViewModel.Simulator.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\SimulatorViewModel.cs" />
     <Compile Include="Views\ClientWindow.xaml.cs">

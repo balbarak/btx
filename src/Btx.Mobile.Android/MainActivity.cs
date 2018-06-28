@@ -39,7 +39,7 @@ namespace Btx.Mobile.Droid
 
         private void OnUnhandledExceptionRaiser(object sender, RaiseThrowableEventArgs e)
         {
-            throw e.Exception;
+            //throw e.Exception;
         }
 
         private void OnUnobservedTaskException(object sender, UnobservedTaskExceptionEventArgs e)

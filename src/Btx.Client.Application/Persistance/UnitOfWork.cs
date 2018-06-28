@@ -28,6 +28,11 @@ namespace Btx.Client.Application.Persistance
             return await Context.SaveChangesAsync();
         }
 
+        public int Commit()
+        {
+            return Context.SaveChanges();
+        }
+
         private bool disposed = false;
 
         protected virtual void Dispose(bool disposing)

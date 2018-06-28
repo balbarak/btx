@@ -15,7 +15,7 @@ using System.Windows.Threading;
 
 namespace Btx.Client.Wpf.ViewModels
 {
-    public class ClientViewModel : BaseViewModel
+    public partial class ClientViewModel : BaseViewModel
     {
         private BtxClient _client;
 
@@ -139,28 +139,6 @@ namespace Btx.Client.Wpf.ViewModels
                 return _sendCommand;
             }
         }
-
-        private ICommand _sendRandomMessageCommand;
-
-        public ICommand SendRandomMessageCommand
-        {
-            get
-            {
-                if (_sendRandomMessageCommand == null)
-                    _sendRandomMessageCommand = new RelayCommand(async (arg) => { await SendRandomMessage(); });
-
-                return _sendRandomMessageCommand;
-            }
-
-        }
-
-        private int _randomMessageCount = 10;
-
-        public int RandomMessageCount
-        {
-            get { return _randomMessageCount; }
-            set { _randomMessageCount = value; RaisePropertyChanged(); }
-        }
         
         private string _recievedMessages;
 
@@ -183,6 +161,7 @@ namespace Btx.Client.Wpf.ViewModels
 
                     RaisePropertyChanged();
                     RaisePropertyChanged(nameof(CanSendMessage));
+                    RaisePropertyChanged(nameof(CanSendRandomMessage));
                 }
             }
         }
@@ -266,6 +245,7 @@ namespace Btx.Client.Wpf.ViewModels
             RaisePropertyChanged(nameof(IsConnected));
             RaisePropertyChanged(nameof(IsDisconnected));
             RaisePropertyChanged(nameof(CanSendMessage));
+            RaisePropertyChanged(nameof(CanSendRandomMessage));
         }
 
         private void OnTokenRecieved(object sender, EventArgs e)
@@ -357,18 +337,7 @@ namespace Btx.Client.Wpf.ViewModels
                 MessageBox.Show(ex.ToString(), "Unable to send message", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-
-        private async Task SendRandomMessage()
-        {
-            await Task.Run(async () =>
-            {
-                ChatSimulator simulator = new ChatSimulator(Client, LoggerProvider.CurrentLogger);
-                await simulator.SendRandomMessages(SelectedBtxUser.Id, RandomMessageCount);
-
-            });
-
-        }
-
+        
         private async void OnLog(object sender, EventArgs e)
         {
             var args = e as LogEventArgs;

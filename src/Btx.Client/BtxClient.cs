@@ -14,6 +14,7 @@ using Btx.Client.Domain;
 using Microsoft.AspNetCore.SignalR.Protocol;
 using Btx.Client.BtxEventsArg;
 using Btx.Client.Domain.Search;
+using Btx.Client.BtxEventArgs;
 
 namespace Btx.Client
 {
@@ -30,6 +31,7 @@ namespace Btx.Client
         public event EventHandler OnConnected;
         public event BtxMessageEventHandler OnMessageRecieved;
         public event EventHandler OnTokenRecieved;
+        public event EventHandler OnMessageServerDelivered;
 
         public bool IsConnected { get; private set; }
 
@@ -157,7 +159,7 @@ namespace Btx.Client
 
                     RemoveExtraFromToken();
 
-                    _logger?.LogInformation($"access toke: {_accessToken}");
+                    _logger?.LogInformation($"access token: {_accessToken}");
 
                     OnTokenRecieved?.Invoke(this, new TokenEventArgs(_accessToken));
                 }
@@ -250,6 +252,11 @@ namespace Btx.Client
             {
                 OnMessageRecieved?.Invoke(msg);
             });
+
+            _hubConnection.On<string>(ClientMethods.ON_MESSAGE_SERVER_DELIEVERED, (msgId) =>
+             {
+                 OnMessageServerDelivered?.Invoke(this, new BtxMessageEventArgs() { MessageId = msgId });
+             });
         }
 
     }

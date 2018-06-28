@@ -67,8 +67,7 @@ namespace Btx.Mobile.Views
 
                     await ViewModel.LoadMessages(true);
 
-                    if (ViewModel.HasItemToLoads)
-                        lvChatItems.ScrollTo(item, ScrollToPosition.Center, false);
+                    lvChatItems.ScrollTo(item, ScrollToPosition.Center, false);
                 }
 
             }

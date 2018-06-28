@@ -28,9 +28,14 @@ namespace Btx.Client.Application.Services
             return entity;
         }
         
-        public async Task<List<BtxThread>> GetAll()
+        public async Task<List<BtxThread>> GetAllAsync()
         {
             return await _repository.GetAsync<BtxThread>().ConfigureAwait(false);
+        }
+
+        public List<BtxThread> GetAll()
+        {
+            return _repository.Get<BtxThread>();
         }
     }
 }

@@ -69,7 +69,7 @@ namespace Btx.Mobile.ViewModels
         {
             IsBusy = true;
 
-            var chats = await BtxThreadService.Instance.GetAll();
+            var chats = BtxThreadService.Instance.GetAll();
 
             foreach (var item in chats)
             {
@@ -85,6 +85,8 @@ namespace Btx.Mobile.ViewModels
 
                 Chats.Add(wrapper);
             }
+
+            SortChats();
 
             _isThreadLoaded = true;
 
@@ -104,6 +106,32 @@ namespace Btx.Mobile.ViewModels
             {
                 BtxThreadWrapper thread = new BtxThreadWrapper(new BtxThread(msg), msg);
                 Chats.Add(thread);
+            }
+            
+        }
+
+        public void SortChats()
+        {
+            var sortedItems = Chats.OrderByDescending(a => a.LastMessageDate).ToList();
+
+            foreach (var item in sortedItems)
+            {
+                var newIndex = sortedItems.IndexOf(item);
+                var oldIndex = Chats.IndexOf(item);
+
+                Chats.Move(oldIndex, newIndex);
+            }
+
+        }
+
+        public void ReadAllMessages(string threadId)
+        {
+            var found = Chats.Where(a => a.Id == threadId).FirstOrDefault();
+
+            if (found != null)
+            {
+                found.HasUnreadMessages = false;
+                found.UnreadMessageCount = 0;
             }
         }
 

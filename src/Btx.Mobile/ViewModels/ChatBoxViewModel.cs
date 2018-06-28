@@ -21,6 +21,8 @@ using System.Windows.Input;
 using Xamarin.Forms;
 using System.Linq;
 using Btx.Client.Domain.Search;
+using Btx.Mobile.Services;
+using System.Collections.ObjectModel;
 
 namespace Btx.Mobile.ViewModels
 {
@@ -36,7 +38,7 @@ namespace Btx.Mobile.ViewModels
 
         public BtxThreadWrapper BtxThread { get; private set; }
 
-        public ObservableRangeCollection<BtxMessageWrapper> Items { get; private set; } = new ObservableRangeCollection<BtxMessageWrapper>();
+        public ObservableCollection<BtxMessageWrapper> Items { get; private set; } = new ObservableCollection<BtxMessageWrapper>();
 
         private string messageToSend;
 
@@ -53,7 +55,7 @@ namespace Btx.Mobile.ViewModels
         public ChatBoxViewModel()
         {
             BtxThread = App.ChatManager.CurrentThread;
-
+            Items.CollectionChanged += OnCollectionItemsChanged;
             CacheHelper.CurrenChatBoxViewModel = this;
 
             SendCommand = new Command(async () => { await Send(); });
@@ -62,9 +64,22 @@ namespace Btx.Mobile.ViewModels
             this.Title = BtxThread.Title;
         }
 
+        private void OnCollectionItemsChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Replace)
+            {
+
+            }
+        }
+
         public override async Task OnAppearing()
         {
             await LoadMessages();
+
+            var chatListViewModel = ServiceLocator.Current.GetService<ChatListViewModel>();
+
+            chatListViewModel.ReadAllMessages(BtxThread.Id);
+
         }
 
         public override Task OnDisappearing()
@@ -82,13 +97,17 @@ namespace Btx.Mobile.ViewModels
             var chatMessage = new BtxMessage()
             {
                 Body = messageToSend,
-                Date = DateTime.Now,
+                Date = DateTime.UtcNow,
                 BtxMessageType = BtxMessageType.Outgoing,
-                IsReadByUser = true
+                IsReadByUser = true,
+                ThreadId = BtxThread.Id,
+                RecipientId = BtxThread.Id
             };
 
             Items.Add(new BtxMessageWrapper(chatMessage));
 
+            await BtxProtocolService.Instance.SendMessage(chatMessage);
+            
             MessageToSend = "";
 
 
@@ -133,7 +152,7 @@ namespace Btx.Mobile.ViewModels
             var search = new SearchCriteria<BtxMessage>()
             {
                 FilterExpression = a => a.ThreadId == BtxThread.Id,
-                PageSize = 10,
+                PageSize = 20,
                 PageNumber = _page,
                 SortExpression = a => a.OrderByDescending(p => p.Date)
             };
@@ -170,6 +189,20 @@ namespace Btx.Mobile.ViewModels
 
             IsBusy = false;
 
+        }
+
+        public void UpdateChatMessage(BtxMessage msg)
+        {
+            var found = Items.Where(a => a.Model.Id == msg.Id).FirstOrDefault();
+
+            if (found != null)
+            {
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    found.Status = msg.Status;
+                });
+                
+            }
         }
 
     }

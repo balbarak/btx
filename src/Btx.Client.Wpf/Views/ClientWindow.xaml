@@ -43,32 +43,32 @@
                     <GroupBox Header="Connection" Margin="10,77,275,0" Height="64" VerticalAlignment="Top">
                         <StackPanel Orientation="Horizontal">
                             <Button 
-                    Command="{Binding ConnectCommand}"
-                    IsEnabled="{Binding IsDisconnected}"
-                    Content="Connect" 
-                    Height="24"
-                    HorizontalAlignment="Left" 
-                    Margin="10,10,0,0" 
-                    VerticalAlignment="Top" 
-                    Width="97"/>
+                                Command="{Binding ConnectCommand}"
+                                IsEnabled="{Binding IsDisconnected}"
+                                Content="Connect" 
+                                Height="24"
+                                HorizontalAlignment="Left" 
+                                Margin="10,10,0,0" 
+                                VerticalAlignment="Top" 
+                                Width="97"/>
 
                             <Button 
-                    Command="{Binding DisconnectCommand}"
-                    IsEnabled="{Binding IsConnected}"
-                    Content="Disconnect" 
-                    Height="24"
-                    HorizontalAlignment="Left" 
-                    Margin="10,10,0,0" 
-                    VerticalAlignment="Top" 
-                    Width="97"/>
+                                Command="{Binding DisconnectCommand}"
+                                IsEnabled="{Binding IsConnected}"
+                                Content="Disconnect" 
+                                Height="24"
+                                HorizontalAlignment="Left" 
+                                Margin="10,10,0,0" 
+                                VerticalAlignment="Top" 
+                                Width="97"/>
                         </StackPanel>
 
                     </GroupBox>
 
                     <GroupBox Header="Access Token" 
-                  Height="62" 
-                  Margin="10,10,10,0" 
-                  VerticalAlignment="Top">
+                              Height="62" 
+                              Margin="10,10,10,0" 
+                              VerticalAlignment="Top">
                         <TextBox IsReadOnly="True" Text="{Binding Token,Mode=OneWay}"/>
                     </GroupBox>
 
@@ -79,17 +79,17 @@
                             <TextBox Height="24" Text="{Binding SelectedBtxUser.Id}" />
                             <Label Content="Message"/>
                             <TextBox 
-                    Height="60" 
-                    Text="{Binding MessageToSend,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                                Height="60" 
+                                Text="{Binding MessageToSend,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
 
                             <Button 
-                    Margin="0,10"
-                    Height="24"
-                    Width="100"
-                    HorizontalAlignment="Left"
-                    Command="{Binding SendCommand}"
-                    IsEnabled="{Binding CanSendMessage}"
-                    Content="Send"/>
+                                Margin="0,10"
+                                Height="24"
+                                Width="100"
+                                HorizontalAlignment="Left"
+                                Command="{Binding SendCommand}"
+                                IsEnabled="{Binding CanSendMessage}"
+                                Content="Send"/>
                         </StackPanel>
 
                     </GroupBox>
@@ -102,15 +102,15 @@
                                 <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
                             <Button 
-                    Command="{Binding SearchUserCommand}"
-                    Height="24"
-                    VerticalAlignment="Top"
-                    Content="List users"/>
+                                Command="{Binding SearchUserCommand}"
+                                Height="24"
+                                VerticalAlignment="Top"
+                                Content="List users"/>
 
                             <ListBox
-                    ItemsSource="{Binding BtxUsers}"
-                    SelectedItem="{Binding SelectedBtxUser}"
-                    Grid.Row="1">
+                                ItemsSource="{Binding BtxUsers}"
+                                SelectedItem="{Binding SelectedBtxUser}"
+                                Grid.Row="1">
 
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
@@ -129,8 +129,36 @@
 
                 </Grid>
             </TabItem>
-            <TabItem Header="Simulaotr">
-                <uc:SimulatorUC />
+            <TabItem Header="Simulator">
+
+                <Grid>
+                    <GroupBox Header="Random Messages" Margin="10,77,10,0" Height="81" VerticalAlignment="Top">
+                        <StackPanel Orientation="Horizontal">
+                            <Label Height="24" Content="Count: " VerticalAlignment="Center"/>
+                            <TextBox Text="{Binding RandomMessageCount,Mode=TwoWay}" Width="50" Height="24" Margin="10,0" />
+                            <Button Command="{Binding SendRandomMessageCommand}" Content="Send Messages" Height="24" Margin="5,17" Width="101" IsEnabled="{Binding CanSendRandomMessage}"/>
+                            <Button Content="Cancel" Height="24" Margin="5,17" Width="60" IsEnabled="{Binding CanCancellRandomMessage}" />
+                        </StackPanel>
+                    </GroupBox>
+                    <GroupBox Header="Selected User" Margin="10,10,10,0" Height="62" VerticalAlignment="Top">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="User Id:" Height="24"/>
+                            <TextBlock Text="{Binding SelectedBtxUser.Id}" Height="24"/>
+                            <TextBlock Text="Username:" Height="24"/>
+                            <TextBlock Text="{Binding SelectedBtxUser.Username}" Height="24"/>
+                        </StackPanel>
+                    </GroupBox>
+
+
+                    <GroupBox Header="Numbered Messages" Height="90" Margin="10,163,10,0" VerticalAlignment="Top">
+                        <StackPanel Orientation="Horizontal">
+                            <Label Height="24" Content="Max Number: " VerticalAlignment="Center"/>
+                            <TextBox Text="{Binding CounterMessageCount,Mode=TwoWay}" Width="50" Height="24" Margin="10,0" />
+                            <Button Command="{Binding SendCounterMessagesCommand}" Content="Send Messages" Height="24" Margin="5,17" Width="101" IsEnabled="{Binding CanSendRandomMessage}"/>
+                            <Button Content="Cancel" Height="24" Margin="5,17" Width="60" IsEnabled="{Binding CanCancellRandomMessage}" />
+                        </StackPanel>
+                    </GroupBox>
+                </Grid>
             </TabItem>
         </TabControl>
 
