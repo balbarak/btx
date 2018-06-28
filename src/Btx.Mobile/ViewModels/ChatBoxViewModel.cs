@@ -55,7 +55,7 @@ namespace Btx.Mobile.ViewModels
         public ChatBoxViewModel()
         {
             BtxThread = App.ChatManager.CurrentThread;
-            Items.CollectionChanged += OnCollectionItemsChanged;
+
             CacheHelper.CurrenChatBoxViewModel = this;
 
             SendCommand = new Command(async () => { await Send(); });
@@ -63,15 +63,7 @@ namespace Btx.Mobile.ViewModels
 
             this.Title = BtxThread.Title;
         }
-
-        private void OnCollectionItemsChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-        {
-            if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Replace)
-            {
-
-            }
-        }
-
+        
         public override async Task OnAppearing()
         {
             await LoadMessages();

@@ -60,11 +60,17 @@ namespace Btx.Client.Application.Services
             return await _repository.SearchAsync(search,Includes);
         }
 
-        public async Task<BtxMessage> GetById(string id)
+        public async Task<BtxMessage> GetByIdAsync(string id)
         {
             var result = await _repository.GetAsync<BtxMessage>(a => a.Id == id, includeProperties: Includes);
 
             return result.FirstOrDefault();
+        }
+
+        public BtxMessage GetById(string id)
+        {
+            return _repository.Get<BtxMessage>(a => a.Id == id, includeProperties: Includes).FirstOrDefault();
+            
         }
 
         public BtxMessage GetLastMessageByThreadId(string threadId)

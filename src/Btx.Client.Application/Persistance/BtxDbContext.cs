@@ -37,7 +37,7 @@ namespace Btx.Client.Application.Persistance
                 .HasKey(a => a.Id);
 
             modelBuilder.Entity<BtxMessage>()
-                .HasKey(a => a.Id);
+                .HasKey(nameof(BtxMessage.Id),nameof(BtxMessage.BtxMessageType));
 
             modelBuilder.Entity<BtxMessage>()
                 .HasOne(a => a.Thread)

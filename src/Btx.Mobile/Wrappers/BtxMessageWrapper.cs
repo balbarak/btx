@@ -24,7 +24,7 @@ namespace Btx.Mobile.Wrappers
         public BtxMessageStatus Status
         {
             get { return GetValue<BtxMessageStatus>(); }
-            set { SetValue(value); }
+            set { SetValue(value); OnPropertyChanged(nameof(StatusIconFont)); }
         }
 
         public BtxMessageType BtxMessageType { get { return GetValue<BtxMessageType>(); } set { SetValue(value); } }

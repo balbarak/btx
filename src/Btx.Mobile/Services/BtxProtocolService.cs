@@ -54,7 +54,7 @@ namespace Btx.Mobile.Services
 
             if (e is BtxMessageEventArgs args)
             {
-                var msg = await BtxMessageService.Instance.GetById(args.MessageId);
+                var msg = BtxMessageService.Instance.GetById(args.MessageId);
 
                 if (msg != null)
                 {
