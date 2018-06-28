@@ -11,7 +11,7 @@ namespace Btx.Client.Application.Services
 {
     public class BtxThreadService : ServiceBase<BtxThreadService>
     {
-        public async Task<BtxThread> AddOrUpdate(BtxThread entity)
+        public async Task<BtxThread> AddOrUpdateAsync(BtxThread entity)
         {
             using (UnitOfWork work = new UnitOfWork())
             {

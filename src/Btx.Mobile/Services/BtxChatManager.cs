@@ -67,7 +67,7 @@ namespace Btx.Mobile.Services
             {
                 item.Messages = MockChatService.GetRandomMessages();
                
-                BtxThreadService.Instance.AddOrUpdate(item);
+                BtxThreadService.Instance.AddOrUpdateAsync(item);
             }
         }
     }

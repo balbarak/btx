@@ -49,7 +49,7 @@ namespace Btx.Mobile.Services
 
         }
 
-        private async void OnMessageServerDelivered(object sender, EventArgs e)
+        private void OnMessageServerDelivered(object sender, EventArgs e)
         {
 
             if (e is BtxMessageEventArgs args)
@@ -72,7 +72,7 @@ namespace Btx.Mobile.Services
 
         public async Task SendMessage(BtxMessage msg)
         {
-           BtxMessageService.Instance.Add(msg);
+            BtxMessageService.Instance.Add(msg);
 
             await Client.Send(msg);
 
@@ -98,16 +98,19 @@ namespace Btx.Mobile.Services
 
             var thread = new BtxThread(msg);
 
-            thread = await BtxThreadService.Instance.AddOrUpdate(thread);
+            thread = await BtxThreadService.Instance.AddOrUpdateAsync(thread);
 
             msg.ThreadId = thread.Id;
 
-            await BtxMessageService.Instance.AddAsync(msg);
+            if (AddMessageToChatBox(msg, thread))
+                msg.IsReadByUser = true;
+            else
+                msg.IsReadByUser = false;
 
+            BtxMessageService.Instance.Add(msg);
+            
             AddMessageToChatList(msg);
-
-            AddMessageToChatBox(msg, thread);
-
+            
         }
 
         private void AddMessageToChatList(BtxMessage msg)
@@ -119,16 +122,22 @@ namespace Btx.Mobile.Services
 
         }
 
-        private void AddMessageToChatBox(BtxMessage msg, BtxThread thread)
+        private bool AddMessageToChatBox(BtxMessage msg, BtxThread thread)
         {
+            var result = false;
+
             if (CacheHelper.CurrenChatBoxViewModel != null && CacheHelper.CurrenChatBoxViewModel.BtxThread?.Id == thread.Id)
             {
                 Device.BeginInvokeOnMainThread(() =>
                 {
                     CacheHelper.CurrenChatBoxViewModel.Items.Add(new BtxMessageWrapper(msg));
+
+                    result = true;
                 });
 
             }
+
+            return result;
         }
 
         private bool IsCurrentChatBoxViewModelMatchThreadId(string threadId)

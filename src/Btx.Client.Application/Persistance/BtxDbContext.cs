@@ -57,7 +57,7 @@ namespace Btx.Client.Application.Persistance
 
             var context = new BtxDbContext();
 
-            //context.Database.EnsureDeleted();
+            context.Database.EnsureDeleted();
             context.Database.EnsureCreated();
             context.Database.Migrate();
         }

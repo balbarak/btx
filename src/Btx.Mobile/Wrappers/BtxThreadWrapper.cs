@@ -91,9 +91,14 @@ namespace Btx.Mobile.Wrappers
 
         public void SetMessageData(BtxMessage msg)
         {
+            if (!msg.IsReadByUser)
+            {
+                HasUnreadMessages = true;
+                UnreadMessageCount++;
+            }
+
             LastMessage = msg.Body;
-            HasUnreadMessages = true;
-            UnreadMessageCount++;
+
             LastMessageDate = msg.Date.ToLocalTime();
         }
     }
