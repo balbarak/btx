@@ -107,11 +107,12 @@ namespace Btx.Mobile.ViewModels
                 BtxThreadWrapper thread = new BtxThreadWrapper(new BtxThread(msg), msg);
                 Chats.Add(thread);
             }
-            
+
         }
 
         public void SortChats()
         {
+
             var sortedItems = Chats.OrderByDescending(a => a.LastMessageDate).ToList();
 
             foreach (var item in sortedItems)

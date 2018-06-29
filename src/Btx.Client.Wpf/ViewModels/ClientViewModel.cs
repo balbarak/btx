@@ -228,9 +228,11 @@ namespace Btx.Client.Wpf.ViewModels
             Client.OnMessageRecieved += OnMessageRecieved;
         }
 
-        private void OnMessageRecieved(BtxMessage msg)
+        private async void OnMessageRecieved(BtxMessage msg)
         {
             this.RecievedMessages += $"[{msg.Date.ToLocalTime()}]: {msg.Body} {Environment.NewLine}";
+
+            await Client.MessageDelivered(msg.Id);
         }
 
         private void OnDisconnected(object sender, EventArgs e)

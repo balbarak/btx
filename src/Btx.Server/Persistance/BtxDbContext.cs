@@ -15,6 +15,8 @@ namespace Btx.Server.Persistance
     {
         public DbSet<Connection> Connections { get; set; }
 
+        public DbSet<Message> Messages { get; set; }
+        
         public BtxDbContext()
         {
 

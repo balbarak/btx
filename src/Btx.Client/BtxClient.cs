@@ -32,6 +32,7 @@ namespace Btx.Client
         public event BtxMessageEventHandler OnMessageRecieved;
         public event EventHandler OnTokenRecieved;
         public event EventHandler OnMessageServerDelivered;
+        public event EventHandler OnMessageUserDelivered;
 
         public bool IsConnected { get; private set; }
 
@@ -81,6 +82,14 @@ namespace Btx.Client
         public async Task Send(BtxMessage msg)
         {
             await _hubConnection.InvokeAsync<BtxMessage>("Send", msg);
+        }
+
+        public async Task MessageDelivered(string id)
+        {
+            if (!IsConnected)
+                return;
+
+            await _hubConnection.InvokeAsync<string>(nameof(MessageDelivered), id);
         }
 
         public async Task Register(BtxRegister model)
@@ -257,6 +266,11 @@ namespace Btx.Client
              {
                  OnMessageServerDelivered?.Invoke(this, new BtxMessageEventArgs() { MessageId = msgId });
              });
+
+            _hubConnection.On<string>(ClientMethods.ON_MESSAGE_USER_DELIEVERED, (msgId) =>
+            {
+                OnMessageUserDelivered?.Invoke(this, new BtxMessageEventArgs() { MessageId = msgId });
+            });
         }
 
     }

@@ -46,7 +46,28 @@ namespace Btx.Mobile.Services
             Client.OnMessageRecieved += OnMessageRecieved;
             Client.OnTokenRecieved += OnTokenRecieved;
             Client.OnMessageServerDelivered += OnMessageServerDelivered;
+            Client.OnMessageUserDelivered += OnMessageUserDelivered;
 
+        }
+
+        private void OnMessageUserDelivered(object sender, EventArgs e)
+        {
+            if (e is BtxMessageEventArgs args)
+            {
+                var msg = BtxMessageService.Instance.GetById(args.MessageId);
+
+                if (msg != null)
+                {
+                    msg.Status = BtxMessageStatus.UserDeliverd;
+
+                    BtxMessageService.Instance.Update(msg);
+
+                    if (CacheHelper.CurrenChatBoxViewModel.BtxThread.Id == msg.ThreadId)
+                    {
+                        CacheHelper.CurrenChatBoxViewModel.UpdateChatMessage(msg);
+                    }
+                }
+            }
         }
 
         private void OnMessageServerDelivered(object sender, EventArgs e)
@@ -110,6 +131,8 @@ namespace Btx.Mobile.Services
             BtxMessageService.Instance.Add(msg);
             
             AddMessageToChatList(msg);
+
+            await Client.MessageDelivered(msg.Id);
             
         }
 
@@ -147,8 +170,7 @@ namespace Btx.Mobile.Services
 
             return CacheHelper.CurrenChatBoxViewModel.BtxThread?.Id == threadId;
         }
-
-
+        
         private void OnDisconnected(object sender, EventArgs e)
         {
 

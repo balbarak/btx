@@ -41,6 +41,10 @@ namespace Btx.Server.Protocol
 
         public async Task Send(BtxMessage msg)
         {
+            AddMessageToDatabase(msg);
+
+            await Clients.Caller.SendAsync(ClientMethods.ON_MESSAGE_SERVER_DELIEVERED, msg.Id);
+
             var activeConnections = ConnectionService.Instance.GetActiveConnections(msg.RecipientId);
 
             var newMessage = new BtxMessage()
@@ -52,13 +56,47 @@ namespace Btx.Server.Protocol
                 Body = msg.Body,
             };
             
-            await Clients.Caller.SendAsync(ClientMethods.ON_MESSAGE_SERVER_DELIEVERED, msg.Id);
-
             foreach (var item in activeConnections)
             {
                 await Clients.Client(item.Id).SendAsync(ClientMethods.ON_MESSAGE_RECIEVE, newMessage);
             }
-            
+
+        }
+
+        public async Task MessageDelivered(string id)
+        {
+            var msg = MessageService.Instance.GetById(id);
+
+            if (msg == null)
+                return;
+
+            msg = msg.SetUserDelivered();
+
+            var activeConnections = ConnectionService.Instance.GetActiveConnections(msg.FromUserId);
+
+            foreach (var item in activeConnections)
+            {
+                await Clients.Client(item.Id).SendAsync(ClientMethods.ON_MESSAGE_USER_DELIEVERED, msg.Id);
+            }
+
+            if (activeConnections.Any())
+                msg.IsUserDeliveredNotified = true;
+
+            MessageService.Instance.Update(msg);
+        }
+
+        private void AddMessageToDatabase(BtxMessage msg)
+        {
+            var fromUserId = UserId;
+            var toUserId = msg.RecipientId;
+            var serverMsg = new Message(msg.Id)
+            {
+                Body = msg.Body,
+                Status = MessageStatus.ServerDelivered,
+                FromUserId = fromUserId,
+                ToUserId = toUserId
+            };
+            MessageService.Instance.Add(serverMsg);
         }
 
         private void SetOffline()

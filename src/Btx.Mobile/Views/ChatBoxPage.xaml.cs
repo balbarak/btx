@@ -78,6 +78,7 @@ namespace Btx.Mobile.Views
             }
 
             _lastItemVisibleIndex = args.FirstItemIndex;
+
         }
 
         private void OnItemDisappearing(object sender, ItemVisibilityEventArgs e)
