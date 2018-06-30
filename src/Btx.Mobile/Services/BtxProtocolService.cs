@@ -115,6 +115,7 @@ namespace Btx.Mobile.Services
 
         private async void OnMessageRecieved(BtxMessage msg)
         {
+
             msg.BtxMessageType = BtxMessageType.Incoming;
 
             var thread = new BtxThread(msg);
@@ -127,7 +128,7 @@ namespace Btx.Mobile.Services
                 msg.IsReadByUser = true;
             else
                 msg.IsReadByUser = false;
-
+            
             BtxMessageService.Instance.AddOrUpdate(msg);
             
             AddMessageToChatList(msg);
@@ -141,6 +142,7 @@ namespace Btx.Mobile.Services
             var chatListViewModel = ServiceLocator.Current.GetService<ChatListViewModel>();
 
             chatListViewModel.AddChatMessage(msg);
+            
             chatListViewModel.SortChats();
 
         }
@@ -176,9 +178,9 @@ namespace Btx.Mobile.Services
 
         }
 
-        private void OnConnected(object sender, EventArgs e)
+        private async void OnConnected(object sender, EventArgs e)
         {
-            Client.GetPendingMessages().GetAwaiter().GetResult();
+            await Client.GetPendingMessages();
         }
     }
 }

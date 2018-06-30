@@ -13,12 +13,17 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 using System.Linq;
+using System.Collections.Specialized;
+using System.Threading;
+using System.Diagnostics;
 
 namespace Btx.Mobile.ViewModels
 {
     public class ChatListViewModel : BaseViewModel
     {
         private bool _isThreadLoaded;
+
+        private readonly ReaderWriterLockSlim _itemsLock = new ReaderWriterLockSlim();
 
         public ObservableRangeCollection<BtxThreadWrapper> Chats { get; private set; } = new ObservableRangeCollection<BtxThreadWrapper>();
 
@@ -33,6 +38,13 @@ namespace Btx.Mobile.ViewModels
         public ChatListViewModel()
         {
             Title = "BTX Chat";
+
+            Chats.CollectionChanged += OnCollectionChanged;
+        }
+
+        private void OnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+
         }
 
         public override async Task OnAppearing()
@@ -90,39 +102,58 @@ namespace Btx.Mobile.ViewModels
 
             _isThreadLoaded = true;
 
+            await Task.CompletedTask;
+
             IsBusy = false;
 
         }
 
         public void AddChatMessage(BtxMessage msg)
         {
-            var found = Chats.Where(a => a.Id == msg.RecipientId).FirstOrDefault();
+            try
+            {
+                var found = Chats.Where(a => a.Id == msg.RecipientId).FirstOrDefault();
 
-            if (found != null)
-            {
-                found.SetMessageData(msg);
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    if (found != null)
+                    {
+                        found.SetMessageData(msg);
+                    }
+                    else
+                    {
+                        BtxThreadWrapper thread = new BtxThreadWrapper(new BtxThread(msg), msg);
+                        Chats.Add(thread);
+                    }
+                });
+
             }
-            else
+            catch (Exception)
             {
-                BtxThreadWrapper thread = new BtxThreadWrapper(new BtxThread(msg), msg);
-                Chats.Add(thread);
+                Debug.WriteLine("Add chats error");
             }
 
         }
 
         public void SortChats()
         {
-
-            var sortedItems = Chats.OrderByDescending(a => a.LastMessageDate).ToList();
-
-            foreach (var item in sortedItems)
+            try
             {
-                var newIndex = sortedItems.IndexOf(item);
-                var oldIndex = Chats.IndexOf(item);
 
-                Chats.Move(oldIndex, newIndex);
+                var sortedItems = Chats.OrderByDescending(a => a.LastMessageDate).ToList();
+
+                foreach (var item in sortedItems)
+                {
+                    var newIndex = sortedItems.IndexOf(item);
+                    var oldIndex = Chats.IndexOf(item);
+
+                    Chats.Move(oldIndex, newIndex);
+                }
             }
-
+            catch
+            {
+                Debug.WriteLine("Sort chats error");
+            }
         }
 
         public void ReadAllMessages(string threadId)
