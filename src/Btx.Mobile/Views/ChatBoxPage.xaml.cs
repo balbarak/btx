@@ -67,7 +67,7 @@ namespace Btx.Mobile.Views
 
                     await ViewModel.LoadMessages(true);
 
-                    lvChatItems.ScrollTo(item, ScrollToPosition.Center, false);
+                    lvChatItems.ScrollTo(item, ScrollToPosition.End, false);
                 }
 
             }

@@ -81,6 +81,9 @@ namespace Btx.Client
 
         public async Task Send(BtxMessage msg)
         {
+            if (!IsConnected)
+                return;
+
             await _hubConnection.InvokeAsync<BtxMessage>("Send", msg);
         }
 
