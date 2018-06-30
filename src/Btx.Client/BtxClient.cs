@@ -89,9 +89,6 @@ namespace Btx.Client
 
         public async Task MessageDelivered(string id)
         {
-            if (!IsConnected)
-                return;
-
             await _hubConnection.InvokeAsync<string>(nameof(MessageDelivered), id);
         }
 
@@ -183,6 +180,11 @@ namespace Btx.Client
                 throw ex;
             }
 
+        }
+
+        public async Task GetPendingMessages()
+        {
+            await _hubConnection.InvokeAsync(nameof(GetPendingMessages)).ConfigureAwait(false);
         }
 
         public async Task<SearchResult<BtxUser>> SearchUsers()

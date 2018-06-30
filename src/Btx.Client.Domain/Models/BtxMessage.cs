@@ -31,6 +31,13 @@ namespace Btx.Client.Domain.Models
             Id = Guid.NewGuid().ToString();
             Status = BtxMessageStatus.Pending;            
         }
+
+        public BtxMessage Update(BtxMessage entity)
+        {
+            this.Status = entity.Status;
+
+            return this;
+        }
         
     }
 }

@@ -39,7 +39,7 @@ namespace Btx.Server.Services
 
         public SearchResult<User> Search(SearchCriteria<User> search)
         {
-            return repository.Search(search);
+            return _repository.Search(search);
         }
     }
 }

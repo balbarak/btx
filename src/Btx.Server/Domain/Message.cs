@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Btx.Client.Domain.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Btx.Server.Domain
 {
-    public class Message 
+    public class Message
     {
         public string Id { get; set; }
 
@@ -43,6 +44,22 @@ namespace Btx.Server.Domain
             this.Status = MessageStatus.UserDelivered;
 
             return this;
+        }
+
+        public BtxMessage ToBtxMessage()
+        {
+            return new BtxMessage()
+            {
+                Id = this.Id,
+                Body = this.Body,
+                Recipient = new BtxUser()
+                {
+                    Id = this.FromUserId,
+                    Username = this.FromUser?.UserName,
+                },
+                Date = this.Date,
+                RecipientId = this.FromUserId
+            };
         }
 
     }

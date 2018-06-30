@@ -10,22 +10,22 @@ namespace Btx.Server.Services
     {
         public Connection Add(Connection entity)
         {
-            return repository.Create(entity);
+            return _repository.Create(entity);
         }
 
         public Connection Update(Connection entity)
         {
-            return repository.Update(entity);
+            return _repository.Update(entity);
         }
 
         public Connection GetById(string id)
         {
-            return repository.Get<Connection>(a => a.Id == id).FirstOrDefault();
+            return _repository.Get<Connection>(a => a.Id == id).FirstOrDefault();
         }
 
         public List<Connection> GetActiveConnections(string userId)
         {
-            return repository.Get<Connection>(a => a.UserId == userId && a.IsConnected == true).ToList();
+            return _repository.Get<Connection>(a => a.UserId == userId && a.IsConnected == true).ToList();
         }
     }
 }

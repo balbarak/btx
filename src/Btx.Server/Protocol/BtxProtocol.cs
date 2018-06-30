@@ -24,10 +24,18 @@ namespace Btx.Server.Protocol
             }
         }
 
+        public string ConnectionId
+        {
+            get
+            {
+                return this.Context.ConnectionId;
+            }
+        }
+
         public override Task OnConnectedAsync()
         {
             AddNewConnection();
-
+            
             return base.OnConnectedAsync();
         }
         
@@ -85,6 +93,19 @@ namespace Btx.Server.Protocol
             MessageService.Instance.Update(msg);
         }
 
+        public async Task GetPendingMessages()
+        {
+            var msgs = MessageService.Instance.GetPendingMessages(UserId);
+
+            var btxMessages = msgs.Select(a => a.ToBtxMessage()).ToList();
+
+            foreach (var item in btxMessages)
+            {
+                await Clients.Client(ConnectionId).SendAsync(ClientMethods.ON_MESSAGE_RECIEVE, item);
+
+            }
+        }
+
         private void AddMessageToDatabase(BtxMessage msg)
         {
             var fromUserId = UserId;
@@ -116,5 +137,6 @@ namespace Btx.Server.Protocol
 
             ConnectionService.Instance.Add(connection);
         }
+        
     }
 }

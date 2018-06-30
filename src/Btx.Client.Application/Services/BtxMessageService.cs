@@ -21,13 +21,22 @@ namespace Btx.Client.Application.Services
             };
         }
 
-        public BtxMessage Add(BtxMessage entity)
+        public BtxMessage AddOrUpdate(BtxMessage entity)
         {
             using (UnitOfWork work = new UnitOfWork())
             {
                 SetBtxUser(entity, work);
 
-                entity = work.GenericRepository.Create(entity);
+                var found = work.GenericRepository.Get<BtxMessage>(a => a.Id == entity.Id).FirstOrDefault();
+
+                if (found == null)
+                {
+                    entity = work.GenericRepository.Create(entity);
+                }
+                else
+                {
+                    found = found.Update(entity);
+                }
 
                 work.Commit();
             }

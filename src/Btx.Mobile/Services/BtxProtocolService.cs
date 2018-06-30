@@ -93,7 +93,7 @@ namespace Btx.Mobile.Services
 
         public async Task SendMessage(BtxMessage msg)
         {
-            BtxMessageService.Instance.Add(msg);
+            BtxMessageService.Instance.AddOrUpdate(msg);
 
             await Client.Send(msg);
 
@@ -119,7 +119,7 @@ namespace Btx.Mobile.Services
 
             var thread = new BtxThread(msg);
 
-            thread = await BtxThreadService.Instance.AddOrUpdateAsync(thread);
+            thread = BtxThreadService.Instance.AddOrUpdate(thread);
 
             msg.ThreadId = thread.Id;
 
@@ -128,7 +128,7 @@ namespace Btx.Mobile.Services
             else
                 msg.IsReadByUser = false;
 
-            BtxMessageService.Instance.Add(msg);
+            BtxMessageService.Instance.AddOrUpdate(msg);
             
             AddMessageToChatList(msg);
 
@@ -176,9 +176,9 @@ namespace Btx.Mobile.Services
 
         }
 
-        private void OnConnected(object sender, EventArgs e)
+        private async void OnConnected(object sender, EventArgs e)
         {
-
+            
         }
     }
 }

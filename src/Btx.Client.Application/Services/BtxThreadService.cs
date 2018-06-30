@@ -27,7 +27,24 @@ namespace Btx.Client.Application.Services
             
             return entity;
         }
-        
+
+        public BtxThread AddOrUpdate(BtxThread entity)
+        {
+            using (UnitOfWork work = new UnitOfWork())
+            {
+                var result = _repository.Get<BtxThread>(a => a.Id == entity.Id);
+
+                if (result.FirstOrDefault() == null)
+                {
+                    entity = work.GenericRepository.Create(entity);
+
+                    work.Commit();
+                }
+            }
+
+            return entity;
+        }
+
         public async Task<List<BtxThread>> GetAllAsync()
         {
             return await _repository.GetAsync<BtxThread>().ConfigureAwait(false);

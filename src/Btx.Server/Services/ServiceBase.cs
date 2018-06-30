@@ -8,22 +8,22 @@ namespace Btx.Server.Services
 {
     public class ServiceBase<TService> where TService : class, new()
     {
-        protected static TService instance;
+        protected static TService _instance;
 
-        protected GenericRepository repository;
+        protected GenericRepository _repository;
 
         protected string[] Includes { get; set; }
 
-        public static TService Instance { get { return instance; } }
+        public static TService Instance { get { return _instance; } }
 
         protected ServiceBase()
         {
-            this.repository = new GenericRepository();
+            this._repository = new GenericRepository();
         }
 
         static ServiceBase()
         {
-            instance = new TService();
+            _instance = new TService();
         }
 
     }
