@@ -1,6 +1,10 @@
-﻿using Btx.Mobile.MockData;
+﻿using Btx.Client.Domain.Models;
+using Btx.Client.Domain.Search;
+using Btx.Mobile.MockData;
 using Btx.Mobile.Models;
+using Btx.Mobile.Services;
 using Btx.Mobile.Views;
+using Btx.Mobile.Wrappers;
 using MvvmHelpers;
 using System;
 using System.Collections.Generic;
@@ -14,7 +18,7 @@ namespace Btx.Mobile.ViewModels
 {
     public class NewMessageViewModel : BaseViewModel
     {
-        public ObservableRangeCollection<User> Items { get; set; } = App.ChatManager.Users;
+        public ObservableRangeCollection<BtxUserWrapper> Items { get; set; } = new ObservableRangeCollection<BtxUserWrapper>();
 
         public ICommand CloseCommand { get; }
 
@@ -43,16 +47,18 @@ namespace Btx.Mobile.ViewModels
 
         private async Task Search()
         {
-            if (String.IsNullOrWhiteSpace(Keyword))
+            var search = new BtxUserSearch()
             {
-                Items = App.ChatManager.Users;
+                Username = Keyword
+            };
 
-                return;
+            var result = await BtxProtocolService.Instance.SearchBtxUser(search);
+
+            foreach (var item in result.Result)
+            {
+                Items.Add(new BtxUserWrapper(item));
             }
 
-            var result = App.ChatManager.Users.Where(a => a.Nickname.Contains(keyword));
-
-            Items = new ObservableRangeCollection<User>(result);
         }
 
         public async Task GoToChatBox(Chat item)

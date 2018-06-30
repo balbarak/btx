@@ -8,9 +8,13 @@ namespace Btx.Client.BtxEventsArg
     {
         public string Token { get; private set; }
 
-        public TokenEventArgs(string token)
+        public string Username { get; private set; }
+
+        public TokenEventArgs(string token,string username)
         {
             this.Token = token;
+            this.Username = username;   
+
         }
     }
 }

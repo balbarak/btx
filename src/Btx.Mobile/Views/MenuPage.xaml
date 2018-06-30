@@ -14,13 +14,13 @@
 
         <Grid BackgroundColor="{StaticResource PrimaryDark}">
             <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="100"/>
                 <RowDefinition Height="2*"/>
             </Grid.RowDefinitions>
 
             <StackLayout Grid.Row="0">
 
-                <Label Margin="10" Text="Bader" TextColor="{StaticResource PrimaryText}"/>
+                <Label Margin="10" Text="@balbarak" TextColor="{StaticResource PrimaryText}"/>
 
             </StackLayout>
 
@@ -46,17 +46,17 @@
                                 <Label 
                                    VerticalOptions="Center"
                                     Grid.Column="0"
-                                    FontSize="Large"
-                                    Margin="15,0,0,0"
+                                    FontSize="Medium"
+                                    Margin="10,0,0,0"
                                     Text="{Binding Icon}"
                                     FontFamily="{StaticResource IconFont}"
                                     TextColor="{StaticResource PrimaryLight}"/>
 
                                 <Label 
                                     VerticalOptions="Center"
-                                    Margin="10,0,0,0"
+                                    Margin="0,0,0,0"
                                     Grid.Column="1"
-                                    FontSize="Medium"
+                                    FontSize="Small"
                                     Text="{Binding Title}"
                                     TextColor="{StaticResource PrimaryText}" />
                                 

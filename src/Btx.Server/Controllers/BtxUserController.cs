@@ -7,6 +7,7 @@ using Btx.Client.Domain.Search;
 using Btx.Server.Domain;
 using Btx.Server.Identity;
 using Btx.Server.Services;
+using Btx.Server.ViewModels;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -15,7 +16,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Btx.Server.Controllers
 {
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class BtxUserController : BaseApiController
     {
         private ILogger _logger;
@@ -25,9 +26,17 @@ namespace Btx.Server.Controllers
             _logger = logger;
         }
 
-        public IActionResult Get()
+        public IActionResult Post([FromBody]BtxUserSearch model)
         {
-            var searchResult = UserService.Instance.Search(new SearchCriteria<User>());
+            var search = new UserSearchViewModel()
+            {
+                Username = model.Username,
+                PageNumber = model.PageNumber,
+                PageSize = model.PageSize
+            };
+
+
+            var searchResult = UserService.Instance.Search(search.ToSearchModel());
 
             var result = new SearchResult<BtxUser>()
             {

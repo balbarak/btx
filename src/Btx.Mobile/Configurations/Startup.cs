@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Btx.Client.Application.Persistance;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -11,7 +12,11 @@ namespace Btx.Mobile
 
         static public void Configure()
         {
+
+            BtxDbContext.InitDatabase();
+
             ServiceLocator.Configure(_serviceCollection);
+            
         }
     }
 }

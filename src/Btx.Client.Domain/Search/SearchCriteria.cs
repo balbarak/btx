@@ -64,5 +64,14 @@ namespace Btx.Client.Domain.Search
 
         }
 
+        public void AddOrFilter(Expression<Func<T, bool>> filter)
+        {
+            if (FilterExpression == null)
+                FilterExpression = filter;
+            else
+                FilterExpression = FilterExpression.Or(filter);
+
+        }
+
     }
 }

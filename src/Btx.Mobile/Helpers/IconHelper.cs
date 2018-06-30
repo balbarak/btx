@@ -21,5 +21,7 @@ namespace Btx.Mobile.Helpers
         public const string SETTINGS = "\uf1c6";
 
         public const string ACCOUNT = "\uf207";
+
+        public const string LOGOFF = " \uf1af";
     }
 }

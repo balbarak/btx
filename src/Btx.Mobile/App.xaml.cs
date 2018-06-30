@@ -25,21 +25,19 @@ namespace Btx.Mobile
 		{
 
 			InitializeComponent();
-            
+
             Startup.Configure();
 
-            BtxDbContext.InitDatabase();
+            //SetLoggedOutPage();
 
-            SetLoggedOutPage();
-
-            //SetLoggedInPage();
+            SetLoggedInPage();
 
             if (Device.RuntimePlatform == Device.iOS)
             {
                 MainPage.Padding = new Thickness(0, 40, 0, 0);
                 
             }
-
+            
             Instance = this;
         }
         

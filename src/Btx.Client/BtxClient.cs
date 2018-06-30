@@ -125,7 +125,7 @@ namespace Btx.Client
 
                     _logger?.LogInformation($"access toke: {_accessToken}");
 
-                    OnTokenRecieved?.Invoke(this, new TokenEventArgs(_accessToken));
+                    OnTokenRecieved?.Invoke(this, new TokenEventArgs(_accessToken,model.Username));
                 }
             }
             catch (Exception ex)
@@ -170,7 +170,7 @@ namespace Btx.Client
 
                     _logger?.LogInformation($"access token: {_accessToken}");
 
-                    OnTokenRecieved?.Invoke(this, new TokenEventArgs(_accessToken));
+                    OnTokenRecieved?.Invoke(this, new TokenEventArgs(_accessToken,model.Username));
                 }
             }
             catch (Exception ex)
@@ -180,6 +180,46 @@ namespace Btx.Client
                 throw ex;
             }
 
+        }
+
+        public async Task<SearchResult<BtxUser>> SearchBtxUser(BtxUserSearch search)
+        {
+            var searchResult = new SearchResult<BtxUser>();
+
+            try
+            {
+                _logger?.LogInformation("Begin searching ...");
+
+                using (HttpClient client = new HttpClient())
+                {
+                    client.BaseAddress = new Uri(Config.BTX_API_BASE_URL);
+
+                    var jsonModel = JsonConvert.SerializeObject(search);
+
+                    StringContent content = new StringContent(jsonModel, Encoding.UTF8, _jsonContentType);
+
+                    var response = await client.PostAsync("btxuser", content).ConfigureAwait(false);
+
+                    var result = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+
+                    searchResult = JsonConvert.DeserializeObject<SearchResult<BtxUser>>(result);
+
+                    if (response.StatusCode != System.Net.HttpStatusCode.OK)
+                    {
+                        _logger?.LogInformation("Unable to search");
+                        throw new BtxClientException(result);
+                    }
+                    
+                }
+
+                return searchResult;
+            }
+            catch (Exception ex)
+            {
+                _logger?.LogError("Unable to register error: {0}", ex);
+
+                throw ex;
+            }
         }
 
         public async Task GetPendingMessages()

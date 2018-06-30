@@ -5,8 +5,10 @@ using System.Text;
 
 namespace Btx.Client.Domain.Models
 {
-    public class BtxUserSearch : SearchCriteria<BtxUser>
+    public class BtxUserSearch : SearchBase
     {
+        public string Username { get; set; }
 
+        public string Nickname { get; set; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Btx.Mobile.Helpers;
 using Btx.Mobile.Models;
+using Btx.Mobile.Services;
 using Btx.Mobile.Views;
 using System;
 using System.Collections.Generic;
@@ -20,13 +21,29 @@ namespace Btx.Mobile.ViewModels
             Items.Add(new BtxMenuItem("New Message", IconHelper.ACCOUNT, typeof(NewMessagePage)));
             Items.Add(new BtxMenuItem("New Group",IconHelper.ACCOUNTS, typeof(NewMessagePage)));
             Items.Add(new BtxMenuItem("Settings", IconHelper.SETTINGS, typeof(NewMessagePage)));
+            Items.Add(new BtxMenuItem("Logout", IconHelper.LOGOFF, typeof(LogoutPage)));
         }
 
         public async Task GoToPage(Type type)
         {
-            var page = Activator.CreateInstance(type) as Page;
+            if (type == typeof(LogoutPage))
+            {
+                var result = await Application.Current.MainPage.DisplayAlert("Logout", "Are you sure ?", "Yes", "No");
+
+                if (result)
+                {
+                    await BtxProtocolService.Instance.Client.Disconnect();
+
+                    App.Instance.SetLoggedOutPage();
+                }
+            }
+            else
+            {
+                var page = Activator.CreateInstance(type) as Page;
+
+                await PushModalAsync(page);
+            }
             
-            await PushModalAsync(page);
             
         }
     }

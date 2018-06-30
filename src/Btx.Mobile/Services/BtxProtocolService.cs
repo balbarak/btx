@@ -3,6 +3,7 @@ using Btx.Client.Application.Services;
 using Btx.Client.BtxEventArgs;
 using Btx.Client.BtxEventsArg;
 using Btx.Client.Domain.Models;
+using Btx.Client.Domain.Search;
 using Btx.Mobile.Helpers;
 using Btx.Mobile.ViewModels;
 using Btx.Mobile.Wrappers;
@@ -98,12 +99,12 @@ namespace Btx.Mobile.Services
             await Client.Send(msg);
 
         }
-
-        public async Task Login(BtxLogin model)
+        
+        public async Task<SearchResult<BtxUser>> SearchBtxUser(BtxUserSearch search)
         {
-            await Client.Login(model);
+            var result = await Client.SearchBtxUser(search);
 
-
+            return result;
         }
 
         private async void OnTokenRecieved(object sender, EventArgs e)
