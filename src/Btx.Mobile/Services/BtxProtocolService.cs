@@ -176,9 +176,9 @@ namespace Btx.Mobile.Services
 
         }
 
-        private async void OnConnected(object sender, EventArgs e)
+        private void OnConnected(object sender, EventArgs e)
         {
-            
+            Client.GetPendingMessages().GetAwaiter().GetResult();
         }
     }
 }
