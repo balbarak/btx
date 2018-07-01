@@ -21,7 +21,7 @@ namespace Btx.Server.Domain
         [ForeignKey(nameof(ToUserId))]
         public User ToUser { get; set; }
 
-        public DateTime Date { get; set; }
+        public DateTimeOffset Date { get; set; }
 
         public string Body { get; set; }
 
@@ -57,7 +57,7 @@ namespace Btx.Server.Domain
                     Id = this.FromUserId,
                     Username = this.FromUser?.UserName,
                 },
-                Date = this.Date,
+                Date = this.Date.ToUniversalTime(),
                 RecipientId = this.FromUserId
             };
         }

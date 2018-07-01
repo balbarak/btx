@@ -101,6 +101,8 @@ namespace Btx.Server.Protocol
 
             foreach (var item in btxMessages)
             {
+                await Task.Delay(50);
+
                 await Clients.Client(ConnectionId).SendAsync(ClientMethods.ON_MESSAGE_RECIEVE, item);
 
             }
@@ -115,6 +117,7 @@ namespace Btx.Server.Protocol
                 Body = msg.Body,
                 Status = MessageStatus.ServerDelivered,
                 FromUserId = fromUserId,
+                Date = msg.Date.ToUniversalTime(),
                 ToUserId = toUserId
             };
             MessageService.Instance.Add(serverMsg);

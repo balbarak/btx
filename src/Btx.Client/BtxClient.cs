@@ -21,7 +21,7 @@ namespace Btx.Client
     public class BtxClient
     {
         private HubConnection _hubConnection;
-        private CancellationToken _ctk = new CancellationToken();
+        private CancellationTokenSource _connectionCtk = new CancellationTokenSource();
         private ILoggerProvider _loggerProvider;
         private ILogger _logger;
         private string _accessToken;
@@ -56,8 +56,8 @@ namespace Btx.Client
             {
                 SetupConnection();
 
-                await _hubConnection.StartAsync(_ctk).ConfigureAwait(false);
-
+                await _hubConnection.StartAsync(_connectionCtk.Token).ConfigureAwait(false);
+                
                 IsConnected = true;
 
                 OnConnected?.Invoke(this, EventArgs.Empty);
@@ -74,6 +74,8 @@ namespace Btx.Client
         public async Task Disconnect()
         {
             IsConnected = false;
+
+            _connectionCtk.Cancel();
 
             if (_hubConnection != null)
                 await _hubConnection.DisposeAsync();
@@ -93,12 +95,20 @@ namespace Btx.Client
                 RecipientId = msg.ThreadId
             };
             
-            await _hubConnection.InvokeAsync<BtxMessage>("Send", msgToSend);
+            await _hubConnection?.InvokeAsync<BtxMessage>("Send", msgToSend);
         }
 
         public async Task MessageDelivered(string id)
         {
-            await _hubConnection.InvokeAsync<string>(nameof(MessageDelivered), id);
+            try
+            {
+                await _hubConnection?.InvokeAsync<string>(nameof(MessageDelivered), id);
+            }
+            catch (Exception ex)
+            {
+                _logger?.LogError(ex.ToString());
+            }
+            
         }
 
         public async Task Register(BtxRegister model)
@@ -233,7 +243,14 @@ namespace Btx.Client
 
         public async Task GetPendingMessages()
         {
-            await _hubConnection.InvokeAsync(nameof(GetPendingMessages)).ConfigureAwait(false);
+            try
+            {
+                await _hubConnection.InvokeAsync(nameof(GetPendingMessages)).ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                _logger?.LogError(ex.ToString());
+            }
         }
 
         public async Task<SearchResult<BtxUser>> SearchUsers()
@@ -270,6 +287,8 @@ namespace Btx.Client
 
         public void SetupConnection()
         {
+            _connectionCtk = new CancellationTokenSource();
+
             var httpOptions = new HttpConnectionOptions
             {
                 Url = new Uri(Config.BTX_URL),
@@ -326,6 +345,6 @@ namespace Btx.Client
                 OnMessageUserDelivered?.Invoke(this, new BtxMessageEventArgs() { MessageId = msgId });
             });
         }
-
+        
     }
 }

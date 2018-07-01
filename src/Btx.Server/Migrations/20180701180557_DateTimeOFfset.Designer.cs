@@ -12,9 +12,10 @@ using System;
 namespace Btx.Server.Migrations
 {
     [DbContext(typeof(BtxDbContext))]
-    partial class BtxDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180701180557_DateTimeOFfset")]
+    partial class DateTimeOFfset
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

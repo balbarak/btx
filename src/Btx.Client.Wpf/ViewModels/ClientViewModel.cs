@@ -311,7 +311,10 @@ namespace Btx.Client.Wpf.ViewModels
         private async Task SearchUser()
         {
 
-            var result = await Client.SearchUsers();
+            var result = await Client.SearchBtxUser(new BtxUserSearch()
+            {
+                PageSize = int.MaxValue,
+            });
 
             BtxUsers.Clear();
 

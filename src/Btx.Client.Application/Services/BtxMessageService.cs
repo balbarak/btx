@@ -25,7 +25,7 @@ namespace Btx.Client.Application.Services
         {
             using (UnitOfWork work = new UnitOfWork())
             {
-                var found = work.GenericRepository.Get<BtxMessage>(a => a.Id == entity.Id).FirstOrDefault();
+                var found = work.GenericRepository.Get<BtxMessage>(a => a.Id == entity.Id && a.BtxMessageType == entity.BtxMessageType).FirstOrDefault();
 
                 if (found == null)
                 {
