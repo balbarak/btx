@@ -25,12 +25,14 @@ namespace Btx.Client.Application.Services
         {
             using (UnitOfWork work = new UnitOfWork())
             {
-                SetBtxUser(entity, work);
-
                 var found = work.GenericRepository.Get<BtxMessage>(a => a.Id == entity.Id).FirstOrDefault();
 
                 if (found == null)
                 {
+                    SetBtxUser(entity, work);
+
+                    SetBtxThread(entity, work);
+
                     entity = work.GenericRepository.Create(entity);
                 }
                 else
@@ -140,6 +142,29 @@ namespace Btx.Client.Application.Services
             {
                 entity.RecipientId = user.Id;
                 entity.Recipient = null;
+            }
+        }
+
+        private void SetBtxThread(BtxMessage entity, UnitOfWork work)
+        {
+            if (string.IsNullOrWhiteSpace(entity.ThreadId))
+                return;
+
+            var thread = work.GenericRepository.Get<BtxThread>(a => a.Id == entity.ThreadId).FirstOrDefault();
+
+            if (thread == null)
+            {
+                entity.Thread = new BtxThread()
+                {
+                    Id = entity.ThreadId,
+                    Title = entity.Thread?.Title
+                };
+
+                entity.ThreadId = null;
+            }
+            else
+            {
+                entity.ThreadId = thread.Id;
             }
         }
 

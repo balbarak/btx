@@ -54,7 +54,7 @@ namespace Btx.Mobile.ViewModels
 
         public ChatBoxViewModel()
         {
-            BtxThread = App.ChatManager.CurrentThread;
+            BtxThread = BtxProtocolService.Instance.CurrentThread;
 
             CacheHelper.CurrenChatBoxViewModel = this;
 
@@ -93,7 +93,12 @@ namespace Btx.Mobile.ViewModels
                 BtxMessageType = BtxMessageType.Outgoing,
                 IsReadByUser = true,
                 ThreadId = BtxThread.Id,
-                RecipientId = BtxThread.Id
+                Thread = new BtxThread()
+                {
+                    Id = BtxThread.Id,
+                    Title = BtxThread.Title,
+                },
+                RecipientId = BtxThread.Id,
             };
 
             Items.Add(new BtxMessageWrapper(chatMessage));

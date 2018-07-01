@@ -29,7 +29,9 @@ namespace Btx.Mobile.Droid
             Rg.Plugins.Popup.Popup.Init(this,bundle);
 
             global::Xamarin.Forms.Forms.Init(this, bundle);
-            //CachedImageRenderer.Init(true);
+
+            FFImageLoading.Forms.Platform.CachedImageRenderer.Init(true);
+
             LoadApplication(new App());
 
             AppDomain.CurrentDomain.UnhandledException += OnUnhandledException; ;

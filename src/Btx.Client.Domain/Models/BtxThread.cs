@@ -22,5 +22,11 @@ namespace Btx.Client.Domain.Models
             Id = msg.RecipientId;
             Title = msg.Recipient?.Username;
         }
+
+        public BtxThread(BtxUser user)
+        {
+            Id = user.Id;
+            Title = user.Username;
+        }
     }
 }

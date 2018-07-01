@@ -1,4 +1,5 @@
-﻿using Btx.Client.Domain.Models;
+﻿using Btx.Client.Application.Services;
+using Btx.Client.Domain.Models;
 using Btx.Client.Domain.Search;
 using Btx.Mobile.MockData;
 using Btx.Mobile.Models;
@@ -18,6 +19,8 @@ namespace Btx.Mobile.ViewModels
 {
     public class NewMessageViewModel : BaseViewModel
     {
+        private int _pageNumber = 1;
+
         public ObservableRangeCollection<BtxUserWrapper> Items { get; set; } = new ObservableRangeCollection<BtxUserWrapper>();
 
         public ICommand CloseCommand { get; }
@@ -43,10 +46,15 @@ namespace Btx.Mobile.ViewModels
             SearchCommand = new Command(async () => await Search());
             CloseCommand = new Command(Close);
             Title = "New Message";
+
+            LoadUsers();
         }
 
         private async Task Search()
         {
+            if (string.IsNullOrWhiteSpace(Keyword))
+                return;
+
             var search = new BtxUserSearch()
             {
                 Username = Keyword
@@ -56,23 +64,51 @@ namespace Btx.Mobile.ViewModels
 
             foreach (var item in result.Result)
             {
-                Items.Add(new BtxUserWrapper(item));
+                var found = Items.Where(a => a.Id == item.Id).FirstOrDefault();
+
+                if (found == null)
+                    Items.Add(new BtxUserWrapper(item));
             }
 
         }
 
-        public async Task GoToChatBox(Chat item)
+        public async Task GoToChatBox(BtxUserWrapper item)
         {
             App.MasterPage.IsPresented = false;
 
-            //var chat = await App.ChatManager.AddChat(item);
+            var thread = new BtxThread(item.Model);
 
-            //PushAsync(new ChatBoxPage());
+            BtxProtocolService.Instance.CurrentThread = new BtxThreadWrapper(thread);
+
+            await PushAsync(new ChatBoxPage(),true);
 
             await PopModalAsync();
 
-            
+            BtxProtocolService.Instance.AddThreadToChatList(thread);
+        }
 
+        public async Task LoadUsers()
+        {
+            IsBusy = true;
+
+            var search = new SearchCriteria<BtxUser>()
+            {
+                PageNumber = _pageNumber,
+            };
+
+            var result = BtxUserService.Instance.Search(search);
+
+            foreach (var item in result.Result)
+            {
+                Items.Add(new BtxUserWrapper(item));
+            }
+
+            if (result.Result.Any())
+                _pageNumber++;
+
+            await Task.CompletedTask;
+
+            IsBusy = false;
         }
 
         public void Close()

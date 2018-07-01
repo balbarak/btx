@@ -12,5 +12,18 @@ namespace Btx.Client.Domain.Models
 
         public string Username { get; set; }
 
+        public BtxUser()
+        {
+
+        }
+
+        public BtxUser Update(BtxUser entity)
+        {
+            this.Username = entity.Username;
+            this.Nickname = entity.Nickname;
+
+            return this;
+        }
+
     }
 }

@@ -71,7 +71,7 @@
                                     Margin="10,5,0,0"
                                     Grid.Column="1"
                                     FontSize="Medium"
-                                    Text="{Binding Nickname}" />
+                                    Text="{Binding Username}" />
 
 
                             </Grid>

@@ -1,5 +1,6 @@
 ﻿using Btx.Mobile.Models;
 using Btx.Mobile.ViewModels;
+using Btx.Mobile.Wrappers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,10 +39,9 @@ namespace Btx.Mobile.Views
         private async Task OnTabbed(object sender, ItemTappedEventArgs e)
         {
            
-            var user = e.Item as User;
-            var chat = new Chat(user);
+            var user = e.Item as BtxUserWrapper;
             
-            await ViewModel.GoToChatBox(chat);
+            await ViewModel.GoToChatBox(user);
         }
     }
 }

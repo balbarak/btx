@@ -16,6 +16,7 @@ using System.Linq;
 using System.Collections.Specialized;
 using System.Threading;
 using System.Diagnostics;
+using Btx.Mobile.Services;
 
 namespace Btx.Mobile.ViewModels
 {
@@ -70,7 +71,7 @@ namespace Btx.Mobile.ViewModels
 
         public async Task GoToChatBox()
         {
-            App.ChatManager.CurrentThread = SelectedItem;
+            BtxProtocolService.Instance.CurrentThread = SelectedItem;
 
             SelectedItem = null;
 
@@ -133,6 +134,32 @@ namespace Btx.Mobile.ViewModels
                 Debug.WriteLine("Add chats error");
             }
 
+        }
+
+        public void AddOrUpdateThread(BtxThread thread)
+        {
+            try
+            {
+                var found = Chats.Where(a => a.Id == thread.Id).FirstOrDefault();
+
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    if (found != null)
+                    {
+                        found.UpdateThread(found.Model);
+                    }
+                    else
+                    {
+                        BtxThreadWrapper newThread = new BtxThreadWrapper(thread);
+                        Chats.Add(newThread);
+                    }
+                });
+
+            }
+            catch (Exception)
+            {
+                Debug.WriteLine("Add chats error");
+            }
         }
 
         public void SortChats()

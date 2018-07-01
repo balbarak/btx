@@ -18,7 +18,7 @@ namespace Btx.Mobile.Services
     public class BtxProtocolService
     {
         public static BtxProtocolService Instance { get; }
-
+        
         private BtxClient _client;
 
         public BtxClient Client
@@ -34,6 +34,8 @@ namespace Btx.Mobile.Services
                 return _client;
             }
         }
+
+        public BtxThreadWrapper CurrentThread { get; set; }
 
         static BtxProtocolService()
         {
@@ -95,14 +97,26 @@ namespace Btx.Mobile.Services
         public async Task SendMessage(BtxMessage msg)
         {
             BtxMessageService.Instance.AddOrUpdate(msg);
-
+            
             await Client.Send(msg);
+
+            AddMessageToChatList(msg);
 
         }
         
         public async Task<SearchResult<BtxUser>> SearchBtxUser(BtxUserSearch search)
         {
             var result = await Client.SearchBtxUser(search);
+
+            Task.Run(() =>
+            {
+                foreach (var item in result.Result)
+                {
+                    BtxUserService.Instance.AddOrUpdate(item);
+                }
+            });
+
+            await Task.CompletedTask;
 
             return result;
         }
@@ -136,6 +150,13 @@ namespace Btx.Mobile.Services
 
             await Client.MessageDelivered(msg.Id);
             
+        }
+
+        public void AddThreadToChatList(BtxThread thread)
+        {
+            var chatListViewModel = ServiceLocator.Current.GetService<ChatListViewModel>();
+
+            chatListViewModel.AddOrUpdateThread(thread);
         }
 
         private void AddMessageToChatList(BtxMessage msg)

@@ -101,5 +101,10 @@ namespace Btx.Mobile.Wrappers
 
             LastMessageDate = msg.Date.ToLocalTime();
         }
+
+        public void UpdateThread(BtxThread thread)
+        {
+            this.Title = this.Title;
+        }
     }
 }

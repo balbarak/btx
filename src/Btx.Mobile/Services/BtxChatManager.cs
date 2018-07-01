@@ -24,7 +24,7 @@ namespace Btx.Mobile.Services
 
         public ObservableRangeCollection<BtxThreadWrapper> BtxThreads { get; private set; } = new ObservableRangeCollection<BtxThreadWrapper>();
 
-        public BtxThreadWrapper CurrentThread { get; set; }
+        //public BtxThreadWrapper CurrentThread { get; set; }
         
         public BtxChatManager()
         {
