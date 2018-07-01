@@ -21,7 +21,22 @@ namespace Btx.Mobile.ViewModels
     {
         private int _pageNumber = 1;
 
-        public ObservableRangeCollection<BtxUserWrapper> Items { get; set; } = new ObservableRangeCollection<BtxUserWrapper>();
+        public List<BtxUserWrapper> AllUsers { get; set; } = new List<BtxUserWrapper>();
+
+        private ObservableRangeCollection<BtxUserWrapper> _items;
+
+        public ObservableRangeCollection<BtxUserWrapper> Items
+        {
+            get
+            {
+                if (_items == null)
+                    _items = new ObservableRangeCollection<BtxUserWrapper>();
+
+                return _items;
+            }
+            set { _items = value; OnPropertyChanged(); }
+        }
+
 
         public ICommand CloseCommand { get; }
 
@@ -52,9 +67,29 @@ namespace Btx.Mobile.ViewModels
 
         private async Task Search()
         {
-            if (string.IsNullOrWhiteSpace(Keyword))
-                return;
+            Items.Clear();
 
+            if (string.IsNullOrWhiteSpace(Keyword))
+            {
+                foreach (var item in AllUsers)
+                {
+                    Items.Add(item);
+                }
+
+                return;
+            }
+
+            await GetUsersFromServer();
+
+            foreach (var item in AllUsers.Where(a => a.Username.Contains(Keyword)).ToList())
+            {
+                Items.Add(item);
+            }
+
+        }
+        
+        public async Task GetUsersFromServer()
+        {
             var search = new BtxUserSearch()
             {
                 Username = Keyword
@@ -64,12 +99,11 @@ namespace Btx.Mobile.ViewModels
 
             foreach (var item in result.Result)
             {
-                var found = Items.Where(a => a.Id == item.Id).FirstOrDefault();
+                var found = AllUsers.Where(a => a.Id == item.Id).FirstOrDefault();
 
                 if (found == null)
-                    Items.Add(new BtxUserWrapper(item));
+                    AllUsers.Add(new BtxUserWrapper(item));
             }
-
         }
 
         public async Task GoToChatBox(BtxUserWrapper item)
@@ -101,6 +135,8 @@ namespace Btx.Mobile.ViewModels
             foreach (var item in result.Result)
             {
                 Items.Add(new BtxUserWrapper(item));
+
+                AllUsers.Add(new BtxUserWrapper(item));
             }
 
             if (result.Result.Any())

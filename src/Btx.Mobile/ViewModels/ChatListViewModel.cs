@@ -22,7 +22,7 @@ namespace Btx.Mobile.ViewModels
 {
     public class ChatListViewModel : BaseViewModel
     {
-        private bool _isThreadLoaded;
+        private bool _isLoading;
 
         private readonly ReaderWriterLockSlim _itemsLock = new ReaderWriterLockSlim();
 
@@ -50,7 +50,7 @@ namespace Btx.Mobile.ViewModels
 
         public override async Task OnAppearing()
         {
-            if (!_isThreadLoaded)
+            if (!_isLoading)
                 await LoadThreads();
         }
 
@@ -81,11 +81,17 @@ namespace Btx.Mobile.ViewModels
         public async Task LoadThreads()
         {
             IsBusy = true;
+            _isLoading = true;
 
             var chats = BtxThreadService.Instance.GetAll();
 
             foreach (var item in chats)
             {
+                var isExisit = Chats.Where(a => a.Id == item.Id).FirstOrDefault() != null;
+
+                if (isExisit)
+                    continue;
+
                 BtxThreadWrapper wrapper = new BtxThreadWrapper(item);
 
                 var lastMessage = BtxMessageService.Instance.GetLastMessageByThreadId(item.Id);
@@ -101,11 +107,13 @@ namespace Btx.Mobile.ViewModels
 
             SortChats();
 
-            _isThreadLoaded = true;
+            _isLoading = false;
+
+            IsBusy = false;
 
             await Task.CompletedTask;
 
-            IsBusy = false;
+            
 
         }
 

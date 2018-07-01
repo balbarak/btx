@@ -24,12 +24,13 @@
                 <RowDefinition Height="40"/>
             </Grid.RowDefinitions>
 
-            <SearchBar Placeholder="Search Text ..." 
+                <SearchBar Placeholder="Search Username ..." 
                        Text="{Binding Keyword}"
                        SearchCommand="{Binding SearchCommand}"
                        Grid.Row="0"
                        VerticalOptions="Center"
-                       HorizontalOptions="CenterAndExpand" />
+                       HorizontalOptions="Fill" />
+      
 
             <ListView 
                 Grid.Row="1"
@@ -80,12 +81,7 @@
                 </ListView.ItemTemplate>
             </ListView>
 
-            <Button 
-                Grid.Row="2"
-                Command="{Binding CloseCommand}"
-                Text="Close">
-                
-            </Button>
+           
 
         </Grid>
 

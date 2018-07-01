@@ -28,9 +28,9 @@ namespace Btx.Mobile
 
             Startup.Configure();
 
-            //SetLoggedOutPage();
+            SetLoggedOutPage();
 
-            SetLoggedInPage();
+            //SetLoggedInPage();
 
             if (Device.RuntimePlatform == Device.iOS)
             {

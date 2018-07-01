@@ -34,8 +34,18 @@ namespace Btx.Mobile.ViewModels
                 {
                     await BtxProtocolService.Instance.Client.Disconnect();
 
+                    var chatListViewModel = ServiceLocator.Current.GetService<ChatListViewModel>();
+
+                    chatListViewModel.Chats.Clear();
+
                     App.Instance.SetLoggedOutPage();
                 }
+            }
+            else if (type == typeof(NewMessagePage))
+            {
+                App.MasterPage.IsPresented = false;
+
+                await PushAsync(new NewMessagePage());
             }
             else
             {

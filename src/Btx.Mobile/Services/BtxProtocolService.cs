@@ -1,4 +1,6 @@
 ﻿using Btx.Client;
+using Btx.Client.Application;
+using Btx.Client.Application.Persistance;
 using Btx.Client.Application.Services;
 using Btx.Client.BtxEventArgs;
 using Btx.Client.BtxEventsArg;
@@ -98,12 +100,11 @@ namespace Btx.Mobile.Services
         {
             BtxMessageService.Instance.AddOrUpdate(msg);
             
-            await Client.Send(msg);
-
             AddMessageToChatList(msg);
 
+            await Client.Send(msg);
         }
-        
+
         public async Task<SearchResult<BtxUser>> SearchBtxUser(BtxUserSearch search)
         {
             var result = await Client.SearchBtxUser(search);
@@ -124,6 +125,10 @@ namespace Btx.Mobile.Services
         private async void OnTokenRecieved(object sender, EventArgs e)
         {
             var token = e as TokenEventArgs;
+
+            BtxSetting.DATABASE_FILE_NAME = $"{token.Username}.db";
+
+            BtxDbContext.InitDatabase();
 
             await Client.Connect();
         }

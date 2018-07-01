@@ -7,6 +7,9 @@ namespace Btx.Client.Application
 {
     public class BtxSetting
     {
+
+        public static string DATABASE_FILE_NAME { get; set; } = "btxdb.db";
+
         public static string DATA_FOLDER_PATH
         {
             get
@@ -23,7 +26,7 @@ namespace Btx.Client.Application
         {
             get
             {
-                return Path.Combine(DATA_FOLDER_PATH, "btxdb.db");
+                return Path.Combine(DATA_FOLDER_PATH, DATABASE_FILE_NAME);
             }
         }
     }

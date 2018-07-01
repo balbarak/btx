@@ -12,9 +12,6 @@ namespace Btx.Mobile
 
         static public void Configure()
         {
-
-            BtxDbContext.InitDatabase();
-
             ServiceLocator.Configure(_serviceCollection);
             
         }

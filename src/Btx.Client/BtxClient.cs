@@ -84,7 +84,16 @@ namespace Btx.Client
             if (!IsConnected)
                 return;
 
-            await _hubConnection.InvokeAsync<BtxMessage>("Send", msg);
+            var msgToSend = new BtxMessage()
+            {
+                Id = msg.Id,
+                Body = msg.Body,
+                Date = msg.Date,
+                ThreadId = msg.ThreadId,
+                RecipientId = msg.ThreadId
+            };
+            
+            await _hubConnection.InvokeAsync<BtxMessage>("Send", msgToSend);
         }
 
         public async Task MessageDelivered(string id)
