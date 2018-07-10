@@ -25,7 +25,7 @@ namespace Btx.Mobile
 		{
 
 			InitializeComponent();
-
+            
             Startup.Configure();
 
             SetLoggedOutPage();
@@ -38,6 +38,8 @@ namespace Btx.Mobile
                 
             }
             
+
+
             Instance = this;
         }
         

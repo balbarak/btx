@@ -12,6 +12,9 @@ namespace Btx.Mobile
 
         static public void Configure()
         {
+
+            SQLitePCL.Batteries.Init();
+
             ServiceLocator.Configure(_serviceCollection);
             
         }
